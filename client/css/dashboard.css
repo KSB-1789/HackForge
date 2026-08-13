@@ -1,0 +1,25 @@
+body {
+    background-color: #F1F6F9;   /* page background */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #14274E;              /* navbar/headings color */
+}
+
+#projectsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.project-card {
+    background-color: #394867;   /* cards color */
+    color: #F1F6F9;
+    border: 2px solid #9BA4B4;   /* borders/muted color */
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+}

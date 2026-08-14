@@ -8,6 +8,22 @@
 </head>
 <body>
     <h1>Projects</h1>
+    <form id="dashForm">
+        <label for="name">Project Name</label>
+        <input id="name">
+        
+        <label for="description">Description</label>
+        <input id="description">
+
+        <label for="team">Team ID</label>
+        <input id="team">
+
+        <label for="createdBy">Created By</label>
+        <input id="createdBy">
+
+        <button type="submit">Create Project</button>
+        <div id="errorDiv"></div>
+    </form>
     <div id = "projectsContainer"></div>
     <script src="../js/projects.js"></script>
     <script src="../js/dashboard.js"></script>

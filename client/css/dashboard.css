@@ -6,13 +6,69 @@ body {
 }
 
 h1 {
-    color: #14274E;              /* navbar/headings color */
+    color: #14274E;              /* headings color */
+    text-align: center;
+}
+
+#dashForm {
+    background-color: #ffffff;
+    border: 2px solid #9BA4B4;   /* borders/muted color */
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 auto 24px;
+}
+
+#dashForm label {
+    color: #14274E;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+#dashForm input {
+    padding: 8px;
+    border: 2px solid #9BA4B4;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+#dashForm input:focus {
+    outline: none;
+    border-color: #14274E;
+}
+
+#dashForm button {
+    margin-top: 12px;
+    padding: 10px;
+    background-color: #14274E;   /* primary button */
+    color: #F1F6F9;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#dashForm button:hover {
+    background-color: #394867;
+}
+
+#errorDiv {
+    color: #C0392B;
+    font-size: 14px;
+}
+
+#errorDiv p {
+    margin: 4px 0;
 }
 
 #projectsContainer {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
 }
 
 .project-card {
@@ -22,4 +78,21 @@ h1 {
     border-radius: 8px;
     padding: 20px;
     width: 300px;
+}
+
+.project-card h2 {
+    margin-top: 0;
+    color: #F1F6F9;
+}
+
+.project-card p {
+    margin-bottom: 4px;
+}
+
+.empty-state {
+    color: #9BA4B4;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
 }

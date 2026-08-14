@@ -2,13 +2,12 @@ const projects = [];
 
 function createProject(name, description, teamId, createdBy){
     const id = Date.now();
-    let project = {
+    const project = {
         id,
         name,
         description,
         teamId,
-        createdBy,
-        tasks: [] 
+        createdBy
     }
     return project;
 }

@@ -1,4 +1,5 @@
 const container = document.getElementById("projectsContainer");
+let currentProjectId = null;
 
 function renderProjects(){
     if (projects.length === 0){
@@ -14,6 +15,22 @@ function renderProjects(){
         </div>
         `).join("");
         container.innerHTML = html;
+}
+
+function renderTasks(){
+    const currTasks = getTasksByProject(currentProjectId);
+    const target = document.getElementById("tasksContainer");
+    if(currTasks.length === 0){
+        target.innerHTML = ""
+        return;
+    }
+    target.innerHTML = currTasks.map(task=>`
+            <div class = "task-card">
+                <h2>${task.title}</h2>
+                <p>${task.description}</p>
+                <p>Assignee: ${task.assigneeId} | status: ${task.status} | Priority: ${task.priority}</p>
+            </div>
+        `).join("");
 }
 
 function validateProject(name, description, team, createdBy){
@@ -63,12 +80,14 @@ const dCreatedBy = document.getElementById("detailCreatedBy")
 
 function openProject(id){
     const project = projects.find(project=>project.id===id);
+    currentProjectId = id;
     pview.classList.add("hidden");
     pdview.classList.remove("hidden");
     dName.textContent = project.name;
     dDescription.textContent = project.description;
     dTeam.textContent = project.teamId;
     dCreatedBy.textContent = project.createdBy;
+    renderTasks();
 }
 
 container.addEventListener("click",(event)=>{
@@ -82,4 +101,16 @@ container.addEventListener("click",(event)=>{
 document.getElementById("backBtn").addEventListener("click",()=>{
     pview.classList.remove("hidden");
     pdview.classList.add("hidden");
+})
+
+const taskForm = document.getElementById("taskForm");
+
+taskForm.addEventListener("submit",(event)=>{
+    event.preventDefault();
+    const taskTitle = document.getElementById("taskTitle").value;
+    const taskDescription = document.getElementById("taskDescription").value;
+    const taskAssignee = document.getElementById("taskAssignee").value;
+    const task = createTask(currentProjectId,taskTitle,taskDescription,taskAssignee,"todo","medium");
+    addTask(task);
+    renderTasks(currentProjectId);
 })

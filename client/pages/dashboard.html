@@ -49,10 +49,20 @@
                 <p id="detailTeam"></p>
                 <p id="detailCreatedBy"></p>
             </div>
+            <h3>Tasks</h3>
+            <form id = "taskForm">
+                <input id = "taskTitle" placeholder="Task Title">
+                <input id = "taskDescription" placeholder="Task Description">
+                <input id = "taskAssignee" placeholder="Assignee">
+                <button type = "submit">Add Task</button>
+                <div id = "tasksErrorDiv"></div>
+            </form>
+            <div id = "tasksContainer"></div>
         </section>
     </main>
 
     <script src="../js/projects.js"></script>
+    <script src="../js/tasks.js"></script>
     <script src="../js/dashboard.js"></script>
 </body>
 </html>

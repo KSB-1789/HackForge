@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - HackForge</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+
+    <div class="auth-page">
+
+        <!-- Left: HackForge introduction -->
+        <section class="auth-intro">
+
+            <div class="brand">HackForge</div>
+
+            <div class="intro-content">
+                <p class="eyebrow">DEVELOPER COLLABORATION PLATFORM</p>
+
+                <h1>Welcome<br>back.</h1>
+
+                <p class="intro-text">
+                    Pick up where you left off.
+                    Collaborate with your team, manage projects
+                    and keep building together.
+                </p>
+
+                <div class="mini-cards">
+
+                    <div class="mini-card">
+                        <span>TEAM</span>
+                        <strong>HackForge Crew</strong>
+                        <small>3 members</small>
+                    </div>
+
+                    <div class="mini-card">
+                        <span>PROJECT</span>
+                        <strong>HackForge</strong>
+                        <small>78% complete</small>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Right: Login -->
+        <section class="login-section">
+
+            <div class="login-container">
+
+                <h2>Welcome back</h2>
+
+                <p class="login-subtitle">
+                    Login to continue collaborating with your team.
+                </p>
+
+                <form id="loginform">
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input
+                            id="email"
+                            type="email"
+                            placeholder="you@example.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="Enter your password"
+                        >
+                    </div>
+
+                    <div id="errorbox"></div>
+
+                    <button type="submit">
+                        Login
+                    </button>
+
+                </form>
+
+                <p class="register-text">
+                    Don't have an account?
+                    <a href="register.html">Create one</a>
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="../js/login.js"></script>
+
+</body>
+
+</html>

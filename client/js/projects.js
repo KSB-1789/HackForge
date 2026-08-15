@@ -4,10 +4,10 @@ function createProject(name, description, teamId, createdBy){
     const id = Date.now();
     const project = {
         id,
-        name,
-        description,
-        teamId,
-        createdBy
+        name: name.trim(),
+        description:description.trim(),
+        teamId: Number(teamId),
+        createdBy: createdBy.trim()
     }
     return project;
 }

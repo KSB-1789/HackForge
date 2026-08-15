@@ -3,29 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HackForge - DashBoard</title>
+    <title>HackForge - Dashboard</title>
     <link rel = "stylesheet" href = "../css/dashboard.css">
 </head>
 <body>
-    <h1>Projects</h1>
-    <form id="dashForm">
-        <label for="name">Project Name</label>
-        <input id="name">
-        
-        <label for="description">Description</label>
-        <input id="description">
+    <header class="topbar">
+        <span class="brand">HackForge</span>
+        <span class="page-title">DASHBOARD</span>
+    </header>
 
-        <label for="team">Team ID</label>
-        <input id="team">
+    <main class="main">
+        <section id = "projectsView">
+            <div class="dash-grid">
+                <div>
+                    <h1 class="section-heading">Projects</h1>
+                    <form id="dashForm">
+                        <label for="name">Project Name</label>
+                        <input id="name">
 
-        <label for="createdBy">Created By (email)</label>
-        <input id="createdBy">
+                        <label for="description">Description</label>
+                        <input id="description">
 
-        <button type="submit">Create Project</button>
-        <div id="errorDiv"></div>
-    </form>
-    <div id = "projectsContainer"></div>
+                        <label for="team">Team ID</label>
+                        <input id="team">
+
+                        <label for="createdBy">Created By (email)</label>
+                        <input id="createdBy">
+
+                        <button type="submit">Create Project</button>
+                        <div id="errorDiv"></div>
+                    </form>
+                </div>
+                <div>
+                    <h2 class="projects-label">All projects</h2>
+                    <div id = "projectsContainer"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id = "projectDetailsView" class = "hidden">
+            <button id = "backBtn">Back to Projects</button>
+            <div class="details-card">
+                <h2 id="detailName"></h2>
+                <p id="detailDescription"></p>
+                <p id="detailTeam"></p>
+                <p id="detailCreatedBy"></p>
+            </div>
+            <h3>Tasks</h3>
+            <form id = "taskForm">
+                <input id = "taskTitle" placeholder="Task Title">
+                <input id = "taskDescription" placeholder="Task Description">
+                <input id = "taskAssignee" placeholder="Assignee">
+                <button type = "submit">Add Task</button>
+                <div id = "tasksErrorDiv"></div>
+            </form>
+            <div id = "tasksContainer"></div>
+        </section>
+    </main>
+
     <script src="../js/projects.js"></script>
+    <script src="../js/tasks.js"></script>
     <script src="../js/dashboard.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
+const container = document.getElementById("projectsContainer");
+
 function renderProjects(){
-    const container = document.getElementById("projectsContainer");
     if (projects.length === 0){
         container.innerHTML = '<p class="empty-state">No projects yet. Create your first project above.</p>';
         return;
@@ -9,6 +10,7 @@ function renderProjects(){
             <h2>${project.name}</h2>
             <p>${project.description}</p>
             <p>Team: ${project.teamId} | Created by: ${project.createdBy}</p>
+            <button class = "open-btn" data-project-id=${project.id}>Open</button>
         </div>
         `).join("");
         container.innerHTML = html;
@@ -22,10 +24,10 @@ function validateProject(name, description, team, createdBy){
     if (name.trim() !== "" && projects.some(project => project.name.trim().toLowerCase() === name.trim().toLowerCase())){
         errors.push("A project with this name already exists.");
     }
-    if (Number.isNaN(Number(team))){
-        errors.push("Team ID must be a valid number.");
+    if (team.trim()==="" || Number.isNaN(Number(team))){
+        errors.push("Team ID must be a non empty valid number.");
     }
-    if (!createdBy.includes("@") || !createdBy.includes(".")){
+    if (!/^\S+@\S+\.\S+$/.test(createdBy)){
         errors.push("Created By must be a valid email address.");
     }
     return errors;
@@ -51,3 +53,33 @@ dashForm.addEventListener("submit", (event) => {
 });
 
 renderProjects();
+
+const pview = document.getElementById("projectsView");
+const pdview = document.getElementById("projectDetailsView");
+const dName =  document.getElementById("detailName")
+const dDescription = document.getElementById("detailDescription")
+const dTeam = document.getElementById("detailTeam")
+const dCreatedBy = document.getElementById("detailCreatedBy")
+
+function openProject(id){
+    const project = projects.find(project=>project.id===id);
+    pview.classList.add("hidden");
+    pdview.classList.remove("hidden");
+    dName.textContent = project.name;
+    dDescription.textContent = project.description;
+    dTeam.textContent = project.teamId;
+    dCreatedBy.textContent = project.createdBy;
+}
+
+container.addEventListener("click",(event)=>{
+    const btn = event.target.closest(".open-btn");
+    if(btn){
+        const id = Number(btn.dataset.projectId);
+        openProject(id);
+    }
+})
+
+document.getElementById("backBtn").addEventListener("click",()=>{
+    pview.classList.remove("hidden");
+    pdview.classList.add("hidden");
+})

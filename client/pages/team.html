@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackForge - Teams</title>
+    <link rel="stylesheet" href="../css/team.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <span class="brand">HackForge</span>
+        <span class="page-title">TEAMS</span>
+    </header>
+
+    <main class="main">
+
+        <section class="team-create-section">
+
+            <h1>Teams</h1>
+
+            <form id="teamForm">
+
+                <label for="teamName">Team Name</label>
+
+                <input
+                    id="teamName"
+                    type="text"
+                    placeholder="Enter team name"
+                >
+
+                <button type="submit">
+                    Create Team
+                </button>
+
+                <div id="teamError"></div>
+
+            </form>
+
+        </section>
+
+
+        <section class="teams-section">
+
+            <h2>My Teams</h2>
+
+            <div id="teamsContainer"></div>
+
+        </section>
+
+    </main>
+
+    <script src="../js/team.js"></script>
+
+</body>
+
+</html>

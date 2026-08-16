@@ -340,6 +340,39 @@ body {
     border-top: 1px solid #9BA4B4;
 }
 
+.task-card .delete-btn,
+.task-card .edit-btn {
+    margin-top: 12px;
+    margin-right: 8px;
+    padding: 6px 14px;
+    background-color: #ffffff;
+    color: #14274E;
+    border: 1px solid #9BA4B4;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.task-card .edit-btn {
+    border-color: #14274E;
+}
+
+.task-card .edit-btn:hover {
+    background-color: #14274E;
+    color: #F1F6F9;
+}
+
+.task-card .delete-btn {
+    color: #C0392B;
+    border-color: #C0392B;
+}
+
+.task-card .delete-btn:hover {
+    background-color: #C0392B;
+    color: #F1F6F9;
+}
+
 /* Responsive */
 
 @media (max-width: 900px) {

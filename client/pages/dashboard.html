@@ -49,12 +49,22 @@
                 <p id="detailTeam"></p>
                 <p id="detailCreatedBy"></p>
             </div>
-            <h3>Tasks</h3>
+            <h3 id="taskHeading">Tasks</h3>
             <form id = "taskForm">
                 <input id = "taskTitle" placeholder="Task Title">
                 <input id = "taskDescription" placeholder="Task Description">
-                <input id = "taskAssignee" placeholder="Assignee">
-                <button type = "submit">Add Task</button>
+                <input id = "taskAssignee" placeholder="Assignee Id">
+                <select  id = "taskStatus">
+                    <option value = "todo">todo</option>
+                    <option value = "in-progress">in-progress</option>
+                    <option value = "done">done</option>
+                </select>
+                <select  id = "taskPriority">
+                    <option value = "low">low</option>
+                    <option value = "medium">medium</option>
+                    <option value = "high">high</option>
+                </select>
+                <button type = "submit" id="taskSubmit">Add Task</button>
                 <div id = "tasksErrorDiv"></div>
             </form>
             <div id = "tasksContainer"></div>

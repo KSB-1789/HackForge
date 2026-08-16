@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F1F6F9;
+    color: #14274E;
+}
+
+.topbar {
+    height: 65px;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    background-color: #14274E;
+    color: white;
+}
+
+.brand {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.page-title {
+    margin-left: 30px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.main {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.team-create-section,
+.teams-section {
+    background-color: white;
+    padding: 25px;
+    margin-bottom: 30px;
+    border: 1px solid #9BA4B4;
+    border-radius: 10px;
+}
+
+h1,
+h2 {
+    margin-top: 0;
+}
+
+#teamForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+}
+
+#teamName {
+    padding: 11px;
+    border: 1px solid #9BA4B4;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+#teamName:focus {
+    outline: none;
+    border-color: #14274E;
+}
+
+#teamForm button {
+    width: fit-content;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    background-color: #14274E;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#teamForm button:hover {
+    opacity: 0.9;
+}
+
+#teamError {
+    color: #b00020;
+}
+
+#teamsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.team-card {
+    background-color: #394867;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.team-card h2 {
+    margin-bottom: 15px;
+}
+
+.team-card p {
+    margin: 8px 0;
+    color: #F1F6F9;
+}

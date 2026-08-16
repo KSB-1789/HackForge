@@ -7,7 +7,7 @@ function createTask(projectId,title,description,assigneeId,status,priority){
         projectId,
         title,
         description,
-        assigneeId,
+        assigneeId: Number(assigneeId),
         status,
         priority
     }
@@ -21,4 +21,6 @@ function addTask(task){
 function getTasksByProject(projectId){
     return tasks.filter(task => task.projectId===projectId);
 }
+
+
 

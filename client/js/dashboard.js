@@ -42,10 +42,25 @@ function validateProject(name, description, team, createdBy){
         errors.push("A project with this name already exists.");
     }
     if (team.trim()==="" || Number.isNaN(Number(team))){
-        errors.push("Team ID must be a non empty valid number.");
+        errors.push("Team ID must be a non-empty valid number.");
     }
     if (!/^\S+@\S+\.\S+$/.test(createdBy)){
         errors.push("Created By must be a valid email address.");
+    }
+    return errors;
+}
+
+function validateTasks(title,assignee){
+    const errors = [];
+    const currTasks = getTasksByProject(currentProjectId);
+    if(title.trim()===""){
+        errors.push("Title cannot be empty.");
+    }
+    if(title.trim()!=="" && currTasks.some(task => task.title.trim().toLowerCase()===title.trim().toLowerCase())){
+        errors.push("A task with this name already exists.");
+    }
+    if(assignee.trim()==="" || Number.isNaN(Number(assignee))){
+        errors.push("Assignee must be a non-empty valid id.")
     }
     return errors;
 }
@@ -104,12 +119,18 @@ document.getElementById("backBtn").addEventListener("click",()=>{
 })
 
 const taskForm = document.getElementById("taskForm");
-
+const taskErrorDiv = document.getElementById("tasksErrorDiv");
 taskForm.addEventListener("submit",(event)=>{
     event.preventDefault();
     const taskTitle = document.getElementById("taskTitle").value;
     const taskDescription = document.getElementById("taskDescription").value;
     const taskAssignee = document.getElementById("taskAssignee").value;
+    const errors = validateTasks(taskTitle,taskAssignee);
+    if(errors.length>0){
+        taskErrorDiv.innerHTML = errors.map(error=>`<p>${error}</p>`).join("");
+        return;
+    }
+    taskErrorDiv.innerHTML = "";
     const task = createTask(currentProjectId,taskTitle,taskDescription,taskAssignee,"todo","medium");
     addTask(task);
     renderTasks(currentProjectId);

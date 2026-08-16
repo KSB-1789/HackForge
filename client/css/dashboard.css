@@ -124,6 +124,16 @@ body {
     margin: 4px 0;
 }
 
+#tasksErrorDiv {
+    color: #C0392B;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#tasksErrorDiv p {
+    margin: 4px 0;
+}
+
 /* Projects */
 
 .projects-label {
@@ -275,7 +285,8 @@ body {
     gap: 10px;
 }
 
-#taskForm input {
+#taskForm input,
+#taskForm select {
     width: 100%;
     padding: 12px 14px;
     border: 1px solid #9BA4B4;
@@ -285,7 +296,8 @@ body {
     font-size: 15px;
 }
 
-#taskForm input:focus {
+#taskForm input:focus,
+#taskForm select:focus {
     outline: none;
     border-color: #14274E;
     box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);

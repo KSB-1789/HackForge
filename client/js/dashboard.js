@@ -128,12 +128,16 @@ const taskErrorDiv = document.getElementById("tasksErrorDiv");
 const taskTitleEl = document.getElementById("taskTitle");
 const taskDescriptionEl = document.getElementById("taskDescription");
 const taskAssigneeEl = document.getElementById("taskAssignee");
+const taskStatusEl = document.getElementById("taskStatus");
+const taskPriorityEl = document.getElementById("taskPriority");
 
 taskForm.addEventListener("submit",(event)=>{
     event.preventDefault();
     const taskTitle = taskTitleEl.value;
     const taskDescription = taskDescriptionEl.value;
     const taskAssignee = taskAssigneeEl.value;
+    const taskStatus = taskStatusEl.value;
+    const taskPriority = taskPriorityEl.value;
     const errors = validateTasks(taskTitle,taskAssignee);
     if(errors.length>0){
         taskErrorDiv.innerHTML = errors.map(error=>`<p>${error}</p>`).join("");
@@ -142,18 +146,20 @@ taskForm.addEventListener("submit",(event)=>{
     taskErrorDiv.innerHTML = "";
     if(editingTaskId!=null){
         const existing = tasks.find(t=>t.id===editingTaskId);
-        updateTask(editingTaskId, taskTitle, taskDescription, taskAssignee, existing.status,existing.priority);
+        updateTask(editingTaskId, taskTitle, taskDescription, taskAssignee, taskStatus,taskPriority);
         editingTaskId = null;
         renderTasks();
     }
     else{
-        const task = createTask(currentProjectId,taskTitle,taskDescription,taskAssignee,"todo","medium");
+        const task = createTask(currentProjectId,taskTitle,taskDescription,taskAssignee,taskStatus,taskPriority);
         addTask(task);
         renderTasks(currentProjectId);
     }
     taskTitleEl.value = "";
     taskDescriptionEl.value = "";
     taskAssigneeEl.value = "";
+    taskStatusEl.value = "todo";
+    taskPriorityEl.value = "low";
     taskSubmit.textContent = "Add Task";
     taskHeading.textContent = "Tasks";
 })
@@ -175,5 +181,7 @@ document.getElementById("tasksContainer").addEventListener("click",(event)=>{
         taskTitleEl.value = task.title;
         taskDescriptionEl.value = task.description;
         taskAssigneeEl.value = Number(task.assigneeId);
+        taskStatusEl.value = task.status;
+        taskPriorityEl.value = task.priority;
     }
 })

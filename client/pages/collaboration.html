@@ -20,6 +20,33 @@
     </div>
 </section>
 
+<section id="chat">
+    <h2>Team Chat</h2>
+
+    <div id="chatMessages"></div>
+
+    <form id="chatForm">
+        <input
+            id="chatInput"
+            type="text"
+            placeholder="Type a message..."
+            required
+        >
+        <button type="submit">Send</button>
+    </form>
+</section>
+
+<section id="files">
+    <h2>Project Files</h2>
+
+    <form id="fileForm">
+        <input id="fileInput" type="file" required>
+        <button type="submit">Add File</button>
+    </form>
+
+    <div id="fileList"></div>
+</section>
+
     <section id="kanban">
         <h2>Kanban Board</h2>
 
@@ -45,6 +72,8 @@
     <script src="../js/tasks.js"></script>
     <script src="../js/kanban.js"></script>
     <script src="../js/progress.js"></script>
+    <script src="../js/chat.js"></script>
+    <script src="../js/files.js"></script>
 
 </body>
 </html>

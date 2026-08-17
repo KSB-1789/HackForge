@@ -71,4 +71,5 @@ function changeTaskStatus(taskId) {
     }
 
     renderKanban();
+    renderProgress();
 }

@@ -1,4 +1,4 @@
-const projects = [];
+let projects = [];
 
 function createProject(name, description, teamId, createdBy){
     const id = Date.now();

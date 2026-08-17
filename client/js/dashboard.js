@@ -5,6 +5,7 @@ const taskHeading = document.getElementById("taskHeading");
 const taskSubmit = document.getElementById("taskSubmit");
 
 function renderProjects(){
+    saveProjects();
     if (projects.length === 0){
         container.innerHTML = '<p class="empty-state">No projects yet. Create your first project above.</p>';
         return;
@@ -21,6 +22,7 @@ function renderProjects(){
 }
 
 function renderTasks(){
+    saveTasks();
     const currTasks = getTasksByProject(currentProjectId);
     const target = document.getElementById("tasksContainer");
     if(currTasks.length === 0){
@@ -89,8 +91,6 @@ dashForm.addEventListener("submit", (event) => {
     renderProjects();
 });
 
-renderProjects();
-
 const pview = document.getElementById("projectsView");
 const pdview = document.getElementById("projectDetailsView");
 const dName =  document.getElementById("detailName")
@@ -101,6 +101,7 @@ const dCreatedBy = document.getElementById("detailCreatedBy")
 function openProject(id){
     const project = projects.find(project=>project.id===id);
     currentProjectId = id;
+    saveCurrProject();
     pview.classList.add("hidden");
     pdview.classList.remove("hidden");
     dName.textContent = project.name;
@@ -109,6 +110,12 @@ function openProject(id){
     dCreatedBy.textContent = project.createdBy;
     renderTasks();
 }
+
+loadProjects();
+loadTasks();
+loadCurrProject();
+if(currentProjectId!=null) openProject(currentProjectId);
+renderProjects();
 
 container.addEventListener("click",(event)=>{
     const btn = event.target.closest(".open-btn");
@@ -119,6 +126,8 @@ container.addEventListener("click",(event)=>{
 })
 
 document.getElementById("backBtn").addEventListener("click",()=>{
+    localStorage.removeItem("currentProjectId");
+    currentProjectId = null;
     pview.classList.remove("hidden");
     pdview.classList.add("hidden");
 })
@@ -169,6 +178,13 @@ document.getElementById("tasksContainer").addEventListener("click",(event)=>{
     if(btn){
         const id = Number(btn.dataset.taskId);
         deleteTask(id);
+        taskTitleEl.value = "";
+        taskDescriptionEl.value = "";
+        taskAssigneeEl.value = "";
+        taskStatusEl.value = "todo";
+        taskPriorityEl.value = "low";
+        taskSubmit.textContent = "Add Task";
+        taskHeading.textContent = "Tasks";
         renderTasks();
     }
     const ebtn = event.target.closest(".edit-btn");

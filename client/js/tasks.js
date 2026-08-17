@@ -1,4 +1,4 @@
-const tasks = []
+let tasks = []
 
 function createTask(projectId,title,description,assigneeId,status,priority){
     const id = Date.now();

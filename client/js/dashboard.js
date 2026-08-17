@@ -1,6 +1,7 @@
 const container = document.getElementById("projectsContainer");
 let currentProjectId = null;
 let editingTaskId = null;
+let editingProjectId = null;
 const taskHeading = document.getElementById("taskHeading");
 const taskSubmit = document.getElementById("taskSubmit");
 
@@ -15,7 +16,11 @@ function renderProjects(){
             <h2>${project.name}</h2>
             <p>${project.description}</p>
             <p>Team: ${project.teamId} | Created by: ${project.createdBy}</p>
-            <button class = "open-btn" data-project-id=${project.id}>Open</button>
+            <div class="card-btns">
+                <button class = "open-btn" data-project-id=${project.id}>Open</button>
+                <button class = "edit-proj-btn" data-project-id=${project.id}>Edit</button>
+                <button class = "delete-proj-btn" data-project-id=${project.id}>Delete</button>
+            </div>
         </div>
         `).join("");
         container.innerHTML = html;
@@ -45,7 +50,7 @@ function validateProject(name, description, team, createdBy){
     if (name.trim() === ""){
         errors.push("Project name is required.");
     }
-    if (name.trim() !== "" && projects.some(project => project.name.trim().toLowerCase() === name.trim().toLowerCase())){
+    if (name.trim() !== "" && projects.some(project => project.id!==editingProjectId &&project.name.trim().toLowerCase() === name.trim().toLowerCase())){
         errors.push("A project with this name already exists.");
     }
     if (team.trim()==="" || Number.isNaN(Number(team))){
@@ -71,15 +76,21 @@ function validateTasks(title,assignee){
     }
     return errors;
 }
-
-const dashForm = document.getElementById("dashForm");
 const errorDiv = document.getElementById("errorDiv");
+const dashForm = document.getElementById("dashForm");
+const pFormHeadingEl = document.getElementById("pFormHeading");
+const nameEl = document.getElementById("name");
+const descriptionEl = document.getElementById("description");
+const teamEl = document.getElementById("team");
+const createdByEl = document.getElementById("createdBy");
+const projectSubmitEl = document.getElementById("projectSubmit");
+
 dashForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    const name = document.getElementById("name").value;
-    const description = document.getElementById("description").value;
-    const team = document.getElementById("team").value;
-    const createdBy = document.getElementById("createdBy").value;
+    const name = nameEl.value;
+    const description = descriptionEl.value;
+    const team = teamEl.value;
+    const createdBy = createdByEl.value;
 
     const errors = validateProject(name, description, team, createdBy);
     if (errors.length > 0){
@@ -87,8 +98,20 @@ dashForm.addEventListener("submit", (event) => {
         return;
     }
     errorDiv.innerHTML = "";
-    addProject(createProject(name, description, team, createdBy));
+    if(editingProjectId!=null){
+        updateProject(editingProjectId,name,description,team,createdBy);
+        editingProjectId = null;
+    }
+    else{
+        addProject(createProject(name, description, team, createdBy));
+    }
     renderProjects();
+    pFormHeadingEl.textContent = "Projects";
+    nameEl.value = "";
+    descriptionEl.value = "";
+    teamEl.value = "";
+    createdByEl.value = "";
+    projectSubmitEl.textContent = "Create Project";
 });
 
 const pview = document.getElementById("projectsView");
@@ -118,11 +141,44 @@ if(currentProjectId!=null) openProject(currentProjectId);
 renderProjects();
 
 container.addEventListener("click",(event)=>{
-    const btn = event.target.closest(".open-btn");
-    if(btn){
-        const id = Number(btn.dataset.projectId);
+    const obtn = event.target.closest(".open-btn");
+    if(obtn){
+        const id = Number(obtn.dataset.projectId);
+        pFormHeadingEl.textContent = "Projects";
+        projectSubmitEl.textContent = "Create Project";
+        nameEl.value = "";
+        descriptionEl.value = "";
+        teamEl.value = "";
+        createdByEl.value = "";
         openProject(id);
     }
+    const ebtn = event.target.closest(".edit-proj-btn");
+    if(ebtn){
+        const id = Number(ebtn.dataset.projectId);
+        editingProjectId = id;
+        const project = projects.find(project=>project.id===id);
+        pFormHeadingEl.textContent = "Projects (edit-mode)";
+        projectSubmitEl.textContent = "Update Project";
+        nameEl.value = project.name;
+        descriptionEl.value = project.description;
+        teamEl.value = project.teamId;
+        createdByEl.value = project.createdBy;
+        renderProjects();
+        
+    }
+    const dbtn = event.target.closest(".delete-proj-btn");
+    if(dbtn){
+        const id = Number(dbtn.dataset.projectId);
+        deleteProject(id);
+        pFormHeadingEl.textContent = "Projects";
+        projectSubmitEl.textContent = "Create Project";
+        nameEl.value = "";
+        descriptionEl.value = "";
+        teamEl.value = "";
+        createdByEl.value = "";
+        renderProjects();
+    }
+
 })
 
 document.getElementById("backBtn").addEventListener("click",()=>{

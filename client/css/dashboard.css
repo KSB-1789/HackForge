@@ -98,6 +98,22 @@ body {
     box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
 }
 
+#dashForm select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #9BA4B4;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #14274E;
+    font-size: 15px;
+}
+
+#dashForm select:focus {
+    outline: none;
+    border-color: #14274E;
+    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
+}
+
 #dashForm button {
     margin-top: 18px;
     padding: 13px;

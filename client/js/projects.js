@@ -6,7 +6,7 @@ function createProject(name, description, teamId, createdBy){
         id,
         name: name.trim(),
         description:description.trim(),
-        teamId: Number(teamId),
+        teamId: teamId===null? null: Number(teamId),
         createdBy: createdBy.trim()
     }
     return project;
@@ -26,6 +26,6 @@ function updateProject(id,name,description,teamId,createdBy){
     if(index===-1) return;
     projects[index].name = name;
     projects[index].description = description;
-    projects[index].teamId = Number(teamId);
+    projects[index].teamId =  teamId===null? null: Number(teamId);
     projects[index].createdBy = createdBy;
 }

@@ -24,11 +24,12 @@
                         <label for="description">Description</label>
                         <input id="description">
 
-                        <label for="team">Team ID</label>
-                        <input id="team">
-
+                        <label for="team">Team</label>
+                        <select id="team">
+                            <option value="">Personal (no team)</option>
+                        </select>
                         <label for="createdBy">Created By (email)</label>
-                        <input id="createdBy">
+                        <input id="createdBy" disabled>
 
                         <button type="submit" id = "projectSubmit">Create Project</button>
                         <div id="errorDiv"></div>
@@ -53,7 +54,9 @@
             <form id = "taskForm">
                 <input id = "taskTitle" placeholder="Task Title">
                 <input id = "taskDescription" placeholder="Task Description">
-                <input id = "taskAssignee" placeholder="Assignee Id">
+                <select id = "taskAssignee" placeholder="Assignee">
+                    <option value="">Unassigned</option>
+                </select>
                 <select  id = "taskStatus">
                     <option value = "todo">todo</option>
                     <option value = "in-progress">in-progress</option>

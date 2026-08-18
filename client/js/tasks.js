@@ -7,7 +7,7 @@ function createTask(projectId,title,description,assigneeId,status,priority){
         projectId,
         title,
         description,
-        assigneeId: Number(assigneeId),
+        assigneeId: assigneeId===null? null:Number(assigneeId),
         status,
         priority
     }
@@ -36,6 +36,6 @@ function updateTask(id,title,description,assigneeId,status,priority){
     tasks[index].description = description;
     tasks[index].status = status;
     tasks[index].priority = priority;
-    tasks[index].assigneeId = Number(assigneeId);
+    tasks[index].assigneeId = assigneeId===null? null:Number(assigneeId);
 }
 

@@ -219,7 +219,14 @@ body {
     max-width: 720px;
 }
 
-#backBtn {
+.detail-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+#backBtn,
+#collabBtn {
     background: none;
     border: 1px solid #9BA4B4;
     color: #14274E;
@@ -228,10 +235,12 @@ body {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    margin-bottom: 24px;
+    text-decoration: none;
+    display: inline-block;
 }
 
-#backBtn:hover {
+#backBtn:hover,
+#collabBtn:hover {
     background-color: #14274E;
     color: #F1F6F9;
 }

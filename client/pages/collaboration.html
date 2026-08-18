@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="../css/collaboration.css">
 </head>
 <body>
+    <header class="topbar">
+        <span class="brand">HackForge</span>
+        <span class="page-title">COLLABORATION</span>
+        <a href="dashboard.html" class="topbar-link">Dashboard</a>
+    </header>
 
-    <h1>HackForge Collaboration</h1>
+    <main class="main">
 
     <section id="progress">
     <h2>Project Progress</h2>
@@ -69,7 +74,12 @@
 
         </div>
     </section>
+
+    </main>
+    <script src="../js/projects.js"></script>
     <script src="../js/tasks.js"></script>
+    <script src="../js/storage.js"></script>
+    <script>loadTasks();</script>
     <script src="../js/kanban.js"></script>
     <script src="../js/progress.js"></script>
     <script src="../js/chat.js"></script>

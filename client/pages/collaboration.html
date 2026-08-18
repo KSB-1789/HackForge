@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackForge - Collaboration</title>
+    <link rel="stylesheet" href="../css/collaboration.css">
+</head>
+<body>
+
+    <h1>HackForge Collaboration</h1>
+
+    <section id="progress">
+    <h2>Project Progress</h2>
+
+    <div id="progressSummary">
+        <p>Total Tasks: <span id="totalTasks">0</span></p>
+        <p>Completed: <span id="completedTasks">0</span></p>
+        <p>Progress: <span id="progressPercentage">0%</span></p>
+    </div>
+</section>
+
+<section id="chat">
+    <h2>Team Chat</h2>
+
+    <div id="chatMessages"></div>
+
+    <form id="chatForm">
+        <input
+            id="chatInput"
+            type="text"
+            placeholder="Type a message..."
+            required
+        >
+        <button type="submit">Send</button>
+    </form>
+</section>
+
+<section id="files">
+    <h2>Project Files</h2>
+
+    <form id="fileForm">
+        <input id="fileInput" type="file" required>
+        <button type="submit">Add File</button>
+    </form>
+
+    <div id="fileList"></div>
+</section>
+
+    <section id="kanban">
+        <h2>Kanban Board</h2>
+
+        <div class="kanban-board">
+
+            <div class="kanban-column">
+                <h3>TODO</h3>
+                <div id="todoTasks"></div>
+            </div>
+
+            <div class="kanban-column">
+                <h3>IN PROGRESS</h3>
+                <div id="inProgressTasks"></div>
+            </div>
+
+            <div class="kanban-column">
+                <h3>DONE</h3>
+                <div id="doneTasks"></div>
+            </div>
+
+        </div>
+    </section>
+    <script src="../js/tasks.js"></script>
+    <script src="../js/kanban.js"></script>
+    <script src="../js/progress.js"></script>
+    <script src="../js/chat.js"></script>
+    <script src="../js/files.js"></script>
+
+</body>
+</html>

@@ -1,3 +1,9 @@
+let currentProjectId = null;
+const storedProjectId = localStorage.getItem("currentProjectId");
+if (storedProjectId) {
+    currentProjectId = JSON.parse(storedProjectId);
+}
+
 function renderKanban() {
     const todoContainer = document.getElementById("todoTasks");
     const inProgressContainer = document.getElementById("inProgressTasks");
@@ -7,53 +13,35 @@ function renderKanban() {
     inProgressContainer.innerHTML = "";
     doneContainer.innerHTML = "";
 
-    tasks.forEach(task => {
+    if (currentProjectId === null) {
+        todoContainer.innerHTML = '<p style="color:#9BA4B4;text-align:center;padding:20px;">No project selected. Open a project from the Dashboard first.</p>';
+        return;
+    }
+
+    const projectTasks = getTasksByProject(currentProjectId);
+
+    projectTasks.forEach(task => {
         const taskCard = document.createElement("div");
         taskCard.className = "task-card";
 
+        taskCard.innerHTML = `
+            <h4>${task.title}</h4>
+            <p>${task.description}</p>
+            <p>Priority: ${task.priority}</p>
+            <button onclick="changeTaskStatus(${task.id})">
+                Move to next status
+            </button>
+        `;
 
-       taskCard.innerHTML = `
-    <h4>${task.title}</h4>
-    <p>${task.description}</p>
-    <p>Priority: ${task.priority}</p>
-    <button onclick="changeTaskStatus(${task.id})">
-        Move to next status
-    </button>
-`;
-
-        if (task.status === "Todo") {
+        if (task.status === "todo") {
             todoContainer.appendChild(taskCard);
-        } else if (task.status === "In Progress") {
+        } else if (task.status === "in-progress") {
             inProgressContainer.appendChild(taskCard);
-        } else if (task.status === "Done") {
+        } else if (task.status === "done") {
             doneContainer.appendChild(taskCard);
         }
     });
 }
-const testTasks = [
-    {
-        title: "Build login page",
-        description: "Create the login UI",
-        priority: "High",
-        status: "Todo"
-    },
-    {
-        title: "Create project API",
-        description: "Connect projects to the backend",
-        priority: "Medium",
-        status: "In Progress"
-    },
-    {
-        title: "Finish documentation",
-        description: "Write project documentation",
-        priority: "Low",
-        status: "Done"
-    }
-];
-
-tasks.push(...testTasks);
-
-renderKanban();
 
 function changeTaskStatus(taskId) {
     const task = tasks.find(task => task.id === taskId);
@@ -62,14 +50,16 @@ function changeTaskStatus(taskId) {
         return;
     }
 
-    if (task.status === "Todo") {
-        task.status = "In Progress";
-    } else if (task.status === "In Progress") {
-        task.status = "Done";
+    if (task.status === "todo") {
+        task.status = "in-progress";
+    } else if (task.status === "in-progress") {
+        task.status = "done";
     } else {
-        task.status = "Todo";
+        task.status = "todo";
     }
 
     renderKanban();
     renderProgress();
 }
+
+renderKanban();

@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackForge - Dashboard</title>
     <link rel = "stylesheet" href = "../css/dashboard.css">
+    <link rel = "stylesheet" href = "../css/style.css">
 </head>
 <body>
     <header class="topbar">
         <span class="brand">HackForge</span>
-        <span class="page-title">DASHBOARD</span>
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="team.html">Teams</a>
+        </nav>
+        <span class="user-info"></span>
+        <button id = "logoutBtn">Logout</button>
     </header>
 
     <main class="main">
         <section id = "projectsView">
             <div class="dash-grid">
                 <div>
-                    <h1 class="section-heading">Projects</h1>
+                    <h1 class="section-heading" id = "pFormHeading">Projects</h1>
                     <form id="dashForm">
                         <label for="name">Project Name</label>
                         <input id="name">
@@ -24,13 +30,14 @@
                         <label for="description">Description</label>
                         <input id="description">
 
-                        <label for="team">Team ID</label>
-                        <input id="team">
-
+                        <label for="team">Team</label>
+                        <select id="team">
+                            <option value="">Personal (no team)</option>
+                        </select>
                         <label for="createdBy">Created By (email)</label>
-                        <input id="createdBy">
+                        <input id="createdBy" disabled>
 
-                        <button type="submit">Create Project</button>
+                        <button type="submit" id = "projectSubmit">Create Project</button>
                         <div id="errorDiv"></div>
                     </form>
                 </div>
@@ -56,7 +63,9 @@
             <form id = "taskForm">
                 <input id = "taskTitle" placeholder="Task Title">
                 <input id = "taskDescription" placeholder="Task Description">
-                <input id = "taskAssignee" placeholder="Assignee Id">
+                <select id = "taskAssignee" placeholder="Assignee">
+                    <option value="">Unassigned</option>
+                </select>
                 <select  id = "taskStatus">
                     <option value = "todo">todo</option>
                     <option value = "in-progress">in-progress</option>

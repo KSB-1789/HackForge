@@ -1,8 +1,12 @@
 const container = document.getElementById("projectsContainer");
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 let currentProjectId = null;
 let editingTaskId = null;
+let editingProjectId = null;
 const taskHeading = document.getElementById("taskHeading");
 const taskSubmit = document.getElementById("taskSubmit");
+const userInfoEl = document.querySelector(".user-info");
+if(currentUser) userInfoEl.textContent = currentUser.name;
 
 function renderProjects(){
     saveProjects();
@@ -10,14 +14,21 @@ function renderProjects(){
         container.innerHTML = '<p class="empty-state">No projects yet. Create your first project above.</p>';
         return;
     }
-    const html = projects.map(project=>`
+    const html = projects.map(project=>{
+        const team = teams.find(t => t.id === project.teamId);
+        const teamDisplay = project.teamId ? (team ? team.name:"Unknown") : "Personal";
+        return`
         <div class = "project-card">
             <h2>${project.name}</h2>
             <p>${project.description}</p>
-            <p>Team: ${project.teamId} | Created by: ${project.createdBy}</p>
-            <button class = "open-btn" data-project-id=${project.id}>Open</button>
+            <p>Team: ${teamDisplay} | Created by: ${project.createdBy}</p>
+            <div class="card-btns">
+                <button class = "open-btn" data-project-id=${project.id}>Open</button>
+                <button class = "edit-proj-btn" data-project-id=${project.id}>Edit</button>
+                <button class = "delete-proj-btn" data-project-id=${project.id}>Delete</button>
+            </div>
         </div>
-        `).join("");
+        `}).join("");
         container.innerHTML = html;
 }
 
@@ -29,15 +40,18 @@ function renderTasks(){
         target.innerHTML = ""
         return;
     }
-    target.innerHTML = currTasks.map(task=>`
+    target.innerHTML = currTasks.map(task=>{
+        const assignee = task.assigneeId ? users.find(u => u.id === task.assigneeId) : null;
+        const assigneeDisplay = assignee ? assignee.name : "Unassigned";
+        return `
             <div class = "task-card">
                 <h2>${task.title}</h2>
                 <p>${task.description}</p>
-                <p>Assignee: ${task.assigneeId} | status: ${task.status} | Priority: ${task.priority}</p>
+                <p>Assignee: ${assigneeDisplay} | status: ${task.status} | Priority: ${task.priority}</p>
                 <button class = "delete-btn" data-task-id=${task.id}>Delete</button>
                 <button class = "edit-btn" data-task-id=${task.id}>Edit</button>
-            </div>
-        `).join("");
+            </div>`
+        }).join("");
 }
 
 function validateProject(name, description, team, createdBy){
@@ -45,10 +59,10 @@ function validateProject(name, description, team, createdBy){
     if (name.trim() === ""){
         errors.push("Project name is required.");
     }
-    if (name.trim() !== "" && projects.some(project => project.name.trim().toLowerCase() === name.trim().toLowerCase())){
+    if (name.trim() !== "" && projects.some(project => project.id!==editingProjectId &&project.name.trim().toLowerCase() === name.trim().toLowerCase())){
         errors.push("A project with this name already exists.");
     }
-    if (team.trim()==="" || Number.isNaN(Number(team))){
+    if (team!=="" && Number.isNaN(Number(team))){
         errors.push("Team ID must be a non-empty valid number.");
     }
     if (!/^\S+@\S+\.\S+$/.test(createdBy)){
@@ -66,20 +80,26 @@ function validateTasks(title,assignee){
     if(title.trim()!=="" && currTasks.some(task => task.id!==editingTaskId && task.title.trim().toLowerCase()===title.trim().toLowerCase())){
         errors.push("A task with this name already exists.");
     }
-    if(assignee.trim()==="" || Number.isNaN(Number(assignee))){
+    if(assignee!=="" && Number.isNaN(Number(assignee))){
         errors.push("Assignee must be a non-empty valid id.")
     }
     return errors;
 }
-
-const dashForm = document.getElementById("dashForm");
 const errorDiv = document.getElementById("errorDiv");
+const dashForm = document.getElementById("dashForm");
+const pFormHeadingEl = document.getElementById("pFormHeading");
+const nameEl = document.getElementById("name");
+const descriptionEl = document.getElementById("description");
+const teamEl = document.getElementById("team");
+const createdByEl = document.getElementById("createdBy");
+const projectSubmitEl = document.getElementById("projectSubmit");
+
 dashForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    const name = document.getElementById("name").value;
-    const description = document.getElementById("description").value;
-    const team = document.getElementById("team").value;
-    const createdBy = document.getElementById("createdBy").value;
+    const name = nameEl.value;
+    const description = descriptionEl.value;
+    const team = teamEl.value === ""? null:Number(teamEl.value);
+    const createdBy = createdByEl.value;
 
     const errors = validateProject(name, description, team, createdBy);
     if (errors.length > 0){
@@ -87,8 +107,20 @@ dashForm.addEventListener("submit", (event) => {
         return;
     }
     errorDiv.innerHTML = "";
-    addProject(createProject(name, description, team, createdBy));
+    if(editingProjectId!=null){
+        updateProject(editingProjectId,name,description,team,createdBy);
+        editingProjectId = null;
+    }
+    else{
+        addProject(createProject(name, description, team, createdBy));
+    }
     renderProjects();
+    pFormHeadingEl.textContent = "Projects";
+    nameEl.value = "";
+    descriptionEl.value = "";
+    teamEl.value = "";
+    createdByEl.value = currentUser.email;
+    projectSubmitEl.textContent = "Create Project";
 });
 
 const pview = document.getElementById("projectsView");
@@ -100,29 +132,74 @@ const dCreatedBy = document.getElementById("detailCreatedBy")
 
 function openProject(id){
     const project = projects.find(project=>project.id===id);
+    const team = teams.find(t => t.id === project.teamId);
+    const teamDisplay = project.teamId ? (team ? team.name:"Unknown") : "Personal";
     currentProjectId = id;
     saveCurrProject();
     pview.classList.add("hidden");
     pdview.classList.remove("hidden");
     dName.textContent = project.name;
     dDescription.textContent = project.description;
-    dTeam.textContent = project.teamId;
+    dTeam.textContent = teamDisplay;
     dCreatedBy.textContent = project.createdBy;
     renderTasks();
 }
 
+const teams = JSON.parse(localStorage.getItem("teams")) || [];
+teams.forEach(team =>{
+    const option = document.createElement("option");
+    option.value = team.id;
+    option.textContent = team.name;
+    teamEl.appendChild(option);
+})
+const users = JSON.parse(localStorage.getItem("users")) || [];
 loadProjects();
 loadTasks();
 loadCurrProject();
 if(currentProjectId!=null) openProject(currentProjectId);
+if(currentUser) createdByEl.value = currentUser.email;
+
 renderProjects();
 
 container.addEventListener("click",(event)=>{
-    const btn = event.target.closest(".open-btn");
-    if(btn){
-        const id = Number(btn.dataset.projectId);
+    const obtn = event.target.closest(".open-btn");
+    if(obtn){
+        const id = Number(obtn.dataset.projectId);
+        pFormHeadingEl.textContent = "Projects";
+        projectSubmitEl.textContent = "Create Project";
+        nameEl.value = "";
+        descriptionEl.value = "";
+        teamEl.value = "";
+        createdByEl.value = currentUser.email;
         openProject(id);
     }
+    const ebtn = event.target.closest(".edit-proj-btn");
+    if(ebtn){
+        const id = Number(ebtn.dataset.projectId);
+        editingProjectId = id;
+        const project = projects.find(project=>project.id===id);
+        pFormHeadingEl.textContent = "Projects (edit-mode)";
+        projectSubmitEl.textContent = "Update Project";
+        nameEl.value = project.name;
+        descriptionEl.value = project.description;
+        teamEl.value = project.teamId===null ? "": project.teamId;
+        createdByEl.value = project.createdBy;
+        renderProjects();
+        
+    }
+    const dbtn = event.target.closest(".delete-proj-btn");
+    if(dbtn){
+        const id = Number(dbtn.dataset.projectId);
+        deleteProject(id);
+        pFormHeadingEl.textContent = "Projects";
+        projectSubmitEl.textContent = "Create Project";
+        nameEl.value = "";
+        descriptionEl.value = "";
+        teamEl.value = "";
+        createdByEl.value = currentUser.email;
+        renderProjects();
+    }
+
 })
 
 document.getElementById("backBtn").addEventListener("click",()=>{
@@ -140,11 +217,18 @@ const taskAssigneeEl = document.getElementById("taskAssignee");
 const taskStatusEl = document.getElementById("taskStatus");
 const taskPriorityEl = document.getElementById("taskPriority");
 
+users.forEach(user => {
+    const option = document.createElement("option");
+    option.value = user.id;
+    option.textContent = user.name;
+    taskAssigneeEl.appendChild(option);
+});
+
 taskForm.addEventListener("submit",(event)=>{
     event.preventDefault();
     const taskTitle = taskTitleEl.value;
     const taskDescription = taskDescriptionEl.value;
-    const taskAssignee = taskAssigneeEl.value;
+    const taskAssignee = taskAssigneeEl.value === "" ? null : Number(taskAssigneeEl.value);
     const taskStatus = taskStatusEl.value;
     const taskPriority = taskPriorityEl.value;
     const errors = validateTasks(taskTitle,taskAssignee);
@@ -196,8 +280,13 @@ document.getElementById("tasksContainer").addEventListener("click",(event)=>{
         taskHeading.textContent = "Task (Edit-Mode)";
         taskTitleEl.value = task.title;
         taskDescriptionEl.value = task.description;
-        taskAssigneeEl.value = Number(task.assigneeId);
+        taskAssigneeEl.value =  task.assigneeId===null? null:Number(task.assigneeId);
         taskStatusEl.value = task.status;
         taskPriorityEl.value = task.priority;
     }
+})
+
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
 })

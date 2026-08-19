@@ -20,6 +20,7 @@ if (projectNameEl) {
     }
 }
 
+
 function renderKanban() {
     const todoContainer = document.getElementById("todoTasks");
     const inProgressContainer = document.getElementById("inProgressTasks");

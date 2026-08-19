@@ -23,7 +23,7 @@ body {
     padding: 16px 32px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 32px;
 }
 
 .brand {
@@ -58,8 +58,8 @@ body {
 
 .section-heading {
     margin-bottom: 20px;
-    font-size: 28px;
-    letter-spacing: -0.5px;
+    font-size: 18px;
+    color: #394867;
 }
 
 /* Create project form */
@@ -93,6 +93,22 @@ body {
 }
 
 #dashForm input:focus {
+    outline: none;
+    border-color: #14274E;
+    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
+}
+
+#dashForm select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #9BA4B4;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #14274E;
+    font-size: 15px;
+}
+
+#dashForm select:focus {
     outline: none;
     border-color: #14274E;
     box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
@@ -179,19 +195,6 @@ body {
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px solid #394867;
-}
-
-.open-btn {
-    align-self: flex-start;
-    margin-top: 16px;
-    padding: 10px 18px;
-    background-color: #394867;
-    color: #F1F6F9;
-    border: 1px solid #9BA4B4;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
 }
 
 .open-btn:hover {
@@ -391,6 +394,56 @@ body {
 
 .task-card .delete-btn:hover {
     background-color: #C0392B;
+    color: #F1F6F9;
+}
+
+/* Project card buttons */
+
+.card-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.card-btns button {
+    flex: 1;
+    padding: 8px 0;
+    background-color: #394867;
+    color: #F1F6F9;
+    border: 1px solid #9BA4B4;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.card-btns .edit-proj-btn:hover {
+    background-color: #F1F6F9;
+    color: #14274E;
+}
+
+.card-btns .delete-proj-btn {
+    color: #E74C3C;
+    border-color: #E74C3C;
+}
+
+.card-btns .delete-proj-btn:hover {
+    background-color: #E74C3C;
+    color: #F1F6F9;
+}
+
+.project-card .edit-proj-btn:hover {
+    background-color: #F1F6F9;
+    color: #14274E;
+}
+
+.project-card .delete-proj-btn {
+    color: #E74C3C;
+    border-color: #E74C3C;
+}
+
+.project-card .delete-proj-btn:hover {
+    background-color: #E74C3C;
     color: #F1F6F9;
 }
 

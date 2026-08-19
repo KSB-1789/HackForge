@@ -5,6 +5,8 @@ let editingTaskId = null;
 let editingProjectId = null;
 const taskHeading = document.getElementById("taskHeading");
 const taskSubmit = document.getElementById("taskSubmit");
+const userInfoEl = document.querySelector(".user-info");
+if(currentUser) userInfoEl.textContent = currentUser.name;
 
 function renderProjects(){
     saveProjects();
@@ -282,4 +284,9 @@ document.getElementById("tasksContainer").addEventListener("click",(event)=>{
         taskStatusEl.value = task.status;
         taskPriorityEl.value = task.priority;
     }
+})
+
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
 })

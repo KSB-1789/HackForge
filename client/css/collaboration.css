@@ -21,34 +21,13 @@ body {
     padding: 16px 32px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 32px;
 }
 
 .brand {
     font-size: 20px;
     font-weight: 700;
     letter-spacing: -0.5px;
-}
-
-.page-title {
-    color: #9BA4B4;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-}
-
-.topbar-link {
-    color: #F1F6F9;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border: 1px solid #394867;
-    border-radius: 6px;
-}
-
-.topbar-link:hover {
-    background-color: #394867;
 }
 
 .main {

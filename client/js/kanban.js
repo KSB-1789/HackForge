@@ -4,6 +4,23 @@ if (storedProjectId) {
     currentProjectId = JSON.parse(storedProjectId);
 }
 
+loadProjects();
+
+const projectNameEl = document.getElementById("projectName");
+if (projectNameEl) {
+    if (currentProjectId === null) {
+        projectNameEl.textContent = "No project selected";
+    } else {
+        const project = projects.find(p => p.id === currentProjectId);
+        if (project) {
+            projectNameEl.textContent = project.name;
+        } else {
+            projectNameEl.textContent = "Project not found";
+        }
+    }
+}
+
+
 function renderKanban() {
     const todoContainer = document.getElementById("todoTasks");
     const inProgressContainer = document.getElementById("inProgressTasks");
@@ -63,3 +80,12 @@ function changeTaskStatus(taskId) {
 }
 
 renderKanban();
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+    window.location.href = "dashboard.html";
+});

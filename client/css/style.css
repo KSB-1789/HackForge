@@ -1,0 +1,6 @@
+.nav-links { display: flex; gap: 20px; }
+.nav-links a { color: #F1F6F9; text-decoration: none; font-weight: 500; }
+.nav-links a:hover { text-decoration: underline; }
+.user-info { margin-left: auto; color: #F1F6F9; font-weight: 500; }
+#logoutBtn { background: none; border: 1px solid #F1F6F9; color: #F1F6F9; padding: 6px 16px; border-radius: 6px; cursor: pointer; }
+#logoutBtn:hover { background: #F1F6F9; color: #14274E; }

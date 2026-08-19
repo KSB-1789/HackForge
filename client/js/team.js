@@ -68,7 +68,21 @@ function getMemberNames(members){
         }
 
     })
-    
+    .join(", ");
+}
+function removeMember(teamId,userId){
+    const team=teams.find(team=>team.id===teamId);
+    if(!team){
+        return;
+    }
+    const index=team.members.indexOf(Number(userId));
+    if(index!==-1){
+        team.members.splice(index,1);
+    }
+    memberError.textContent="";
+    saveTeams();
+    renderTeams();
+
 }
 function renderTeams() {
     if (teams.length === 0) {
@@ -78,8 +92,17 @@ function renderTeams() {
     const html = teams.map(team => `
     <div class="team-card">
         <h2>${team.name}</h2>
+        <p>Team ID: ${team.id}</p>
         <p>Owner ID: ${team.ownerId}</p>
-        <p>Members: ${getMemberNames(team.members)}</p>
+        <div class="members-list"> ${team.members.map(function(memberId) {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const member = users.find(u => u.id === memberId);
+    const name = member ? member.name : "Unknown User";
+            return '<span class="member-tag">' + name +
+       ' <button class="remove-member-btn" data-team-id="' + team.id +
+       '" data-user-id="' + memberId + '">&times;</button></span>';
+   
+}).join("")}</div>
 
         <input 
             class="member-input" 
@@ -94,7 +117,7 @@ function renderTeams() {
             Add Member
         </button>
     </div>
-`).join(", ");
+`).join("");
 teamsContainer.innerHTML = html;
 }
 const teamForm = document.getElementById("teamForm");
@@ -131,5 +154,12 @@ teamsContainer.addEventListener("click", function(event) {
         
 
         
+    }
+    const removeBtn=event.target.closest(".remove-member-btn");
+    if(removeBtn){
+        const teamId=Number(removeBtn.dataset.teamId);
+        const userId=Number(removeBtn.dataset.userId);
+        removeMember(teamId,userId);
+
     }
 });

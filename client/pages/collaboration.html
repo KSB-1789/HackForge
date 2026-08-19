@@ -4,14 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackForge - Collaboration</title>
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/collaboration.css">
 </head>
 <body>
     <header class="topbar">
         <span class="brand">HackForge</span>
-        <span class="page-title">COLLABORATION</span>
-        <a href="dashboard.html" class="topbar-link">Dashboard</a>
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="team.html">Teams</a>
+        </nav>
+        <span class="user-info"></span>
+        <button id="logoutBtn">Logout</button>
     </header>
+
+    <div style="max-width:1160px;margin:0 auto;padding:16px 24px 0;">
+        <button id="backBtn" style="padding:8px 16px;background:#14274E;color:#F1F6F9;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;">← Back to Project</button>
+    </div>
 
     <main class="main">
 

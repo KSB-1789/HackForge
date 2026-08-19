@@ -79,3 +79,12 @@ function changeTaskStatus(taskId) {
 }
 
 renderKanban();
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+    window.location.href = "dashboard.html";
+});

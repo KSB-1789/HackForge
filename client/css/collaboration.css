@@ -124,6 +124,22 @@ section h2 {
     color: #394867;
 }
 
+.progress-bar {
+    margin-top: 16px;
+    height: 14px;
+    background-color: #F1F6F9;
+    border: 1px solid #9BA4B4;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+#progressBarFill {
+    height: 100%;
+    width: 0%;
+    background-color: #14274E;
+    transition: width 0.2s ease-in-out;
+}
+
 #chatMessages {
     max-height: 300px;
     overflow-y: auto;

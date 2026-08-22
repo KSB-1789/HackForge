@@ -2,11 +2,13 @@ function renderProgress() {
     const totalEl = document.getElementById("totalTasks");
     const completedEl = document.getElementById("completedTasks");
     const progressEl = document.getElementById("progressPercentage");
+    const barFillEl = document.getElementById("progressBarFill");
 
     if (currentProjectId === null) {
         totalEl.textContent = "0";
         completedEl.textContent = "0";
         progressEl.textContent = "N/A";
+        barFillEl.style.width = "0%";
         return;
     }
 
@@ -19,10 +21,10 @@ function renderProgress() {
         ? 0
         : Math.round((completedTasks / totalTasks) * 100);
 
-    document.getElementById("totalTasks").textContent = totalTasks;
-    document.getElementById("completedTasks").textContent = completedTasks;
-    document.getElementById("progressPercentage").textContent =
-        `${progressPercentage}%`;
+    totalEl.textContent = totalTasks;
+    completedEl.textContent = completedTasks;
+    progressEl.textContent = `${progressPercentage}%`;
+    barFillEl.style.width = `${progressPercentage}%`;
 }
 
 renderProgress();

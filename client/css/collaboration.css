@@ -36,6 +36,27 @@ body {
     padding: 36px 24px 60px;
 }
 
+.back-nav {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 16px 24px 0;
+}
+
+#backBtn {
+    padding: 8px 16px;
+    background-color: #14274E;
+    color: #F1F6F9;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#backBtn:hover {
+    background-color: #394867;
+}
+
 h2 {
     color: #14274E;
     margin-bottom: 16px;
@@ -117,11 +138,34 @@ section h2 {
     background-color: #394867;
 }
 
+.empty-column {
+    color: #9BA4B4;
+    text-align: center;
+    font-size: 13px;
+    padding: 20px 0;
+}
+
 #progressSummary {
     display: flex;
     gap: 32px;
     font-size: 15px;
     color: #394867;
+}
+
+.progress-bar {
+    margin-top: 16px;
+    height: 14px;
+    background-color: #F1F6F9;
+    border: 1px solid #9BA4B4;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+#progressBarFill {
+    height: 100%;
+    width: 0%;
+    background-color: #14274E;
+    transition: width 0.2s ease-in-out;
 }
 
 #chatMessages {
@@ -172,6 +216,19 @@ section h2 {
 
 .chat-message strong {
     color: #14274E;
+}
+
+.chat-time {
+    float: right;
+    font-size: 12px;
+    color: #9BA4B4;
+}
+
+.empty-state {
+    color: #9BA4B4;
+    text-align: center;
+    padding: 16px 0;
+    font-size: 14px;
 }
 
 .chat-message p {

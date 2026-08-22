@@ -1,5 +1,15 @@
 const files = [];
 
+function formatFileSize(bytes) {
+    if (bytes < 1024) {
+        return `${bytes} B`;
+    }
+    if (bytes < 1024 * 1024) {
+        return `${(bytes / 1024).toFixed(1)} KB`;
+    }
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
 function renderFiles() {
     const fileList = document.getElementById("fileList");
 
@@ -11,7 +21,7 @@ function renderFiles() {
     fileList.innerHTML = files.map(file => `
         <div class="file-item">
             <strong>${file.name}</strong>
-            <p>${file.type || "Unknown file type"}</p>
+            <p>${file.type || "Unknown file type"} • ${formatFileSize(file.size)}</p>
         </div>
     `).join("");
 }
@@ -30,7 +40,8 @@ fileForm.addEventListener("submit", event => {
 
     files.push({
         name: selectedFile.name,
-        type: selectedFile.type
+        type: selectedFile.type,
+        size: selectedFile.size
     });
 
     fileInput.value = "";

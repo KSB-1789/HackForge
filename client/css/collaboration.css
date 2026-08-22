@@ -190,6 +190,19 @@ section h2 {
     color: #14274E;
 }
 
+.chat-time {
+    float: right;
+    font-size: 12px;
+    color: #9BA4B4;
+}
+
+.empty-state {
+    color: #9BA4B4;
+    text-align: center;
+    padding: 16px 0;
+    font-size: 14px;
+}
+
 .chat-message p {
     color: #394867;
     font-size: 14px;

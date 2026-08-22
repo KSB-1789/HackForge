@@ -4,7 +4,7 @@ function saveMessages() {
     localStorage.setItem("chatMessages", JSON.stringify(messages));
 }
 
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const chatUser = JSON.parse(localStorage.getItem("currentUser"));
 
 function getSenderName(senderId) {
     if (senderId === null) {
@@ -52,7 +52,7 @@ chatForm.addEventListener("submit", event => {
 
     messages.push({
         id: Date.now(),
-        senderId: currentUser ? currentUser.id : null,
+        senderId: chatUser ? chatUser.id : null,
         message: text,
         timestamp: new Date().toISOString()
     });

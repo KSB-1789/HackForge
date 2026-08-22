@@ -4,6 +4,12 @@ if (storedProjectId) {
     currentProjectId = JSON.parse(storedProjectId);
 }
 
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const userInfoEl = document.querySelector(".user-info");
+if (currentUser) {
+    userInfoEl.textContent = currentUser.name;
+}
+
 loadProjects();
 
 const projectNameEl = document.getElementById("projectName");

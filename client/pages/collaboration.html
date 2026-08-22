@@ -18,53 +18,13 @@
         <button id="logoutBtn">Logout</button>
     </header>
 
-    <div style="max-width:1160px;margin:0 auto;padding:16px 24px 0;">
-        <button id="backBtn" style="padding:8px 16px;background:#14274E;color:#F1F6F9;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;">← Back to Project</button>
+    <div class="back-nav">
+        <button id="backBtn">← Back to Project</button>
     </div>
 
     <main class="main">
 
     <h2 id="projectName"></h2>
-
-    <section id="progress">
-    <h2>Project Progress</h2>
-
-    <div id="progressSummary">
-        <p><span id="completedTasks">0</span> / <span id="totalTasks">0</span> tasks completed</p>
-        <p>Progress: <span id="progressPercentage">0%</span></p>
-    </div>
-
-    <div class="progress-bar">
-        <div id="progressBarFill"></div>
-    </div>
-</section>
-
-<section id="chat">
-    <h2>Team Chat</h2>
-
-    <div id="chatMessages"></div>
-
-    <form id="chatForm">
-        <input
-            id="chatInput"
-            type="text"
-            placeholder="Type a message..."
-            required
-        >
-        <button type="submit">Send</button>
-    </form>
-</section>
-
-<section id="files">
-    <h2>Project Files</h2>
-
-    <form id="fileForm">
-        <input id="fileInput" type="file" required>
-        <button type="submit">Add File</button>
-    </form>
-
-    <div id="fileList"></div>
-</section>
 
     <section id="kanban">
         <h2>Kanban Board</h2>
@@ -87,6 +47,46 @@
             </div>
 
         </div>
+    </section>
+
+    <section id="progress">
+        <h2>Project Progress</h2>
+
+        <div id="progressSummary">
+            <p><span id="completedTasks">0</span> / <span id="totalTasks">0</span> tasks completed</p>
+            <p>Progress: <span id="progressPercentage">0%</span></p>
+        </div>
+
+        <div class="progress-bar">
+            <div id="progressBarFill"></div>
+        </div>
+    </section>
+
+    <section id="chat">
+        <h2>Team Chat</h2>
+
+        <div id="chatMessages"></div>
+
+        <form id="chatForm">
+            <input
+                id="chatInput"
+                type="text"
+                placeholder="Type a message..."
+                required
+            >
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <section id="files">
+        <h2>Project Files</h2>
+
+        <form id="fileForm">
+            <input id="fileInput" type="file" required>
+            <button type="submit">Add File</button>
+        </form>
+
+        <div id="fileList"></div>
     </section>
 
     </main>

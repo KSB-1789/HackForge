@@ -36,6 +36,27 @@ body {
     padding: 36px 24px 60px;
 }
 
+.back-nav {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 16px 24px 0;
+}
+
+#backBtn {
+    padding: 8px 16px;
+    background-color: #14274E;
+    color: #F1F6F9;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#backBtn:hover {
+    background-color: #394867;
+}
+
 h2 {
     color: #14274E;
     margin-bottom: 16px;
@@ -115,6 +136,13 @@ section h2 {
 
 .task-card button:hover {
     background-color: #394867;
+}
+
+.empty-column {
+    color: #9BA4B4;
+    text-align: center;
+    font-size: 13px;
+    padding: 20px 0;
 }
 
 #progressSummary {

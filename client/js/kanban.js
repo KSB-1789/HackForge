@@ -75,6 +75,7 @@ function changeTaskStatus(taskId) {
         task.status = "todo";
     }
 
+    saveTasks();
     renderKanban();
     renderProgress();
 }

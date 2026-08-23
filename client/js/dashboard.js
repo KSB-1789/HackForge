@@ -105,6 +105,16 @@ const teamEl = document.getElementById("team");
 const createdByEl = document.getElementById("createdBy");
 const projectSubmitEl = document.getElementById("projectSubmit");
 
+function resetProjectForm(){
+    editingProjectId = null;
+    pFormHeadingEl.textContent = "Projects";
+    projectSubmitEl.textContent = "Create Project";
+    nameEl.value = "";
+    descriptionEl.value = "";
+    teamEl.value = "";
+    createdByEl.value = currentUser.email;
+}
+
 dashForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const name = nameEl.value;
@@ -127,12 +137,7 @@ dashForm.addEventListener("submit", (event) => {
     }
     renderProjects();
     dashGrid.classList.remove("form-open");
-    pFormHeadingEl.textContent = "Projects";
-    nameEl.value = "";
-    descriptionEl.value = "";
-    teamEl.value = "";
-    createdByEl.value = currentUser.email;
-    projectSubmitEl.textContent = "Create Project";
+    resetProjectForm();
 });
 
 const pview = document.getElementById("projectsView");
@@ -178,13 +183,7 @@ container.addEventListener("click",(event)=>{
     const obtn = event.target.closest(".open-btn");
     if(obtn){
         const id = Number(obtn.dataset.projectId);
-        pFormHeadingEl.textContent = "Projects";
-        projectSubmitEl.textContent = "Create Project";
-        nameEl.value = "";
-        descriptionEl.value = "";
-        teamEl.value = "";
-        createdByEl.value = currentUser.email;
-        editingProjectId = null;
+        resetProjectForm();
         openProject(id);
     }
     const ebtn = event.target.closest(".edit-proj-btn");
@@ -205,13 +204,7 @@ container.addEventListener("click",(event)=>{
     if(dbtn){
         const id = Number(dbtn.dataset.projectId);
         deleteProject(id);
-        pFormHeadingEl.textContent = "Projects";
-        projectSubmitEl.textContent = "Create Project";
-        nameEl.value = "";
-        descriptionEl.value = "";
-        teamEl.value = "";
-        createdByEl.value = currentUser.email;
-        editingProjectId = null;
+        resetProjectForm();
         renderProjects();
     }
 
@@ -253,7 +246,6 @@ taskForm.addEventListener("submit",(event)=>{
     }
     taskErrorDiv.innerHTML = "";
     if(editingTaskId!=null){
-        const existing = tasks.find(t=>t.id===editingTaskId);
         updateTask(editingTaskId, taskTitle, taskDescription, taskAssignee, taskStatus,taskPriority);
         editingTaskId = null;
         renderTasks();
@@ -261,7 +253,7 @@ taskForm.addEventListener("submit",(event)=>{
     else{
         const task = createTask(currentProjectId,taskTitle,taskDescription,taskAssignee,taskStatus,taskPriority);
         addTask(task);
-        renderTasks(currentProjectId);
+        renderTasks();
     }
     taskTitleEl.value = "";
     taskDescriptionEl.value = "";
@@ -308,13 +300,7 @@ document.getElementById("logoutBtn").addEventListener("click",()=>{
 
 newProjectBtn.addEventListener("click",()=>{
     if(dashGrid.classList.contains("form-open")){
-        editingProjectId = null;
-        pFormHeadingEl.textContent = "Projects";
-        projectSubmitEl.textContent = "Create Project";
-        nameEl.value = "";
-        descriptionEl.value = "";
-        teamEl.value = "";
-        createdByEl.value = currentUser.email;
+        resetProjectForm();
     }
     dashGrid.classList.toggle("form-open");
 })

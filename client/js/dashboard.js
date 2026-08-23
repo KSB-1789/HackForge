@@ -8,6 +8,13 @@ const taskSubmit = document.getElementById("taskSubmit");
 const userInfoEl = document.querySelector(".user-info");
 const newProjectBtn = document.getElementById("newProjectBtn");
 const dashGrid = document.querySelector(".dash-grid");
+const taskForm = document.getElementById("taskForm");
+const taskErrorDiv = document.getElementById("tasksErrorDiv");
+const taskTitleEl = document.getElementById("taskTitle");
+const taskDescriptionEl = document.getElementById("taskDescription");
+const taskAssigneeEl = document.getElementById("taskAssignee");
+const taskStatusEl = document.getElementById("taskStatus");
+const taskPriorityEl = document.getElementById("taskPriority");
 if(currentUser) userInfoEl.textContent = currentUser.name;
 
 function getMyProjects(){
@@ -159,11 +166,15 @@ function openProject(id){
     dDescription.textContent = project.description;
     dTeam.textContent = teamDisplay;
     dCreatedBy.textContent = project.createdBy;
+    renderAssigneeOptions(project);
     renderTasks();
 }
 
 const teams = JSON.parse(localStorage.getItem("teams")) || [];
-teams.forEach(team =>{
+const myTeams = currentUser
+    ? teams.filter(t => t.ownerId === currentUser.id || t.members.includes(currentUser.id))
+    : [];
+myTeams.forEach(team =>{
     const option = document.createElement("option");
     option.value = team.id;
     option.textContent = team.name;
@@ -216,21 +227,25 @@ document.getElementById("backBtn").addEventListener("click",()=>{
     pview.classList.remove("hidden");
     pdview.classList.add("hidden");
 })
-
-const taskForm = document.getElementById("taskForm");
-const taskErrorDiv = document.getElementById("tasksErrorDiv");
-const taskTitleEl = document.getElementById("taskTitle");
-const taskDescriptionEl = document.getElementById("taskDescription");
-const taskAssigneeEl = document.getElementById("taskAssignee");
-const taskStatusEl = document.getElementById("taskStatus");
-const taskPriorityEl = document.getElementById("taskPriority");
-
-users.forEach(user => {
-    const option = document.createElement("option");
-    option.value = user.id;
-    option.textContent = user.name;
-    taskAssigneeEl.appendChild(option);
-});
+function renderAssigneeOptions(project){
+    taskAssigneeEl.innerHTML = '<option value="">Unassigned</option>';
+    let allowedUsers = [];
+    if (project && project.teamId !== null){
+        const team = teams.find(t => t.id === project.teamId);
+        if (team){
+            allowedUsers = users.filter(u => u.id === team.ownerId || team.members.includes(u.id));
+        }
+    }
+    else if (currentUser){
+        allowedUsers = [currentUser];
+    }
+    allowedUsers.forEach(user => {
+        const option = document.createElement("option");
+        option.value = user.id;
+        option.textContent = user.name;
+        taskAssigneeEl.appendChild(option);
+    });
+}
 
 taskForm.addEventListener("submit",(event)=>{
     event.preventDefault();

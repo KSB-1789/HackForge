@@ -1,6 +1,77 @@
-.nav-links { display: flex; gap: 20px; }
-.nav-links a { color: #F1F6F9; text-decoration: none; font-weight: 500; }
-.nav-links a:hover { text-decoration: underline; }
-.user-info { margin-left: auto; color: #F1F6F9; font-weight: 500; }
-#logoutBtn { background: none; border: 1px solid #F1F6F9; color: #F1F6F9; padding: 6px 16px; border-radius: 6px; cursor: pointer; }
-#logoutBtn:hover { background: #F1F6F9; color: #14274E; }
+:root {
+    --navy: #14274E;
+    --ink: #394867;
+    --mist: #9BA4B4;
+    --bg: #F1F6F9;
+    --radius: 10px;
+}
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.nav-links { display: flex; gap: 8px; }
+
+.nav-links a {
+    color: var(--bg);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+}
+
+.nav-links a:hover {
+    background: rgba(241, 246, 249, 0.12);
+}
+
+.nav-links a.active {
+    background: var(--bg);
+    color: var(--navy);
+}
+
+.user-info {
+    margin-left: auto;
+    color: var(--bg);
+    font-weight: 500;
+    background: rgba(241, 246, 249, 0.14);
+    padding: 7px 16px;
+    border-radius: 999px;
+}
+
+/* team page leaves this span empty — don't render an empty pill */
+.user-info:empty { display: none; }
+
+#logoutBtn {
+    background: none;
+    border: 1px solid var(--bg);
+    color: var(--bg);
+    padding: 6px 16px;
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+#logoutBtn:hover {
+    background: var(--bg);
+    color: var(--navy);
+}
+
+/* Shared status/priority chips — used by dashboard task cards and Kanban */
+
+.chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.chip.low          { background: #E5E9EE; color: var(--ink); }
+.chip.medium       { background: #FCF3D9; color: #9A7B0A; }
+.chip.high         { background: #FADBD8; color: #C0392B; }
+
+.chip.todo         { background: #E5E9EE; color: var(--ink); }
+.chip.in-progress  { background: #D6EAF8; color: #21618C; }
+.chip.done         { background: #D5F5E3; color: #1E8449; }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackForge - Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
     <link rel = "stylesheet" href = "../css/dashboard.css">
     <link rel = "stylesheet" href = "../css/style.css">
 </head>
@@ -11,7 +12,7 @@
     <header class="topbar">
         <span class="brand">HackForge</span>
         <nav class="nav-links">
-            <a href="dashboard.html">Dashboard</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
             <a href="team.html">Teams</a>
         </nav>
         <span class="user-info"></span>
@@ -19,6 +20,12 @@
     </header>
 
     <main class="main">
+        <div class="page-header">
+            <p class="eyebrow">DEVELOPER COLLABORATION PLATFORM</p>
+            <h1>Dashboard</h1>
+            <p class="subtitle">Create projects, organize tasks, and track progress with your teams.</p>
+        </div>
+
         <section id = "projectsView">
             <div class="dash-grid">
                 <div>
@@ -42,7 +49,10 @@
                     </form>
                 </div>
                 <div>
-                    <h2 class="projects-label">All projects</h2>
+                    <div class="projects-toolbar">
+                        <h2 class="projects-label">All projects</h2>
+                        <button id="newProjectBtn">+ New Project</button>
+                    </div>
                     <div id = "projectsContainer"></div>
                 </div>
             </div>

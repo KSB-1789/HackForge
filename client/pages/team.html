@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackForge - Teams</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="../css/team.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -15,7 +18,7 @@
     <span class="brand">HackForge</span>
     <nav class="nav-links">
         <a href="dashboard.html">Dashboard</a>
-        <a href="team.html">Teams</a>
+        <a href="team.html" class="active">Teams</a>
         
     </nav>
     <span class="user-info"></span>
@@ -26,7 +29,10 @@
 
         <section class="team-create-section">
 
-            <h1>Teams</h1>
+            <div class="create-header">
+                <h1>Teams</h1>
+                <button type="button" id="newTeamBtn">+ New Team</button>
+            </div>
 
             <form id="teamForm">
 

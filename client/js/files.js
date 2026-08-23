@@ -1,4 +1,8 @@
-const files = [];
+let files = JSON.parse(localStorage.getItem("files")) || [];
+
+function saveFiles() {
+    localStorage.setItem("files", JSON.stringify(files));
+}
 
 function formatFileSize(bytes) {
     if (bytes < 1024) {
@@ -20,10 +24,22 @@ function renderFiles() {
 
     fileList.innerHTML = files.map(file => `
         <div class="file-item">
-            <strong>${file.name}</strong>
-            <p>${file.type || "Unknown file type"} • ${formatFileSize(file.size)}</p>
+            <div class="file-info">
+                <strong>${file.name}</strong>
+                <p>${file.type || "Unknown file type"} • ${formatFileSize(file.size)}</p>
+            </div>
+            <button class="remove-file-btn" data-file-id="${file.id}" title="Remove file">&times;</button>
         </div>
     `).join("");
+}
+
+function deleteFile(fileId) {
+    const index = files.findIndex(file => file.id === fileId);
+    if (index !== -1) {
+        files.splice(index, 1);
+    }
+    saveFiles();
+    renderFiles();
 }
 
 const fileForm = document.getElementById("fileForm");
@@ -39,13 +55,23 @@ fileForm.addEventListener("submit", event => {
     }
 
     files.push({
+        id: Date.now(),
         name: selectedFile.name,
         type: selectedFile.type,
         size: selectedFile.size
     });
 
+    saveFiles();
     fileInput.value = "";
     renderFiles();
+});
+
+document.getElementById("fileList").addEventListener("click", event => {
+    const btn = event.target.closest(".remove-file-btn");
+    if (!btn) {
+        return;
+    }
+    deleteFile(Number(btn.dataset.fileId));
 });
 
 renderFiles();

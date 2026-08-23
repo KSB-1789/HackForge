@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackForge - Collaboration</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../css/collaboration.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <header class="topbar">
@@ -24,7 +25,15 @@
 
     <main class="main">
 
-    <h2 id="projectName"></h2>
+    <header class="collab-header">
+        <h2 id="projectName"></h2>
+        <div id="progressSummary">
+            <p><span id="completedTasks">0</span> / <span id="totalTasks">0</span> tasks completed · <span id="progressPercentage">0%</span></p>
+            <div class="progress-bar">
+                <div id="progressBarFill"></div>
+            </div>
+        </div>
+    </header>
 
     <section id="kanban">
         <h2>Kanban Board</h2>
@@ -32,35 +41,24 @@
         <div class="kanban-board">
 
             <div class="kanban-column">
-                <h3>TODO</h3>
+                <h3>TODO <span class="column-count" id="todoCount">0</span></h3>
                 <div id="todoTasks"></div>
             </div>
 
             <div class="kanban-column">
-                <h3>IN PROGRESS</h3>
+                <h3>IN PROGRESS <span class="column-count" id="inProgressCount">0</span></h3>
                 <div id="inProgressTasks"></div>
             </div>
 
             <div class="kanban-column">
-                <h3>DONE</h3>
+                <h3>DONE <span class="column-count" id="doneCount">0</span></h3>
                 <div id="doneTasks"></div>
             </div>
 
         </div>
     </section>
 
-    <section id="progress">
-        <h2>Project Progress</h2>
-
-        <div id="progressSummary">
-            <p><span id="completedTasks">0</span> / <span id="totalTasks">0</span> tasks completed</p>
-            <p>Progress: <span id="progressPercentage">0%</span></p>
-        </div>
-
-        <div class="progress-bar">
-            <div id="progressBarFill"></div>
-        </div>
-    </section>
+    <div class="chat-files-row">
 
     <section id="chat">
         <h2>Team Chat</h2>
@@ -88,6 +86,8 @@
 
         <div id="fileList"></div>
     </section>
+
+    </div>
 
     </main>
     <script src="../js/projects.js"></script>

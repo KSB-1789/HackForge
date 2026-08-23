@@ -60,6 +60,18 @@ function renderKanban() {
 
     const projectTasks = getTasksByProject(currentProjectId);
 
+    const statusCounts = {
+        "todo": 0,
+        "in-progress": 0,
+        "done": 0
+    };
+    projectTasks.forEach(task => {
+        statusCounts[task.status]++;
+    });
+    document.getElementById("todoCount").textContent = statusCounts["todo"];
+    document.getElementById("inProgressCount").textContent = statusCounts["in-progress"];
+    document.getElementById("doneCount").textContent = statusCounts["done"];
+
     projectTasks.forEach(task => {
         const taskCard = document.createElement("div");
         taskCard.className = "task-card";
@@ -67,8 +79,8 @@ function renderKanban() {
         taskCard.innerHTML = `
             <h4>${task.title}</h4>
             <p>${task.description}</p>
-            <p>Assignee: ${getAssigneeName(task.assigneeId)}</p>
-            <p>Priority: ${task.priority}</p>
+            <p>Assignee: <span class="assignee-chip">${getAssigneeName(task.assigneeId)}</span></p>
+            <p><span class="chip ${task.priority}">${task.priority}</span></p>
             <button onclick="changeTaskStatus(${task.id})">
                 Move to ${statusLabels[task.status]}
             </button>

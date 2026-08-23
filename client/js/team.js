@@ -1,6 +1,11 @@
 const teams=[];
 const teamsContainer = document.getElementById("teamsContainer");
 const memberError = document.getElementById("memberError");
+const loggedInUser = JSON.parse(localStorage.getItem("currentUser"));
+const userInfoEl = document.querySelector(".user-info");
+if (loggedInUser) {
+    userInfoEl.textContent = loggedInUser.name;
+}
 function createTeam(name,ownerId){
     const id=Date.now();
     const team={
@@ -25,15 +30,18 @@ function loadTeams() {
     teams.push(...JSON.parse(storedTeams));
 }
 loadTeams();
-console.log("teams:", teams);
-console.log("teamsContainer:", teamsContainer);
 function addMember(teamId, userId) {
     const team = teams.find(team => team.id === teamId);
     if (!team) {
         return;
     }
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser || team.ownerId !== currentUser.id) {
+        memberError.textContent = "Only the team owner can add members";
+        return;
+    }
     if(userId.trim()===""){
-       memberError.textContent="Please enter a userId";
+       memberError.textContent="Please select a member";
        return;
     }
     const users=JSON.parse(localStorage.getItem("users"));
@@ -112,24 +120,30 @@ function removeMember(teamId,userId){
 }
 function renderTeams() {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const visibleTeams = teams.filter(function(team) {
-        return currentUser !== null &&
-            (team.ownerId === currentUser.id || team.members.includes(currentUser.id));
-    });
-    if (visibleTeams.length === 0) {
-    teamsContainer.innerHTML = "<p class='empty-state'>No teams yet. Create your first team.</p>";
-    return;
-}
-    const html = visibleTeams.map(team => `
+    if (teams.length === 0) {
+        teamsContainer.innerHTML = "<p class='empty-state'>No teams yet. Create your first team here.</p>";
+        return;
+    }
+    const html = teams.map(team => {
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const availableUsers = users.filter(function(user) {
+            return user.id !== team.ownerId && !team.members.includes(user.id);
+        });
+        const userOptions = availableUsers.map(function(user) {
+            return '<option value="' + user.id + '">' + user.name + "</option>";
+        }).join("");
+        return `
     <div class="team-card">
         <div class="team-card-header">
             <span class="team-avatar">${getTeamInitials(team.name)}</span>
             <div class="team-card-title">
                 <h2>${team.name}</h2>
-                <span class="member-count-badge">${team.members.length} ${team.members.length === 1 ? "member" : "members"}</span>
+                <span class="member-count-badge">${team.members.length + 1} ${team.members.length + 1 === 1 ? "member" : "members"}</span>
             </div>
         </div>
-        <div class="members-list"> ${team.members.length === 0 ? '<span class="no-members">No members yet</span>' : team.members.map(function(memberId) {
+        <div class="members-list">
+            <span class="member-tag owner-tag">${getMemberNames([team.ownerId])} (owner)</span>
+            ${team.members.map(function(memberId) {
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const member = users.find(u => u.id === memberId);
     const name = member ? member.name : "Unknown User";
@@ -139,12 +153,12 @@ function renderTeams() {
 
 }).join("")}</div>
 
+        ${currentUser && team.ownerId === currentUser.id ? `
         <div class="add-member-row">
-            <input
-                class="member-input"
-                data-team-id="${team.id}"
-                placeholder="Enter member ID"
-            >
+            <select class="member-select" data-team-id="${team.id}">
+                <option value="">${availableUsers.length === 0 ? "Everyone is added" : "Select a member"}</option>
+                ${userOptions}
+            </select>
 
             <button
                 class="add-member-btn"
@@ -152,19 +166,20 @@ function renderTeams() {
             >
                 Add Member
             </button>
-        </div>
+        </div>` : ""}
 
         <div class="team-meta-footer">
             <small>Team ID: ${team.id}</small>
             <small>Owner: ${getMemberNames([team.ownerId])}</small>
         </div>
 
-        ${team.ownerId === currentUser.id ? `
+        ${currentUser && team.ownerId === currentUser.id ? `
         <button type="button" class="delete-team-btn" data-team-id="${team.id}">
             Delete Team
         </button>` : ""}
     </div>
-`).join("");
+`;
+    }).join("");
 teamsContainer.innerHTML = html;
 }
 const teamForm = document.getElementById("teamForm");
@@ -205,16 +220,14 @@ teamsContainer.addEventListener("click", function(event) {
 
     if (btn) {
         const teamId = Number(btn.dataset.teamId);
-        const input = btn.closest(".team-card").querySelector(".member-input");
-        const userId = input.value;
+        const select = btn.closest(".team-card").querySelector(".member-select");
+        const userId = select.value;
         addMember(teamId, userId);
         if(memberError.textContent ===""){
-            input.value="";
+            select.value="";
         }
-        
-
-        
     }
+
     const removeBtn=event.target.closest(".remove-member-btn");
     if(removeBtn){
         const teamId=Number(removeBtn.dataset.teamId);

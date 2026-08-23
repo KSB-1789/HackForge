@@ -8,13 +8,18 @@ const taskSubmit = document.getElementById("taskSubmit");
 const userInfoEl = document.querySelector(".user-info");
 if(currentUser) userInfoEl.textContent = currentUser.name;
 
+function getMyProjects(){
+    return currentUser? projects.filter(p=> p.createdBy===currentUser.email): [];
+}
+
 function renderProjects(){
     saveProjects();
-    if (projects.length === 0){
+    const myProjects = getMyProjects();
+    if (myProjects.length === 0){
         container.innerHTML = '<p class="empty-state">No projects yet. Create your first project above.</p>';
         return;
     }
-    const html = projects.map(project=>{
+    const html = myProjects.map(project=>{
         const team = teams.find(t => t.id === project.teamId);
         const teamDisplay = project.teamId ? (team ? team.name:"Unknown") : "Personal";
         return`
@@ -59,7 +64,7 @@ function validateProject(name, description, team, createdBy){
     if (name.trim() === ""){
         errors.push("Project name is required.");
     }
-    if (name.trim() !== "" && projects.some(project => project.id!==editingProjectId &&project.name.trim().toLowerCase() === name.trim().toLowerCase())){
+    if (name.trim() !== "" && getMyProjects().some(project => project.id!==editingProjectId &&project.name.trim().toLowerCase() === name.trim().toLowerCase())){
         errors.push("A project with this name already exists.");
     }
     if (team!=="" && Number.isNaN(Number(team))){
@@ -156,7 +161,8 @@ const users = JSON.parse(localStorage.getItem("users")) || [];
 loadProjects();
 loadTasks();
 loadCurrProject();
-if(currentProjectId!=null) openProject(currentProjectId);
+const savedProject = currentUser!==null?projects.find(p=>p.id===currentProjectId):undefined;
+if(savedProject && savedProject.createdBy===currentUser.email) openProject(currentProjectId);
 if(currentUser) createdByEl.value = currentUser.email;
 
 renderProjects();

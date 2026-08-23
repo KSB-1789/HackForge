@@ -15,27 +15,6 @@ body {
     color: #14274E;
 }
 
-.topbar {
-    background-color: #14274E;
-    color: #F1F6F9;
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
-.brand {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-.page-title {
-    color: #9BA4B4;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-}
 .main {
     max-width: 1160px;
     margin: 0 auto;
@@ -137,8 +116,9 @@ h2 {
 
 #teamsContainer {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 26px;
+    align-items: start;
 }
 
 .team-card {
@@ -215,7 +195,7 @@ h2 {
     margin-top: 12px;
 }
 
-.add-member-row .member-input {
+.add-member-row .member-select {
     flex: 1;
     min-width: 0;
     margin-top: 0;
@@ -226,21 +206,21 @@ h2 {
     white-space: nowrap;
 }
 
-.member-input {
+.member-select {
     width: 100%;
     padding: 10px 14px;
     border: 1px solid #394867;
     border-radius: 8px;
     background-color: #F1F6F9;
     color: #14274E;
+    font-family: inherit;
     font-size: 14px;
-    margin-top: 12px;
 }
 
-.member-input:focus {
+.member-select:focus {
     outline: none;
-    border-color: #14274E;
-    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
+    border-color: #F1F6F9;
+    box-shadow: 0 0 0 3px rgba(241, 246, 249, 0.25);
 }
 
 .add-member-btn {
@@ -275,6 +255,13 @@ h2 {
     display: flex;
     align-items: center;
     gap: 6px;
+}
+
+.member-tag.owner-tag {
+    background-color: transparent;
+    border: 1px solid #394867;
+    color: #F1F6F9;
+    font-weight: 600;
 }
 
 .remove-member-btn {
@@ -339,10 +326,6 @@ h2 {
 }
 
 @media (max-width: 500px) {
-    .topbar {
-        padding: 14px 18px;
-    }
-
     .main {
         padding: 20px 14px 40px;
     }

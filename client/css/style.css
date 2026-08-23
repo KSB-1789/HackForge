@@ -56,8 +56,37 @@ body {
     color: var(--navy);
 }
 
-/* Shared status/priority chips — used by dashboard task cards and Kanban */
+/* Shared topbar — single source of truth for all app pages */
 
+.topbar {
+    background-color: var(--navy);
+    color: var(--bg);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.brand {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.page-title {
+    color: #9BA4B4;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+@media (max-width: 500px) {
+    .topbar {
+        padding: 14px 18px;
+    }
+}
+
+/* Shared status/priority chips — used by dashboard task cards and Kanban */
 .chip {
     display: inline-block;
     padding: 3px 10px;

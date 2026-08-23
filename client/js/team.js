@@ -132,8 +132,21 @@ teamForm.addEventListener("submit", function(event) {
     else{
         teamError.textContent="";
     }
-   const name = teamName.value;
+    const duplicateTeam = teams.some(function(team) {
+    return team.name.trim().toLowerCase() === teamName.value.trim().toLowerCase();
+});
+
+if (duplicateTeam) {
+    teamError.textContent = "A team with this name already exists";
+    return;
+}
+   const name = teamName.value.trim();
    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+   if (!currentUser) {
+    teamError.textContent = "Please login first";
+    return;
+}
+
    const team = createTeam(name, currentUser.id);
    teams.push(team);
     saveTeams();

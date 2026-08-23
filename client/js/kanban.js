@@ -4,17 +4,57 @@ if (storedProjectId) {
     currentProjectId = JSON.parse(storedProjectId);
 }
 
-function renderKanban() {
-    const todoContainer = document.getElementById("todoTasks");
-    const inProgressContainer = document.getElementById("inProgressTasks");
-    const doneContainer = document.getElementById("doneTasks");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const userInfoEl = document.querySelector(".user-info");
+if (currentUser) {
+    userInfoEl.textContent = currentUser.name;
+}
 
-    todoContainer.innerHTML = "";
-    inProgressContainer.innerHTML = "";
-    doneContainer.innerHTML = "";
+loadProjects();
+
+const projectNameEl = document.getElementById("projectName");
+if (projectNameEl) {
+    if (currentProjectId === null) {
+        projectNameEl.textContent = "No project selected";
+    } else {
+        const project = projects.find(p => p.id === currentProjectId);
+        if (project) {
+            projectNameEl.textContent = project.name;
+        } else {
+            projectNameEl.textContent = "Project not found";
+        }
+    }
+}
+
+
+function getAssigneeName(assigneeId) {
+    if (assigneeId === null || assigneeId === undefined) {
+        return "Unassigned";
+    }
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const assignee = users.find(user => user.id === assigneeId);
+    return assignee ? assignee.name : "Unknown user";
+}
+
+const statusLabels = {
+    "todo": "IN PROGRESS",
+    "in-progress": "DONE",
+    "done": "TODO"
+};
+
+function renderKanban() {
+    const columns = {
+        "todo": document.getElementById("todoTasks"),
+        "in-progress": document.getElementById("inProgressTasks"),
+        "done": document.getElementById("doneTasks")
+    };
+
+    Object.values(columns).forEach(column => {
+        column.innerHTML = "";
+    });
 
     if (currentProjectId === null) {
-        todoContainer.innerHTML = '<p style="color:#9BA4B4;text-align:center;padding:20px;">No project selected. Open a project from the Dashboard first.</p>';
+        columns.todo.innerHTML = '<p class="empty-column">No project selected. Open a project from the Dashboard first.</p>';
         return;
     }
 
@@ -27,18 +67,19 @@ function renderKanban() {
         taskCard.innerHTML = `
             <h4>${task.title}</h4>
             <p>${task.description}</p>
+            <p>Assignee: ${getAssigneeName(task.assigneeId)}</p>
             <p>Priority: ${task.priority}</p>
             <button onclick="changeTaskStatus(${task.id})">
-                Move to next status
+                Move to ${statusLabels[task.status]}
             </button>
         `;
 
-        if (task.status === "todo") {
-            todoContainer.appendChild(taskCard);
-        } else if (task.status === "in-progress") {
-            inProgressContainer.appendChild(taskCard);
-        } else if (task.status === "done") {
-            doneContainer.appendChild(taskCard);
+        columns[task.status].appendChild(taskCard);
+    });
+
+    Object.values(columns).forEach(column => {
+        if (column.children.length === 0) {
+            column.innerHTML = '<p class="empty-column">No tasks</p>';
         }
     });
 }
@@ -58,8 +99,18 @@ function changeTaskStatus(taskId) {
         task.status = "todo";
     }
 
+    saveTasks();
     renderKanban();
     renderProgress();
 }
 
 renderKanban();
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+    window.location.href = "dashboard.html";
+});

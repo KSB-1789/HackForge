@@ -21,7 +21,7 @@ body {
     padding: 16px 32px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 32px;
 }
 
 .brand {
@@ -30,31 +30,31 @@ body {
     letter-spacing: -0.5px;
 }
 
-.page-title {
-    color: #9BA4B4;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-}
-
-.topbar-link {
-    color: #F1F6F9;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border: 1px solid #394867;
-    border-radius: 6px;
-}
-
-.topbar-link:hover {
-    background-color: #394867;
-}
-
 .main {
     max-width: 1160px;
     margin: 0 auto;
     padding: 36px 24px 60px;
+}
+
+.back-nav {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 16px 24px 0;
+}
+
+#backBtn {
+    padding: 8px 16px;
+    background-color: #14274E;
+    color: #F1F6F9;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#backBtn:hover {
+    background-color: #394867;
 }
 
 h2 {
@@ -138,11 +138,34 @@ section h2 {
     background-color: #394867;
 }
 
+.empty-column {
+    color: #9BA4B4;
+    text-align: center;
+    font-size: 13px;
+    padding: 20px 0;
+}
+
 #progressSummary {
     display: flex;
     gap: 32px;
     font-size: 15px;
     color: #394867;
+}
+
+.progress-bar {
+    margin-top: 16px;
+    height: 14px;
+    background-color: #F1F6F9;
+    border: 1px solid #9BA4B4;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+#progressBarFill {
+    height: 100%;
+    width: 0%;
+    background-color: #14274E;
+    transition: width 0.2s ease-in-out;
 }
 
 #chatMessages {
@@ -193,6 +216,19 @@ section h2 {
 
 .chat-message strong {
     color: #14274E;
+}
+
+.chat-time {
+    float: right;
+    font-size: 12px;
+    color: #9BA4B4;
+}
+
+.empty-state {
+    color: #9BA4B4;
+    text-align: center;
+    padding: 16px 0;
+    font-size: 14px;
 }
 
 .chat-message p {

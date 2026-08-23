@@ -70,6 +70,32 @@ function getMemberNames(members){
     })
     .join(", ");
 }
+function deleteTeam(teamId) {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const team = teams.find(team => team.id === teamId);
+    if (!team) {
+        return;
+    }
+    if (!currentUser || team.ownerId !== currentUser.id) {
+        memberError.textContent = "Only the team owner can delete this team";
+        return;
+    }
+    const index = teams.indexOf(team);
+    if (index !== -1) {
+        teams.splice(index, 1);
+    }
+    memberError.textContent = "";
+    saveTeams();
+    renderTeams();
+}
+function getTeamInitials(name) {
+    const words = name.trim().split(/\s+/);
+    let initials = words[0].charAt(0);
+    if (words.length > 1) {
+        initials += words[words.length - 1].charAt(0);
+    }
+    return initials.toUpperCase();
+}
 function removeMember(teamId,userId){
     const team=teams.find(team=>team.id===teamId);
     if(!team){
@@ -85,37 +111,58 @@ function removeMember(teamId,userId){
 
 }
 function renderTeams() {
-    if (teams.length === 0) {
-    teamsContainer.innerHTML = "<p>No teams yet. Create your first team.</p>";
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const visibleTeams = teams.filter(function(team) {
+        return currentUser !== null &&
+            (team.ownerId === currentUser.id || team.members.includes(currentUser.id));
+    });
+    if (visibleTeams.length === 0) {
+    teamsContainer.innerHTML = "<p class='empty-state'>No teams yet. Create your first team.</p>";
     return;
 }
-    const html = teams.map(team => `
+    const html = visibleTeams.map(team => `
     <div class="team-card">
-        <h2>${team.name}</h2>
-        <p>Team ID: ${team.id}</p>
-        <p>Owner ID: ${team.ownerId}</p>
-        <div class="members-list"> ${team.members.map(function(memberId) {
+        <div class="team-card-header">
+            <span class="team-avatar">${getTeamInitials(team.name)}</span>
+            <div class="team-card-title">
+                <h2>${team.name}</h2>
+                <span class="member-count-badge">${team.members.length} ${team.members.length === 1 ? "member" : "members"}</span>
+            </div>
+        </div>
+        <div class="members-list"> ${team.members.length === 0 ? '<span class="no-members">No members yet</span>' : team.members.map(function(memberId) {
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const member = users.find(u => u.id === memberId);
     const name = member ? member.name : "Unknown User";
             return '<span class="member-tag">' + name +
        ' <button class="remove-member-btn" data-team-id="' + team.id +
        '" data-user-id="' + memberId + '">&times;</button></span>';
-   
+
 }).join("")}</div>
 
-        <input 
-            class="member-input" 
-            data-team-id="${team.id}" 
-            placeholder="Enter member ID"
-        >
+        <div class="add-member-row">
+            <input
+                class="member-input"
+                data-team-id="${team.id}"
+                placeholder="Enter member ID"
+            >
 
-        <button 
-            class="add-member-btn" 
-            data-team-id="${team.id}"
-        >
-            Add Member
-        </button>
+            <button
+                class="add-member-btn"
+                data-team-id="${team.id}"
+            >
+                Add Member
+            </button>
+        </div>
+
+        <div class="team-meta-footer">
+            <small>Team ID: ${team.id}</small>
+            <small>Owner: ${getMemberNames([team.ownerId])}</small>
+        </div>
+
+        ${team.ownerId === currentUser.id ? `
+        <button type="button" class="delete-team-btn" data-team-id="${team.id}">
+            Delete Team
+        </button>` : ""}
     </div>
 `).join("");
 teamsContainer.innerHTML = html;
@@ -175,7 +222,19 @@ teamsContainer.addEventListener("click", function(event) {
         removeMember(teamId,userId);
 
     }
+    const deleteTeamBtn=event.target.closest(".delete-team-btn");
+    if(deleteTeamBtn){
+        const teamId=Number(deleteTeamBtn.dataset.teamId);
+        deleteTeam(teamId);
+    }
 });
+
+const newTeamBtn = document.getElementById("newTeamBtn");
+if (newTeamBtn) {
+    newTeamBtn.addEventListener("click", function() {
+        document.querySelector(".team-create-section").classList.toggle("form-open");
+    });
+}
 
 document.getElementById("logoutBtn").addEventListener("click", function() {
     localStorage.removeItem("currentUser");

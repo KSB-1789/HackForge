@@ -1,29 +1,55 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ============================================================
+   Dashboard — projects, tasks, details
+   ============================================================ */
 
-.hidden {
-    display: none;
-}
+.hidden { display: none !important; }
 
-body {
-    min-height: 100vh;
-    background-color: var(--bg);
-    color: var(--navy);
-    font-family: 'Poppins', Arial, sans-serif;
-}
-
-/* Main content */
+/* Page layout */
 
 .main {
     max-width: 1160px;
     margin: 0 auto;
-    padding: 36px 24px 60px;
+    padding: 40px 24px 72px;
 }
 
-/* Layout */
+/* Page header */
+
+.page-header {
+    margin-bottom: 32px;
+    animation: slideUp var(--duration-base) var(--spring) both;
+}
+
+.page-header .eyebrow { margin-bottom: 8px; }
+
+.page-header h1 {
+    position: relative;
+    padding-bottom: 18px;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+}
+
+/* Quiet brand accent under the page title */
+.page-header h1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 56px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background-color: var(--navy);
+    background-image: var(--grad-navy);
+}
+
+.page-header .subtitle {
+    margin-top: 8px;
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+/* Grid layout — form column appears only when toggled open */
 
 .dash-grid {
     display: grid;
@@ -32,445 +58,116 @@ body {
     align-items: start;
 }
 
-/* form column only exists visually when toggled open (JS adds .form-open) */
+.dash-grid > div:first-child { display: none; }
 
-.dash-grid > div:first-child {
-    display: none;
-}
-
-.dash-grid.form-open {
-    grid-template-columns: 400px 1fr;
-}
+.dash-grid.form-open { grid-template-columns: 400px 1fr; }
 
 .dash-grid.form-open > div:first-child {
     display: block;
+    animation: slideUp var(--duration-base) var(--spring) both;
 }
 
-.section-heading {
-    margin-bottom: 20px;
-    font-size: 18px;
+/* Section headings */
+
+.section-heading,
+.projects-label {
+    margin-bottom: 18px;
+    font-size: 0.8125rem;
+    font-weight: 700;
     color: var(--ink);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
-/* Create project form */
+/* ---------- Forms ---------- */
 
-#dashForm {
-    background-color: #ffffff;
-    border: 1px solid var(--mist);
-    border-radius: 12px;
+#dashForm,
+#taskForm {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
     padding: 26px;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    box-shadow: 0 4px 16px rgba(20, 39, 78, 0.06);
+    box-shadow: var(--shadow-sm);
+    animation: slideUp var(--duration-base) var(--spring) 0.05s both;
 }
 
-#dashForm label {
+#dashForm label,
+#taskForm label {
     color: var(--navy);
-    font-size: 14px;
+    font-size: var(--ui-size);
     font-weight: 600;
     margin-top: 10px;
 }
 
-#dashForm input,
-#dashForm select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--mist);
-    border-radius: var(--radius);
-    background-color: #ffffff;
-    color: var(--navy);
-    font-size: 15px;
-}
+#dashForm label:first-child,
+#taskForm label:first-of-type { margin-top: 4px; }
 
-#dashForm input:focus,
-#dashForm select:focus {
-    outline: none;
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
-}
-
-/* disabled creator field is auto-filled from the logged-in user */
-
-#dashForm input:disabled {
-    background-color: #EEF2F6;
-    color: var(--mist);
-    cursor: not-allowed;
-}
-
-#dashForm button {
-    margin-top: 18px;
-    padding: 13px;
-    background-color: var(--navy);
+#dashForm button[type="submit"],
+#taskForm button[type="submit"] {
+    margin-top: 20px;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--navy) 0%, #1C3563 100%);
     color: var(--bg);
     border: none;
     border-radius: var(--radius);
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 0.9375rem;
+    font-weight: 700;
     cursor: pointer;
+    box-shadow: 0 4px 14px rgba(20, 39, 78, 0.22);
+    transition:
+        filter var(--duration-fast) var(--spring),
+        transform 50ms linear,
+        box-shadow var(--duration-fast) var(--spring);
 }
 
-#dashForm button:hover {
-    background-color: var(--ink);
+#dashForm button[type="submit"]:hover,
+#taskForm button[type="submit"]:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(20, 39, 78, 0.28);
 }
+
+#dashForm button[type="submit"]:active,
+#taskForm button[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+/* Task form rows */
+
+#taskForm .form-row {
+    display: grid;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+#taskForm .form-row.triple { grid-template-columns: repeat(3, 1fr); }
+#taskForm .form-row.triple label { margin-top: 0; }
+
+/* Error states */
 
 #errorDiv,
 #tasksErrorDiv {
-    background-color: #FDEDEC;
-    border: 1px solid #F5B7B1;
+    background-color: var(--danger-bg);
+    border: 1px solid var(--danger);
     border-radius: var(--radius);
-    color: #C0392B;
-    font-size: 14px;
-    margin-top: 10px;
-    padding: 10px 14px;
+    color: var(--danger);
+    font-size: var(--ui-size);
+    line-height: var(--ui-line);
+    margin-top: 14px;
+    padding: 12px 16px;
+    animation: slideUp var(--duration-fast) var(--spring) both;
 }
 
 #errorDiv:empty,
-#tasksErrorDiv:empty {
-    display: none;
-}
+#tasksErrorDiv:empty { display: none; }
 
 #errorDiv p,
-#tasksErrorDiv p {
-    margin: 4px 0;
-}
+#tasksErrorDiv p { margin: 4px 0; }
 
-/* Projects */
-
-.projects-label {
-    margin-bottom: 20px;
-    font-size: 18px;
-    color: var(--ink);
-}
-
-#projectsContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-}
-
-.project-card {
-    background-color: var(--navy);
-    color: var(--bg);
-    border: 1px solid var(--mist);
-    border-radius: 12px;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    animation: cardIn 0.25s ease;
-}
-
-@keyframes cardIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.project-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 24px rgba(20, 39, 78, 0.18);
-}
-
-.project-card h2 {
-    margin-bottom: 8px;
-    font-size: 20px;
-}
-
-.project-card p {
-    color: var(--mist);
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.project-card p + p {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--ink);
-}
-
-.empty-state {
-    grid-column: 1 / -1;
-    padding: 60px 20px;
-    background-color: #ffffff;
-    border: 1px dashed var(--mist);
-    border-radius: 12px;
-    color: var(--mist);
-    font-size: 15px;
-    text-align: center;
-}
-
-/* Project details */
-
-#projectDetailsView {
-    max-width: 720px;
-}
-
-.detail-actions {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
-}
-
-#backBtn,
-#collabBtn {
-    background: none;
-    border: 1px solid var(--mist);
-    color: var(--navy);
-    padding: 10px 18px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-}
-
-#backBtn:hover,
-#collabBtn:hover {
-    background-color: var(--navy);
-    border-color: var(--navy);
-    color: var(--bg);
-}
-
-.details-card {
-    background-color: #ffffff;
-    border: 1px solid var(--mist);
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: 0 4px 16px rgba(20, 39, 78, 0.06);
-}
-
-.details-card h2 {
-    font-size: 30px;
-    margin-bottom: 10px;
-    letter-spacing: -0.5px;
-}
-
-#detailDescription {
-    color: var(--ink);
-    font-size: 16px;
-    line-height: 1.7;
-    margin-bottom: 24px;
-}
-
-/* team + creator render as meta pills; spacing comes from the pill rule */
-
-#detailTeam,
-#detailCreatedBy {
-    display: inline-block;
-    background-color: var(--bg);
-    border: 1px solid var(--mist);
-    border-radius: 999px;
-    padding: 6px 14px;
-    margin-top: 8px;
-    color: var(--ink);
-    font-size: 15px;
-}
-
-/* Tasks */
-
-#projectDetailsView > h3 {
-    margin: 32px 0 16px;
-    font-size: 18px;
-    color: var(--ink);
-}
-
-#taskForm {
-    background-color: #ffffff;
-    border: 1px solid var(--mist);
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-#taskForm input,
-#taskForm select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--mist);
-    border-radius: var(--radius);
-    background-color: #ffffff;
-    color: var(--navy);
-    font-size: 15px;
-}
-
-#taskForm input:focus,
-#taskForm select:focus {
-    outline: none;
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
-}
-
-#taskForm button {
-    margin-top: 8px;
-    padding: 13px;
-    background-color: var(--navy);
-    color: var(--bg);
-    border: none;
-    border-radius: var(--radius);
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-#taskForm button:hover {
-    background-color: var(--ink);
-}
-
-#tasksContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.task-card {
-    background-color: #ffffff;
-    border: 1px solid var(--mist);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 16px rgba(20, 39, 78, 0.06);
-}
-
-.task-card h2 {
-    margin-bottom: 6px;
-    font-size: 17px;
-    color: var(--navy);
-}
-
-.task-card p {
-    color: var(--ink);
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.task-card p + p {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid var(--mist);
-}
-
-/* status/priority chips live in an unclassed wrapper div right after the meta text */
-
-.task-card p + div {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--mist);
-}
-
-.task-card .delete-btn,
-.task-card .edit-btn {
-    margin-top: 12px;
-    margin-right: 8px;
-    padding: 6px 14px;
-    background-color: #ffffff;
-    color: var(--navy);
-    border: 1px solid var(--mist);
-    border-radius: var(--radius);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.task-card .edit-btn {
-    border-color: var(--navy);
-}
-
-.task-card .edit-btn:hover {
-    background-color: var(--navy);
-    color: var(--bg);
-}
-
-.task-card .delete-btn {
-    color: #C0392B;
-    border-color: #C0392B;
-}
-
-.task-card .delete-btn:hover {
-    background-color: #C0392B;
-    color: var(--bg);
-}
-
-/* Project card buttons */
-
-.card-btns {
-    display: flex;
-    gap: 8px;
-    margin-top: auto;
-    padding-top: 16px;
-}
-
-.card-btns button {
-    flex: 1;
-    padding: 8px 0;
-    background-color: var(--ink);
-    color: var(--bg);
-    border: 1px solid var(--mist);
-    border-radius: var(--radius);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-/* open and edit share one hover; delete is the only destructive action */
-
-.card-btns .open-btn:hover,
-.card-btns .edit-proj-btn:hover {
-    background-color: var(--bg);
-    border-color: var(--bg);
-    color: var(--navy);
-}
-
-.card-btns .delete-proj-btn {
-    color: #C0392B;
-    border-color: #C0392B;
-}
-
-.card-btns .delete-proj-btn:hover {
-    background-color: #C0392B;
-    border-color: #C0392B;
-    color: var(--bg);
-}
-
-/* Page header */
-
-.page-header {
-    margin-bottom: 28px;
-}
-
-.page-header .eyebrow {
-    color: var(--mist);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-}
-
-.page-header h1 {
-    margin-top: 6px;
-    font-size: 34px;
-    letter-spacing: -1px;
-    color: var(--navy);
-}
-
-.page-header .subtitle {
-    margin-top: 4px;
-    color: var(--ink);
-    font-size: 15px;
-}
-
-/* Projects toolbar (label + new-project toggle) */
+/* ---------- Projects toolbar ---------- */
 
 .projects-toolbar {
     display: flex;
@@ -478,39 +175,496 @@ body {
     justify-content: space-between;
     gap: 16px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
-.projects-toolbar .projects-label {
-    margin-bottom: 0;
-}
+.projects-toolbar .projects-label { margin-bottom: 0; }
 
 #newProjectBtn {
-    padding: 10px 18px;
+    padding: 10px 20px;
     background-color: var(--navy);
     color: var(--bg);
     border: none;
-    border-radius: var(--radius);
-    font-size: 13px;
+    border-radius: var(--radius-full);
+    font-size: var(--ui-size);
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.15s ease;
+    box-shadow: 0 2px 8px rgba(20, 39, 78, 0.18);
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        transform 50ms linear,
+        box-shadow var(--duration-fast) var(--spring);
 }
 
 #newProjectBtn:hover {
     background-color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(20, 39, 78, 0.24);
 }
 
-/* Responsive */
+#newProjectBtn:active { transform: scale(0.97); }
+
+/* ---------- Project cards ---------- */
+
+#projectsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 22px;
+}
+
+.project-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: 210px;
+    box-shadow: var(--shadow-sm);
+    transition:
+        transform var(--duration-base) var(--spring),
+        box-shadow var(--duration-base) var(--spring),
+        border-color var(--duration-base) var(--spring);
+    animation: slideUp var(--duration-base) var(--spring) both;
+}
+
+/* Brand echo — same gradient family as team cards */
+.project-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--navy);
+    background-image: var(--grad-navy);
+}
+
+.project-card:nth-child(1) { animation-delay: 0.03s; }
+.project-card:nth-child(2) { animation-delay: 0.06s; }
+.project-card:nth-child(3) { animation-delay: 0.09s; }
+.project-card:nth-child(4) { animation-delay: 0.12s; }
+.project-card:nth-child(5) { animation-delay: 0.15s; }
+.project-card:nth-child(6) { animation-delay: 0.18s; }
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--mist);
+}
+
+.project-card h2 {
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+    letter-spacing: -0.015em;
+}
+
+.project-card .project-desc {
+    color: var(--ink);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 16px;
+}
+
+.project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.project-meta .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    background: rgba(20, 39, 78, 0.045);
+    border: 1px solid var(--line);
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+}
+
+.project-meta .meta-label {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.6875rem;
+    color: var(--mist);
+}
+
+.project-meta .meta-value {
+    font-weight: 600;
+    color: var(--navy);
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Card buttons — Open = filled, Edit = outlined navy, Delete = outlined red */
+
+.card-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.card-btns button {
+    flex: 1;
+    padding: 9px 0;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        border-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+.card-btns .open-btn {
+    background-color: var(--navy);
+    color: var(--bg);
+    border: 1px solid var(--navy);
+}
+
+.card-btns .open-btn:hover { background-color: var(--ink); border-color: var(--ink); }
+
+.card-btns .edit-proj-btn {
+    background-color: transparent;
+    color: var(--navy);
+    border: 1px solid var(--line-strong);
+}
+
+.card-btns .edit-proj-btn:hover {
+    background-color: var(--navy);
+    border-color: var(--navy);
+    color: var(--bg);
+}
+
+.card-btns .delete-proj-btn {
+    background-color: transparent;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+}
+
+.card-btns .delete-proj-btn:hover {
+    background-color: var(--danger);
+    border-color: var(--danger);
+    color: #ffffff;
+}
+
+.card-btns button:active { transform: scale(0.97); }
+
+/* ---------- Details view ---------- */
+
+#projectDetailsView {
+    max-width: 780px;
+    animation: slideUp var(--duration-base) var(--spring) both;
+}
+
+.detail-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+#backBtn,
+#collabBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    color: var(--navy);
+    border-radius: var(--radius-full);
+    font-size: var(--ui-size);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        border-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+#backBtn:hover,
+#collabBtn:hover {
+    background-color: var(--navy);
+    border-color: var(--navy);
+    color: var(--bg);
+    transform: translateY(-1px);
+}
+
+#backBtn:active,
+#collabBtn:active { transform: scale(0.97); }
+
+.details-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 34px;
+    box-shadow: var(--shadow-md);
+}
+
+.details-card h2 {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    margin-bottom: 12px;
+}
+
+#detailDescription {
+    color: var(--ink);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.detail-meta .meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(20, 39, 78, 0.045);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-full);
+    padding: 8px 16px;
+}
+
+.detail-meta .meta-label {
+    font-weight: 600;
+    color: var(--mist);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.6875rem;
+}
+
+.detail-meta .meta-value {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: var(--ui-size);
+}
+
+#projectDetailsView > h3 {
+    margin: 36px 0 16px;
+    font-size: 1.375rem;
+    letter-spacing: -0.015em;
+}
+
+/* ---------- Tasks ---------- */
+
+#tasksContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.task-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    box-shadow: var(--shadow-sm);
+    transition:
+        transform var(--duration-base) var(--spring),
+        box-shadow var(--duration-base) var(--spring),
+        border-color var(--duration-base) var(--spring);
+    animation: slideUp var(--duration-base) var(--spring) both;
+}
+
+.task-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--navy);
+    background-image: var(--grad-navy);
+}
+
+.task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--mist);
+}
+
+.task-card .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.task-card h2 {
+    margin-bottom: 8px;
+    font-size: 1.125rem;
+    letter-spacing: -0.01em;
+}
+
+.task-card .task-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--ink);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.task-card .task-desc:empty { display: none; }
+
+/* Card footer: assignee left (truncates), actions right */
+.task-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 0.8125rem;
+}
+
+.task-meta .assignee {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+    color: var(--ink);
+    font-weight: 500;
+}
+
+.task-meta .assignee-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-meta .assignee-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--ink));
+    color: var(--bg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.task-actions {
+    display: inline-flex;
+    gap: 8px;
+    flex: none;
+}
+
+.task-actions button {
+    padding: 7px 16px;
+    background-color: transparent;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        border-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+.task-actions .edit-btn {
+    border: 1px solid var(--line-strong);
+    color: var(--navy);
+}
+
+.task-actions .edit-btn:hover {
+    background-color: var(--navy);
+    border-color: var(--navy);
+    color: var(--bg);
+}
+
+.task-actions .delete-btn {
+    border: 1px solid var(--danger);
+    color: var(--danger);
+}
+
+.task-actions .delete-btn:hover {
+    background-color: var(--danger);
+    border-color: var(--danger);
+    color: #ffffff;
+}
+
+.task-actions button:active { transform: scale(0.97); }
+
+/* ---------- Empty state ---------- */
+
+.empty-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 64px 24px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius-xl);
+    color: var(--ink);
+    text-align: center;
+    font-size: 0.9375rem;
+    animation: slideUp var(--duration-base) var(--spring) both;
+}
+
+.empty-state.compact { padding: 28px 24px; }
+
+/* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
     .dash-grid,
-    .dash-grid.form-open {
-        grid-template-columns: 1fr;
-    }
+    .dash-grid.form-open { grid-template-columns: 1fr; }
+
+    .dash-grid > div:first-child { display: block; }
+
+    #projectsContainer { grid-template-columns: 1fr; }
+
+    #tasksContainer { grid-template-columns: 1fr; }
+
+    #taskForm .form-row.triple { grid-template-columns: 1fr; }
+    #taskForm .form-row.triple label { margin-top: 10px; }
+    #taskForm .form-row.triple div:first-child label { margin-top: 0; }
 }
 
-@media (max-width: 500px) {
-    .main {
-        padding: 24px 16px 48px;
-    }
+@media (max-width: 600px) {
+    .main { padding: 28px 16px 56px; }
+
+    .detail-actions { flex-direction: column; }
+
+    #backBtn,
+    #collabBtn { width: 100%; justify-content: center; }
 }

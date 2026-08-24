@@ -18,7 +18,14 @@ const taskPriorityEl = document.getElementById("taskPriority");
 if(currentUser) userInfoEl.textContent = currentUser.name;
 
 function getMyProjects(){
-    return currentUser? projects.filter(p=> p.createdBy===currentUser.email): [];
+    if (!currentUser) return [];
+    const myTeamIds = teams
+        .filter(t => t.ownerId === currentUser.id || t.members.includes(currentUser.id))
+        .map(t => t.id);
+    return projects.filter(p =>
+        p.createdBy === currentUser.email ||
+        (p.teamId !== null && myTeamIds.includes(p.teamId))
+    );
 }
 
 function renderProjects(){
@@ -32,16 +39,19 @@ function renderProjects(){
         const team = teams.find(t => t.id === project.teamId);
         const teamDisplay = project.teamId ? (team ? team.name:"Unknown") : "Personal";
         return`
-        <div class = "project-card">
+        <article class="project-card">
             <h2>${project.name}</h2>
-            <p>${project.description}</p>
-            <p>Team: ${teamDisplay} | Created by: ${project.createdBy}</p>
-            <div class="card-btns">
-                <button class = "open-btn" data-project-id=${project.id}>Open</button>
-                <button class = "edit-proj-btn" data-project-id=${project.id}>Edit</button>
-                <button class = "delete-proj-btn" data-project-id=${project.id}>Delete</button>
+            <p class="project-desc">${project.description}</p>
+            <div class="project-meta">
+                <span class="meta-item"><span class="meta-label">Team</span><span class="meta-value">${teamDisplay}</span></span>
+                <span class="meta-item"><span class="meta-label">Owner</span><span class="meta-value">${project.createdBy}</span></span>
             </div>
-        </div>
+            <div class="card-btns">
+                <button class="open-btn" data-project-id="${project.id}">Open</button>
+                <button class="edit-proj-btn" data-project-id="${project.id}">Edit</button>
+                <button class="delete-proj-btn" data-project-id="${project.id}">Delete</button>
+            </div>
+        </article>
         `}).join("");
         container.innerHTML = html;
 }
@@ -51,24 +61,31 @@ function renderTasks(){
     const currTasks = getTasksByProject(currentProjectId);
     const target = document.getElementById("tasksContainer");
     if(currTasks.length === 0){
-        target.innerHTML = ""
+        target.innerHTML = '<p class="empty-state compact">No tasks yet. Add your first task above.</p>';
         return;
     }
     target.innerHTML = currTasks.map(task=>{
         const assignee = task.assigneeId ? users.find(u => u.id === task.assigneeId) : null;
         const assigneeDisplay = assignee ? assignee.name : "Unassigned";
+        const initials = assignee
+            ? assignee.name.trim().split(/\s+/).map(word => word.charAt(0)).slice(0, 2).join("").toUpperCase()
+            : "?";
         return `
-            <div class = "task-card">
+            <article class="task-card">
+                <div class="chips">
+                    <span class="chip ${task.status}">${task.status}</span>
+                    <span class="chip ${task.priority}">${task.priority}</span>
+                </div>
                 <h2>${task.title}</h2>
-                <p>${task.description}</p>
-                <p>Assignee: ${assigneeDisplay}</p>
-                    <div>
-                        <span class="chip ${task.status}">${task.status}</span>
-                        <span class="chip ${task.priority}">${task.priority}</span>
-                    </div>
-                <button class = "delete-btn" data-task-id=${task.id}>Delete</button>
-                <button class = "edit-btn" data-task-id=${task.id}>Edit</button>
-            </div>`
+                <p class="task-desc">${task.description}</p>
+                <div class="task-meta">
+                    <span class="assignee"><span class="assignee-avatar">${initials}</span><span class="assignee-name">${assigneeDisplay}</span></span>
+                    <span class="task-actions">
+                        <button class="edit-btn" data-task-id="${task.id}">Edit</button>
+                        <button class="delete-btn" data-task-id="${task.id}">Delete</button>
+                    </span>
+                </div>
+            </article>`
         }).join("");
 }
 
@@ -171,10 +188,10 @@ function openProject(id){
 }
 
 const teams = JSON.parse(localStorage.getItem("teams")) || [];
-const myTeams = currentUser
-    ? teams.filter(t => t.ownerId === currentUser.id || t.members.includes(currentUser.id))
+const myTeamIds = currentUser
+    ? teams.filter(t => t.ownerId === currentUser.id || t.members.includes(currentUser.id)).map(t => t.id)
     : [];
-myTeams.forEach(team =>{
+teams.filter(t => myTeamIds.includes(t.id)).forEach(team =>{
     const option = document.createElement("option");
     option.value = team.id;
     option.textContent = team.name;
@@ -310,7 +327,7 @@ document.getElementById("tasksContainer").addEventListener("click",(event)=>{
 
 document.getElementById("logoutBtn").addEventListener("click",()=>{
     localStorage.removeItem("currentUser");
-    window.location.href = "login.html";
+    window.location.href = "../index.html";
 })
 
 newProjectBtn.addEventListener("click",()=>{

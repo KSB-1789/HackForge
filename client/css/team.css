@@ -1,41 +1,31 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ============================================================
+   Teams
+   ============================================================ */
 
-.hidden {
-    display: none;
-}
-
-body {
-    min-height: 100vh;
-    font-family: 'Poppins', Arial, sans-serif;
-    background-color: #F1F6F9;
-    color: #14274E;
-}
+.hidden { display: none !important; }
 
 .main {
     max-width: 1160px;
     margin: 0 auto;
-    padding: 36px 24px 60px;
+    padding: 40px 24px 72px;
 }
+
+/* ---------- Create section ---------- */
+
 .team-create-section,
 .teams-section {
-    background-color: #ffffff;
-    padding: 26px;
-    margin-bottom: 30px;
-    border: 1px solid #9BA4B4;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(20, 39, 78, 0.06);
+    background: var(--surface);
+    padding: 28px;
+    margin-bottom: 32px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
 }
 
-h1,
-h2 {
+h1, h2 {
     margin-top: 0;
+    color: var(--navy);
 }
-
-/* Create header + toggle */
 
 .create-header {
     display: flex;
@@ -44,114 +34,140 @@ h2 {
     gap: 16px;
 }
 
+.create-header h1 {
+    font-size: clamp(1.625rem, 3vw, 2rem);
+    letter-spacing: -0.02em;
+}
+
 #newTeamBtn {
-    padding: 11px 20px;
+    padding: 11px 22px;
     border: none;
-    border-radius: 8px;
-    background-color: #14274E;
-    color: #F1F6F9;
-    font-family: inherit;
-    font-size: 14px;
+    border-radius: var(--radius-full);
+    background-color: var(--navy);
+    color: var(--bg);
+    font-size: var(--ui-size);
     font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(20, 39, 78, 0.18);
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        transform 50ms linear,
+        box-shadow var(--duration-fast) var(--spring);
 }
 
 #newTeamBtn:hover {
-    background-color: #394867;
+    background-color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(20, 39, 78, 0.24);
 }
 
-/* Team form */
+#newTeamBtn:active { transform: scale(0.97); }
+
+/* Team form (toggled open by JS) */
 
 #teamForm {
     display: none;
     flex-direction: column;
-    gap: 6px;
-    max-width: 500px;
+    gap: 8px;
+    max-width: 480px;
+    padding-top: 20px;
 }
 
 .team-create-section.form-open #teamForm {
     display: flex;
+    animation: slideUp var(--duration-base) var(--spring) both;
 }
 
-#teamName {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #9BA4B4;
-    border-radius: 8px;
-    font-size: 15px;
-    background-color: #ffffff;
-    color: #14274E;
-}
-
-#teamName:focus {
-    outline: none;
-    border-color: #14274E;
-    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
-}
-
-#teamForm button {
-    margin-top: 12px;
+#teamForm button[type="submit"] {
+    margin-top: 14px;
     padding: 13px;
     border: none;
-    border-radius: 8px;
-    background-color: #14274E;
-    color: #F1F6F9;
-    font-size: 15px;
-    font-weight: 600;
+    border-radius: var(--radius);
+    background-color: var(--navy);
+    color: var(--bg);
+    font-size: 0.9375rem;
+    font-weight: 700;
     cursor: pointer;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        transform 50ms linear;
 }
 
-#teamForm button:hover {
-    background-color: #394867;
-}
+#teamForm button[type="submit"]:hover { background-color: var(--ink); }
+#teamForm button[type="submit"]:active { transform: scale(0.98); }
 
 #teamError,
 #memberError {
-    background-color: #FDEDEC;
-    border: 1px solid #F5B7B1;
-    border-radius: 8px;
-    color: #C0392B;
-    font-size: 14px;
-    margin-top: 10px;
+    background-color: var(--danger-bg);
+    border: 1px solid var(--danger);
+    border-radius: var(--radius);
+    color: var(--danger);
+    font-size: var(--ui-size);
+    margin-top: 12px;
     padding: 10px 14px;
+    animation: slideUp var(--duration-fast) var(--spring) both;
+}
+
+#memberError {
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 
 #teamError:empty,
-#memberError:empty {
-    display: none;
-}
+#memberError:empty { display: none; }
 
-/* Teams grid */
+/* ---------- Teams grid ---------- */
 
 #teamsContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 26px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
 }
 
+.teams-section .empty-state {
+    grid-column: 1 / -1;
+    padding: 56px 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius-lg);
+    color: var(--mist);
+    font-size: 0.9375rem;
+    text-align: center;
+}
+
+/* Team card — bold navy tile */
+
 .team-card {
-    background-color: #14274E;
-    color: #F1F6F9;
-    padding: 22px;
-    border: 1px solid #9BA4B4;
-    border-radius: 12px;
+    position: relative;
+    background-color: var(--navy);
+    background-image: var(--grad-navy);
+    color: var(--bg);
+    padding: 24px;
+    border: 1px solid rgba(241, 246, 249, 0.08);
+    border-radius: var(--radius-xl);
     display: flex;
     flex-direction: column;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow:
+        var(--shadow-sm),
+        inset 0 1px 0 rgba(241, 246, 249, 0.10);
+    transition:
+        transform var(--duration-base) var(--spring),
+        box-shadow var(--duration-base) var(--spring);
+    animation: slideUp var(--duration-base) var(--spring) both;
 }
 
 .team-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 24px rgba(20, 39, 78, 0.18);
+    transform: translateY(-4px);
+    box-shadow:
+        var(--shadow-md),
+        inset 0 1px 0 rgba(241, 246, 249, 0.10);
 }
-
-/* Team cards */
 
 .team-card-header {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 .team-avatar {
@@ -159,201 +175,190 @@ h2 {
     height: 48px;
     flex-shrink: 0;
     border-radius: 50%;
-    background-color: #394867;
-    color: #F1F6F9;
+    background: rgba(241, 246, 249, 0.1);
+    border: 1px solid rgba(241, 246, 249, 0.22);
+    color: var(--bg);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 700;
     letter-spacing: 1px;
 }
 
 .team-card-title h2 {
     margin-bottom: 4px;
-    font-size: 20px;
+    font-size: 1.1875rem;
+    letter-spacing: -0.01em;
+    color: var(--bg);
 }
 
 .member-count-badge {
     display: inline-block;
-    background-color: #394867;
-    color: #F1F6F9;
+    background: rgba(241, 246, 249, 0.12);
+    color: rgba(241, 246, 249, 0.85);
     padding: 3px 12px;
-    border-radius: 999px;
-    font-size: 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
     font-weight: 500;
 }
 
-.empty-state {
-    grid-column: 1 / -1;
-    padding: 60px 20px;
-    background-color: #ffffff;
-    border: 1px dashed #9BA4B4;
-    border-radius: 12px;
-    color: #9BA4B4;
-    font-size: 15px;
-    text-align: center;
-}
+/* Members */
 
-/* Member management */
-
-.add-member-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-    margin-bottom: 16px;
-}
-
-.add-member-row .member-select {
-    flex: 1;
-    min-width: 0;
-    margin-top: 0;
-}
-
-.add-member-row .add-member-btn {
-    margin-top: 0;
-    white-space: nowrap;
-}
-
-.member-select {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid #394867;
-    border-radius: 8px;
-    background-color: #F1F6F9;
-    color: #14274E;
-    font-family: inherit;
-    font-size: 14px;
-}
-
-.member-select:focus {
-    outline: none;
-    border-color: #F1F6F9;
-    box-shadow: 0 0 0 3px rgba(241, 246, 249, 0.25);
-}
-
-.add-member-btn {
-    margin-top: 10px;
-    padding: 10px 18px;
-    background-color: #394867;
-    color: #F1F6F9;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.add-member-btn:hover {
-    background-color: #F1F6F9;
-    color: #14274E;
-}
 .members-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 8px 0 16px;
+    margin: 4px 0 16px;
 }
 
 .member-tag {
-    background-color: #F1F6F9;
-    color: #14274E;
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 13px;
+    background-color: var(--bg);
+    color: var(--navy);
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 6px;
 }
 
 .member-tag.owner-tag {
-    background-color: transparent;
-    border: 1px solid #394867;
-    color: #F1F6F9;
+    background: transparent;
+    border: 1px solid rgba(241, 246, 249, 0.35);
+    color: var(--bg);
     font-weight: 600;
 }
 
 .remove-member-btn {
     background: none;
     border: none;
-    color: #C0392B;
+    color: var(--danger);
     cursor: pointer;
     font-size: 14px;
+    line-height: 1;
     padding: 0;
 }
 
-.remove-member-btn:hover {
-    color: #922B21;
-}
+.remove-member-btn:hover { filter: brightness(1.3); }
 
 .no-members {
-    color: #9BA4B4;
-    font-size: 14px;
+    color: rgba(241, 246, 249, 0.55);
+    font-size: 0.875rem;
 }
 
-/* Card meta footer: pinned to the card bottom so rows stay aligned
-   even when owner cards carry the extra add-member and delete blocks */
+/* Add member row */
+
+.add-member-row {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+    margin-bottom: 16px;
+}
+
+.add-member-row .member-select { flex: 1; min-width: 0; }
+
+.member-select {
+    width: 100%;
+    padding: 11px 40px 11px 14px;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    color: var(--navy);
+    font-size: var(--ui-size);
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--spring), box-shadow var(--duration-fast) var(--spring);
+}
+
+.member-select:focus {
+    outline: none;
+    border-color: var(--bg);
+    box-shadow: 0 0 0 3px rgba(241, 246, 249, 0.25);
+}
+
+.add-member-btn {
+    padding: 11px 18px;
+    background-color: var(--bg);
+    color: var(--navy);
+    border: none;
+    border-radius: var(--radius);
+    font-size: var(--ui-size);
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+.add-member-btn:hover {
+    background-color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.add-member-btn:active { transform: scale(0.97); }
+
+/* Card meta footer */
 
 .team-meta-footer {
     display: flex;
-    gap: 16px;
-    margin-top: auto;
-    padding-top: 10px;
-    border-top: 1px solid #394867;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(241, 246, 249, 0.14);
 }
 
 .team-meta-footer small {
-    color: #9BA4B4;
-    font-size: 11px;
+    color: rgba(241, 246, 249, 0.55);
+    font-size: 0.6875rem;
     letter-spacing: 0.3px;
 }
 
 /* Delete team */
 
 .delete-team-btn {
-    margin-top: 12px;
-    padding: 8px 16px;
+    margin-top: 16px;
+    padding: 9px 16px;
     background-color: transparent;
-    border: 1px solid #C0392B;
-    border-radius: 8px;
-    color: #C0392B;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
+    border: 1px solid #E74C3C;
+    border-radius: var(--radius);
+    color: #E74C3C;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     cursor: pointer;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        transform 50ms linear;
 }
 
 .delete-team-btn:hover {
-    background-color: #C0392B;
-    color: #F1F6F9;
+    background-color: #E74C3C;
+    color: #ffffff;
 }
 
-/* Non-owner cards have no add-member row; fill their dead space with a
-   note. :has() detects owner cards, ::after injects the text, and the
-   meta footer gets order:1 so it stays below the note instead of above */
+.delete-team-btn:active { transform: scale(0.97); }
+
+/* Non-owner hint (rendered via CSS when no add-member row exists) */
 
 .team-card:not(:has(.add-member-row))::after {
     content: "Only the owner can add members";
     margin-top: auto;
-    padding-bottom: 12px;
-    color: #9BA4B4;
-    font-size: 12px;
+    padding-top: 14px;
+    color: rgba(241, 246, 249, 0.45);
+    font-size: 0.75rem;
 }
 
 .team-card:not(:has(.add-member-row)) .team-meta-footer {
     order: 1;
     margin-top: 0;
 }
+
 /* Responsive */
 
 @media (max-width: 900px) {
-    .main {
-        padding: 24px 16px 48px;
-    }
-}
-
-@media (max-width: 500px) {
-    .main {
-        padding: 20px 14px 40px;
-    }
+    .main { padding: 28px 16px 56px; }
 }

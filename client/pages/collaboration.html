@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackForge - Collaboration</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../css/collaboration.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -12,6 +11,7 @@
     <header class="topbar">
         <span class="brand">HackForge</span>
         <nav class="nav-links">
+            <a href="../index.html">Home</a>
             <a href="dashboard.html">Dashboard</a>
             <a href="team.html">Teams</a>
         </nav>
@@ -61,7 +61,10 @@
     <div class="chat-files-row">
 
     <section id="chat">
-        <h2>Team Chat</h2>
+        <div class="chat-head-row">
+            <h2>Team Chat</h2>
+            <button id="clearChatBtn" type="button">Clear Chat</button>
+        </div>
 
         <div id="chatMessages"></div>
 
@@ -83,6 +86,7 @@
             <input id="fileInput" type="file" required>
             <button type="submit">Add File</button>
         </form>
+        <div id="fileError"></div>
 
         <div id="fileList"></div>
     </section>

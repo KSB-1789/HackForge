@@ -1,131 +1,473 @@
+/* ============================================================
+   HackForge — global design system
+   Palette: #F1F6F9 bg · #14274E primary · #394867 secondary · #9BA4B4 muted
+   ============================================================ */
+
 :root {
+    /* Color palette */
     --navy: #14274E;
     --ink: #394867;
     --mist: #9BA4B4;
     --bg: #F1F6F9;
-    --radius: 8px;
+    --surface: #ffffff;
+
+    /* One gradient family for every bold surface (team cards, bento, auth, CTA) */
+    --grad-navy: linear-gradient(160deg, #14274E 0%, #1B3260 100%);
+
+    /* Hairlines */
+    --line: #DCE3EC;
+    --line-strong: #B9C2D0;
+
+    /* Semantic colors */
+    --success: #1E8449;
+    --success-bg: #D5F5E3;
+    --warning: #9A7B0A;
+    --warning-bg: #FCF3D9;
+    --danger: #C0392B;
+    --danger-bg: #FADBD8;
+    --info: #21618C;
+    --info-bg: #D6EAF8;
+
+    /* Floating-layer glass (topbar / over-dark surfaces only) */
+    --glass: rgba(255, 255, 255, 0.08);
+    --glass-strong: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.35);
+    --blur: 18px;
+
+    /* Elevation */
+    --shadow-sm: 0 1px 2px rgba(20, 39, 78, 0.06), 0 6px 18px rgba(20, 39, 78, 0.08);
+    --shadow-md: 0 2px 6px rgba(20, 39, 78, 0.06), 0 16px 36px rgba(20, 39, 78, 0.11);
+    --shadow-lg: 0 8px 24px rgba(20, 39, 78, 0.10), 0 28px 64px rgba(20, 39, 78, 0.16);
+
+    /* Spacing & radius */
+    --radius: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --radius-full: 999px;
+
+    /* Motion — critically damped feel (easeOutQuint) */
+    --spring: cubic-bezier(0.22, 1, 0.36, 1);
+    --spring-swift: cubic-bezier(0.22, 1, 0.36, 1);
+    --duration-fast: 150ms;
+    --duration-base: 250ms;
+    --duration-slow: 400ms;
+
+    /* Typography */
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+    /* Optical sizing tokens */
+    --display-size: clamp(2.75rem, 6.5vw, 5rem);
+    --display-line: 1.04;
+    --display-track: -0.03em;
+    --h1-size: clamp(2rem, 4vw, 3rem);
+    --h1-line: 1.08;
+    --h1-track: -0.02em;
+    --h2-size: clamp(1.5rem, 3vw, 2rem);
+    --h2-line: 1.18;
+    --h2-track: -0.015em;
+    --body-size: 1rem;
+    --body-line: 1.55;
+    --ui-size: 0.875rem;
+    --ui-line: 1.4;
+    --chip-size: 0.6875rem;
+}
+
+/* ---------- Base ---------- */
+
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    font-size: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 body {
-    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    font-family: var(--font-sans);
+    font-size: var(--body-size);
+    line-height: var(--body-line);
+    background-color: var(--bg);
+    color: var(--navy);
 }
-
-/* Form controls never inherit the page font by default - force Poppins */
 
 button,
 input,
 select,
 textarea {
     font-family: inherit;
+    font-size: inherit;
 }
 
-/* Shared interaction feedback */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--navy);
+    line-height: var(--h1-line);
+    letter-spacing: var(--h1-track);
+    margin: 0;
+}
+
+h1 { font-size: var(--h1-size); }
+h2 { font-size: var(--h2-size); line-height: var(--h2-line); letter-spacing: var(--h2-track); }
+h3 { font-size: 1.25rem; letter-spacing: -0.01em; line-height: 1.3; }
+h4 { font-size: 1.0625rem; letter-spacing: -0.005em; line-height: 1.35; }
+
+p { margin: 0; }
+
+::selection { background: rgba(20, 39, 78, 0.85); color: var(--bg); }
+
+/* ---------- Form controls (global base — visible everywhere) ---------- */
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    color: var(--navy);
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    transition:
+        border-color var(--duration-fast) var(--spring),
+        box-shadow var(--duration-fast) var(--spring),
+        background-color var(--duration-fast) var(--spring);
+}
+
+input::placeholder { color: var(--mist); }
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    background-color: var(--surface);
+    box-shadow: 0 0 0 4px rgba(20, 39, 78, 0.1);
+}
+
+input:disabled {
+    background-color: #EDF1F6;
+    color: var(--mist);
+    cursor: not-allowed;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239BA4B4' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 40px;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    border: none;
+    background: var(--navy);
+    color: var(--bg);
+    padding: 8px 16px;
+    margin-right: 12px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--spring);
+}
+
+input[type="file"]::file-selector-button:hover { background: var(--ink); }
+
+/* ---------- Interaction feedback ---------- */
 
 button {
-    transition: background-color 0.15s ease, color 0.15s ease,
-        border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        border-color var(--duration-fast) var(--spring),
+        box-shadow var(--duration-fast) var(--spring),
+        transform var(--duration-fast) var(--spring);
 }
 
 button:active {
-    transform: translateY(1px);
+    transform: scale(0.97);
+    transition-duration: 50ms;
+    transition-timing-function: linear;
 }
 
-button:focus-visible,
-a:focus-visible {
+a { transition: color var(--duration-fast) var(--spring); }
+
+:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.22);
+    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.25);
 }
 
-.topbar a:focus-visible,
-.topbar button:focus-visible {
-    box-shadow: 0 0 0 3px rgba(241, 246, 249, 0.35);
+.topbar :focus-visible {
+    box-shadow: 0 0 0 3px rgba(241, 246, 249, 0.4);
 }
 
-.nav-links { display: flex; gap: 8px; }
+/* ---------- Topbar (floating layer — translucent navy + blur) ---------- */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 14px 28px;
+    background-color: rgba(20, 39, 78, 0.88);
+    backdrop-filter: blur(var(--blur)) saturate(160%);
+    -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
+    border-bottom: 1px solid rgba(241, 246, 249, 0.08);
+    color: var(--bg);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
 
 .nav-links a {
+    display: inline-block;
     color: var(--bg);
     text-decoration: none;
     font-weight: 500;
-    padding: 6px 16px;
-    border-radius: 999px;
-    transition: background 0.15s ease;
+    font-size: 0.9375rem;
+    padding: 7px 15px;
+    border-radius: var(--radius-full);
+    transition: background var(--duration-fast) var(--spring), color var(--duration-fast) var(--spring), transform var(--duration-fast) var(--spring);
 }
 
-.nav-links a:hover {
-    background: rgba(241, 246, 249, 0.12);
-}
+.nav-links a:hover { background: rgba(241, 246, 249, 0.12); }
 
 .nav-links a.active {
     background: var(--bg);
     color: var(--navy);
+    font-weight: 600;
+}
+
+.nav-links a.nav-cta {
+    background: var(--bg);
+    color: var(--navy);
+    font-weight: 700;
+}
+
+.nav-links a.nav-cta:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
 }
 
 .user-info {
     margin-left: auto;
     color: var(--bg);
     font-weight: 500;
-    background: rgba(241, 246, 249, 0.14);
+    font-size: 0.9375rem;
+    background: rgba(241, 246, 249, 0.12);
     padding: 7px 16px;
-    border-radius: 999px;
+    border-radius: var(--radius-full);
 }
 
-/* team page leaves this span empty — don't render an empty pill */
 .user-info:empty { display: none; }
 
-#logoutBtn {
+#logoutBtn,
+.nav-logout {
     background: none;
-    border: 1px solid var(--bg);
+    border: 1px solid rgba(241, 246, 249, 0.45);
     color: var(--bg);
-    padding: 6px 16px;
-    border-radius: var(--radius);
+    padding: 7px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.9375rem;
+    font-weight: 600;
     cursor: pointer;
 }
 
-#logoutBtn:hover {
+#logoutBtn:hover,
+.nav-logout:hover {
     background: var(--bg);
     color: var(--navy);
+    border-color: var(--bg);
 }
 
-/* Shared topbar — single source of truth for all app pages */
+@media (max-width: 640px) {
+    .topbar {
+        padding: 12px 16px;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
 
-.topbar {
+    .user-info { order: 5; margin-left: 0; }
+}
+
+/* ---------- Utilities ---------- */
+
+.container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ---------- Card base ---------- */
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--duration-base) var(--spring), box-shadow var(--duration-base) var(--spring), border-color var(--duration-base) var(--spring);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ---------- Status / priority chips ---------- */
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: var(--chip-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+}
+
+.chip.low          { background: var(--success-bg); color: var(--success); }
+.chip.medium       { background: var(--warning-bg); color: var(--warning); }
+.chip.high         { background: var(--danger-bg);  color: var(--danger); }
+
+.chip.todo         { background: var(--info-bg);    color: var(--info); }
+.chip.in-progress  { background: var(--warning-bg); color: var(--warning); }
+.chip.done         { background: var(--success-bg); color: var(--success); }
+
+/* ---------- Buttons ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 26px;
+    border-radius: var(--radius-full);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-primary {
     background-color: var(--navy);
     color: var(--bg);
+    border-color: var(--navy);
+    box-shadow: 0 2px 8px rgba(20, 39, 78, 0.18);
+}
+
+.btn-primary:hover {
+    background-color: var(--ink);
+    border-color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(20, 39, 78, 0.25);
+}
+
+.btn-secondary {
+    background-color: var(--surface);
+    color: var(--navy);
+    border-color: var(--line-strong);
+}
+
+.btn-secondary:hover {
+    border-color: var(--navy);
+    transform: translateY(-1px);
+}
+
+.btn:active { transform: scale(0.97); }
+.btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.25); }
+
+.btn-lg {
     padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    gap: 32px;
+    font-size: 1rem;
 }
 
-.brand {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
+/* ---------- Eyebrow ---------- */
 
-@media (max-width: 500px) {
-    .topbar {
-        padding: 14px 18px;
-        gap: 16px;
-    }
-}
-
-/* Shared status/priority chips — used by dashboard task cards and Kanban */
-.chip {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 999px;
+.eyebrow {
+    color: var(--ink);
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
 }
 
-.chip.low          { background: #E5E9EE; color: var(--ink); }
-.chip.medium       { background: #FCF3D9; color: #9A7B0A; }
-.chip.high         { background: #FADBD8; color: #C0392B; }
+/* ---------- Animations ---------- */
 
-.chip.todo         { background: #E5E9EE; color: var(--ink); }
-.chip.in-progress  { background: #D6EAF8; color: #21618C; }
-.chip.done         { background: #D5F5E3; color: #1E8449; }
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-in      { animation: slideUp var(--duration-slow) var(--spring) both; }
+.animate-in-fast { animation: slideUp var(--duration-base) var(--spring) both; }
+
+.animate-in-delay-1 { animation-delay: 0.05s; }
+.animate-in-delay-2 { animation-delay: 0.1s; }
+.animate-in-delay-3 { animation-delay: 0.15s; }
+.animate-in-delay-4 { animation-delay: 0.2s; }
+.animate-in-delay-5 { animation-delay: 0.25s; }
+.animate-in-delay-6 { animation-delay: 0.3s; }
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

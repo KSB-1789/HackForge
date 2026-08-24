@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackForge - Dashboard</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
     <link rel = "stylesheet" href = "../css/dashboard.css">
     <link rel = "stylesheet" href = "../css/style.css">
 </head>
@@ -12,6 +11,7 @@
     <header class="topbar">
         <span class="brand">HackForge</span>
         <nav class="nav-links">
+            <a href="../index.html">Home</a>
             <a href="dashboard.html" class="active">Dashboard</a>
             <a href="team.html">Teams</a>
         </nav>
@@ -28,7 +28,7 @@
             </div>
             <div class="dash-grid">
                 <div>
-                    <h1 class="section-heading" id = "pFormHeading">Projects</h1>
+                    <h2 class="section-heading" id = "pFormHeading">Projects</h2>
                     <form id="dashForm">
                         <label for="name">Project Name</label>
                         <input id="name">
@@ -65,26 +65,41 @@
             <div class="details-card">
                 <h2 id="detailName"></h2>
                 <p id="detailDescription"></p>
-                <p id="detailTeam"></p>
-                <p id="detailCreatedBy"></p>
+                <div class="detail-meta">
+                    <span class="meta-pill"><span class="meta-label">Team</span><span class="meta-value" id="detailTeam"></span></span>
+                    <span class="meta-pill"><span class="meta-label">Created By</span><span class="meta-value" id="detailCreatedBy"></span></span>
+                </div>
             </div>
             <h3 id="taskHeading">Tasks</h3>
             <form id = "taskForm">
-                <input id = "taskTitle" placeholder="Task Title">
-                <input id = "taskDescription" placeholder="Task Description">
-                <select id = "taskAssignee" placeholder="Assignee">
-                    <option value="">Unassigned</option>
-                </select>
-                <select  id = "taskStatus">
-                    <option value = "todo">todo</option>
-                    <option value = "in-progress">in-progress</option>
-                    <option value = "done">done</option>
-                </select>
-                <select  id = "taskPriority">
-                    <option value = "low">low</option>
-                    <option value = "medium">medium</option>
-                    <option value = "high">high</option>
-                </select>
+                <label for="taskTitle">Task Title</label>
+                <input id = "taskTitle" placeholder="e.g. Build the login page">
+                <label for="taskDescription">Description</label>
+                <input id = "taskDescription" placeholder="What needs to be done?">
+                <div class="form-row triple">
+                    <div>
+                        <label for="taskAssignee">Assignee</label>
+                        <select id = "taskAssignee">
+                            <option value="">Unassigned</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="taskStatus">Status</label>
+                        <select  id = "taskStatus">
+                            <option value = "todo">todo</option>
+                            <option value = "in-progress">in-progress</option>
+                            <option value = "done">done</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="taskPriority">Priority</label>
+                        <select  id = "taskPriority">
+                            <option value = "low">low</option>
+                            <option value = "medium">medium</option>
+                            <option value = "high">high</option>
+                        </select>
+                    </div>
+                </div>
                 <button type = "submit" id="taskSubmit">Add Task</button>
                 <div id = "tasksErrorDiv"></div>
             </form>

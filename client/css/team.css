@@ -107,9 +107,18 @@ h2 {
 
 #teamError,
 #memberError {
+    background-color: #FDEDEC;
+    border: 1px solid #F5B7B1;
+    border-radius: 8px;
     color: #C0392B;
     font-size: 14px;
     margin-top: 10px;
+    padding: 10px 14px;
+}
+
+#teamError:empty,
+#memberError:empty {
+    display: none;
 }
 
 /* Teams grid */
@@ -118,7 +127,6 @@ h2 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 26px;
-    align-items: start;
 }
 
 .team-card {
@@ -171,7 +179,7 @@ h2 {
     background-color: #394867;
     color: #F1F6F9;
     padding: 3px 12px;
-    border-radius: 20px;
+    border-radius: 999px;
     font-size: 12px;
     font-weight: 500;
 }
@@ -193,6 +201,7 @@ h2 {
     display: flex;
     gap: 8px;
     margin-top: 12px;
+    margin-bottom: 16px;
 }
 
 .add-member-row .member-select {
@@ -243,14 +252,14 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 8px 0;
+    margin: 8px 0 16px;
 }
 
 .member-tag {
     background-color: #F1F6F9;
     color: #14274E;
-    padding: 4px 10px;
-    border-radius: 20px;
+    padding: 4px 12px;
+    border-radius: 999px;
     font-size: 13px;
     display: flex;
     align-items: center;
@@ -282,12 +291,13 @@ h2 {
     font-size: 14px;
 }
 
-/* Card meta footer */
+/* Card meta footer: pinned to the card bottom so rows stay aligned
+   even when owner cards carry the extra add-member and delete blocks */
 
 .team-meta-footer {
     display: flex;
     gap: 16px;
-    margin-top: 14px;
+    margin-top: auto;
     padding-top: 10px;
     border-top: 1px solid #394867;
 }
@@ -306,7 +316,7 @@ h2 {
     background-color: transparent;
     border: 1px solid #C0392B;
     border-radius: 8px;
-    color: #E74C3C;
+    color: #C0392B;
     font-family: inherit;
     font-size: 12px;
     font-weight: 600;
@@ -316,6 +326,23 @@ h2 {
 .delete-team-btn:hover {
     background-color: #C0392B;
     color: #F1F6F9;
+}
+
+/* Non-owner cards have no add-member row; fill their dead space with a
+   note. :has() detects owner cards, ::after injects the text, and the
+   meta footer gets order:1 so it stays below the note instead of above */
+
+.team-card:not(:has(.add-member-row))::after {
+    content: "Only the owner can add members";
+    margin-top: auto;
+    padding-bottom: 12px;
+    color: #9BA4B4;
+    font-size: 12px;
+}
+
+.team-card:not(:has(.add-member-row)) .team-meta-footer {
+    order: 1;
+    margin-top: 0;
 }
 /* Responsive */
 

@@ -29,17 +29,19 @@ body {
 
 #backBtn {
     padding: 8px 16px;
-    background-color: #14274E;
-    color: #F1F6F9;
-    border: none;
-    border-radius: 6px;
+    background: none;
+    border: 1px solid #9BA4B4;
+    border-radius: 8px;
+    color: #14274E;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
 }
 
 #backBtn:hover {
-    background-color: #394867;
+    background-color: #14274E;
+    border-color: #14274E;
+    color: #F1F6F9;
 }
 
 h2 {
@@ -172,7 +174,7 @@ section h2 {
     background-color: #14274E;
     color: #F1F6F9;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 13px;
     font-weight: 600;
@@ -255,6 +257,12 @@ section h2 {
 }
 
 #chatInput:focus {
+    outline: none;
+    border-color: #14274E;
+    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
+}
+
+#fileInput:focus {
     outline: none;
     border-color: #14274E;
     box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);

@@ -4,6 +4,30 @@
     box-sizing: border-box;
 }
 
+/* Form controls never inherit the page font by default - force Poppins */
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    transition: background-color 0.15s ease, color 0.15s ease,
+        border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.22);
+}
+
 body {
     min-height: 100vh;
     background-color: #F1F6F9;
@@ -154,6 +178,25 @@ body {
     outline: none;
     border-color: #14274E;
     box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
+}
+
+/* Errors (register.js writes newline-joined text into #errors) */
+
+#errors {
+    background-color: #FDEDEC;
+    border: 1px solid #F5B7B1;
+    border-radius: 8px;
+    color: #C0392B;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-line;
+    margin-top: 16px;
+    margin-bottom: 4px;
+    padding: 10px 14px;
+}
+
+#errors:empty {
+    display: none;
 }
 
 /* Button */

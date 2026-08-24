@@ -10,34 +10,10 @@
 
 body {
     min-height: 100vh;
-    background-color: #F1F6F9;
-    color: #14274E;
+    background-color: var(--bg);
+    color: var(--navy);
     font-family: 'Poppins', Arial, sans-serif;
 }
-
-/* Top bar */
-
-.topbar {
-    background-color: #14274E;
-    color: #F1F6F9;
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
-.brand {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-/* .page-title {
-    color: #9BA4B4;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-} */
 
 /* Main content */
 
@@ -73,14 +49,14 @@ body {
 .section-heading {
     margin-bottom: 20px;
     font-size: 18px;
-    color: #394867;
+    color: var(--ink);
 }
 
 /* Create project form */
 
 #dashForm {
     background-color: #ffffff;
-    border: 1px solid #9BA4B4;
+    border: 1px solid var(--mist);
     border-radius: 12px;
     padding: 26px;
     display: flex;
@@ -90,76 +66,71 @@ body {
 }
 
 #dashForm label {
-    color: #14274E;
+    color: var(--navy);
     font-size: 14px;
     font-weight: 600;
     margin-top: 10px;
 }
 
-#dashForm input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #9BA4B4;
-    border-radius: 8px;
-    background-color: #ffffff;
-    color: #14274E;
-    font-size: 15px;
-}
-
-#dashForm input:focus {
-    outline: none;
-    border-color: #14274E;
-    box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
-}
-
+#dashForm input,
 #dashForm select {
     width: 100%;
     padding: 12px 14px;
-    border: 1px solid #9BA4B4;
-    border-radius: 8px;
+    border: 1px solid var(--mist);
+    border-radius: var(--radius);
     background-color: #ffffff;
-    color: #14274E;
+    color: var(--navy);
     font-size: 15px;
 }
 
+#dashForm input:focus,
 #dashForm select:focus {
     outline: none;
-    border-color: #14274E;
+    border-color: var(--navy);
     box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
+}
+
+/* disabled creator field is auto-filled from the logged-in user */
+
+#dashForm input:disabled {
+    background-color: #EEF2F6;
+    color: var(--mist);
+    cursor: not-allowed;
 }
 
 #dashForm button {
     margin-top: 18px;
     padding: 13px;
-    background-color: #14274E;
-    color: #F1F6F9;
+    background-color: var(--navy);
+    color: var(--bg);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius);
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
 }
 
 #dashForm button:hover {
-    background-color: #394867;
+    background-color: var(--ink);
 }
 
-#errorDiv {
-    color: #C0392B;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-#errorDiv p {
-    margin: 4px 0;
-}
-
+#errorDiv,
 #tasksErrorDiv {
+    background-color: #FDEDEC;
+    border: 1px solid #F5B7B1;
+    border-radius: var(--radius);
     color: #C0392B;
     font-size: 14px;
     margin-top: 10px;
+    padding: 10px 14px;
 }
 
+#errorDiv:empty,
+#tasksErrorDiv:empty {
+    display: none;
+}
+
+#errorDiv p,
 #tasksErrorDiv p {
     margin: 4px 0;
 }
@@ -169,7 +140,7 @@ body {
 .projects-label {
     margin-bottom: 20px;
     font-size: 18px;
-    color: #394867;
+    color: var(--ink);
 }
 
 #projectsContainer {
@@ -179,9 +150,9 @@ body {
 }
 
 .project-card {
-    background-color: #14274E;
-    color: #F1F6F9;
-    border: 1px solid #9BA4B4;
+    background-color: var(--navy);
+    color: var(--bg);
+    border: 1px solid var(--mist);
     border-radius: 12px;
     padding: 22px;
     display: flex;
@@ -212,7 +183,7 @@ body {
 }
 
 .project-card p {
-    color: #9BA4B4;
+    color: var(--mist);
     font-size: 14px;
     line-height: 1.5;
 }
@@ -220,21 +191,16 @@ body {
 .project-card p + p {
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid #394867;
-}
-
-.open-btn:hover {
-    background-color: #9BA4B4;
-    color: #14274E;
+    border-top: 1px solid var(--ink);
 }
 
 .empty-state {
     grid-column: 1 / -1;
     padding: 60px 20px;
     background-color: #ffffff;
-    border: 1px dashed #9BA4B4;
+    border: 1px dashed var(--mist);
     border-radius: 12px;
-    color: #9BA4B4;
+    color: var(--mist);
     font-size: 15px;
     text-align: center;
 }
@@ -254,10 +220,10 @@ body {
 #backBtn,
 #collabBtn {
     background: none;
-    border: 1px solid #9BA4B4;
-    color: #14274E;
+    border: 1px solid var(--mist);
+    color: var(--navy);
     padding: 10px 18px;
-    border-radius: 8px;
+    border-radius: var(--radius);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -267,13 +233,14 @@ body {
 
 #backBtn:hover,
 #collabBtn:hover {
-    background-color: #14274E;
-    color: #F1F6F9;
+    background-color: var(--navy);
+    border-color: var(--navy);
+    color: var(--bg);
 }
 
 .details-card {
     background-color: #ffffff;
-    border: 1px solid #9BA4B4;
+    border: 1px solid var(--mist);
     border-radius: 12px;
     padding: 32px;
     box-shadow: 0 4px 16px rgba(20, 39, 78, 0.06);
@@ -286,23 +253,24 @@ body {
 }
 
 #detailDescription {
-    color: #394867;
+    color: var(--ink);
     font-size: 16px;
     line-height: 1.7;
     margin-bottom: 24px;
 }
 
-#detailTeam {
-    color: #394867;
-    font-size: 15px;
-    padding-top: 14px;
-    border-top: 1px solid #9BA4B4;
-}
+/* team + creator render as meta pills; spacing comes from the pill rule */
 
+#detailTeam,
 #detailCreatedBy {
-    color: #394867;
-    font-size: 15px;
+    display: inline-block;
+    background-color: var(--bg);
+    border: 1px solid var(--mist);
+    border-radius: 999px;
+    padding: 6px 14px;
     margin-top: 8px;
+    color: var(--ink);
+    font-size: 15px;
 }
 
 /* Tasks */
@@ -310,12 +278,12 @@ body {
 #projectDetailsView > h3 {
     margin: 32px 0 16px;
     font-size: 18px;
-    color: #394867;
+    color: var(--ink);
 }
 
 #taskForm {
     background-color: #ffffff;
-    border: 1px solid #9BA4B4;
+    border: 1px solid var(--mist);
     border-radius: 12px;
     padding: 20px;
     display: flex;
@@ -327,34 +295,34 @@ body {
 #taskForm select {
     width: 100%;
     padding: 12px 14px;
-    border: 1px solid #9BA4B4;
-    border-radius: 8px;
+    border: 1px solid var(--mist);
+    border-radius: var(--radius);
     background-color: #ffffff;
-    color: #14274E;
+    color: var(--navy);
     font-size: 15px;
 }
 
 #taskForm input:focus,
 #taskForm select:focus {
     outline: none;
-    border-color: #14274E;
+    border-color: var(--navy);
     box-shadow: 0 0 0 3px rgba(20, 39, 78, 0.08);
 }
 
 #taskForm button {
     margin-top: 8px;
     padding: 13px;
-    background-color: #14274E;
-    color: #F1F6F9;
+    background-color: var(--navy);
+    color: var(--bg);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius);
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
 }
 
 #taskForm button:hover {
-    background-color: #394867;
+    background-color: var(--ink);
 }
 
 #tasksContainer {
@@ -366,7 +334,7 @@ body {
 
 .task-card {
     background-color: #ffffff;
-    border: 1px solid #9BA4B4;
+    border: 1px solid var(--mist);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 16px rgba(20, 39, 78, 0.06);
@@ -375,11 +343,11 @@ body {
 .task-card h2 {
     margin-bottom: 6px;
     font-size: 17px;
-    color: #14274E;
+    color: var(--navy);
 }
 
 .task-card p {
-    color: #394867;
+    color: var(--ink);
     font-size: 14px;
     line-height: 1.5;
 }
@@ -387,7 +355,19 @@ body {
 .task-card p + p {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid #9BA4B4;
+    border-top: 1px solid var(--mist);
+}
+
+/* status/priority chips live in an unclassed wrapper div right after the meta text */
+
+.task-card p + div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--mist);
 }
 
 .task-card .delete-btn,
@@ -396,21 +376,21 @@ body {
     margin-right: 8px;
     padding: 6px 14px;
     background-color: #ffffff;
-    color: #14274E;
-    border: 1px solid #9BA4B4;
-    border-radius: 8px;
+    color: var(--navy);
+    border: 1px solid var(--mist);
+    border-radius: var(--radius);
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
 }
 
 .task-card .edit-btn {
-    border-color: #14274E;
+    border-color: var(--navy);
 }
 
 .task-card .edit-btn:hover {
-    background-color: #14274E;
-    color: #F1F6F9;
+    background-color: var(--navy);
+    color: var(--bg);
 }
 
 .task-card .delete-btn {
@@ -420,7 +400,7 @@ body {
 
 .task-card .delete-btn:hover {
     background-color: #C0392B;
-    color: #F1F6F9;
+    color: var(--bg);
 }
 
 /* Project card buttons */
@@ -428,49 +408,40 @@ body {
 .card-btns {
     display: flex;
     gap: 8px;
-    margin-top: 16px;
+    margin-top: auto;
+    padding-top: 16px;
 }
 
 .card-btns button {
     flex: 1;
     padding: 8px 0;
-    background-color: #394867;
-    color: #F1F6F9;
-    border: 1px solid #9BA4B4;
-    border-radius: 8px;
+    background-color: var(--ink);
+    color: var(--bg);
+    border: 1px solid var(--mist);
+    border-radius: var(--radius);
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
 }
 
+/* open and edit share one hover; delete is the only destructive action */
+
+.card-btns .open-btn:hover,
 .card-btns .edit-proj-btn:hover {
-    background-color: #F1F6F9;
-    color: #14274E;
+    background-color: var(--bg);
+    border-color: var(--bg);
+    color: var(--navy);
 }
 
 .card-btns .delete-proj-btn {
-    color: #E74C3C;
-    border-color: #E74C3C;
+    color: #C0392B;
+    border-color: #C0392B;
 }
 
 .card-btns .delete-proj-btn:hover {
-    background-color: #E74C3C;
-    color: #F1F6F9;
-}
-
-.project-card .edit-proj-btn:hover {
-    background-color: #F1F6F9;
-    color: #14274E;
-}
-
-.project-card .delete-proj-btn {
-    color: #E74C3C;
-    border-color: #E74C3C;
-}
-
-.project-card .delete-proj-btn:hover {
-    background-color: #E74C3C;
-    color: #F1F6F9;
+    background-color: #C0392B;
+    border-color: #C0392B;
+    color: var(--bg);
 }
 
 /* Page header */
@@ -480,7 +451,7 @@ body {
 }
 
 .page-header .eyebrow {
-    color: #9BA4B4;
+    color: var(--mist);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2.5px;
@@ -490,12 +461,12 @@ body {
     margin-top: 6px;
     font-size: 34px;
     letter-spacing: -1px;
-    color: #14274E;
+    color: var(--navy);
 }
 
 .page-header .subtitle {
     margin-top: 4px;
-    color: #394867;
+    color: var(--ink);
     font-size: 15px;
 }
 
@@ -515,10 +486,10 @@ body {
 
 #newProjectBtn {
     padding: 10px 18px;
-    background-color: #14274E;
-    color: #F1F6F9;
+    background-color: var(--navy);
+    color: var(--bg);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
@@ -526,39 +497,20 @@ body {
 }
 
 #newProjectBtn:hover {
-    background-color: #394867;
-}
-
-/* Details view meta badges */
-
-#detailTeam,
-#detailCreatedBy {
-    display: inline-block;
-    background-color: #F1F6F9;
-    border: 1px solid #9BA4B4;
-    border-radius: 999px;
-    padding: 6px 14px;
-    margin-top: 8px;
+    background-color: var(--ink);
 }
 
 /* Responsive */
 
 @media (max-width: 900px) {
-    .dash-grid {
+    .dash-grid,
+    .dash-grid.form-open {
         grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 500px) {
-    .topbar {
-        padding: 14px 18px;
-    }
-
     .main {
         padding: 24px 16px 48px;
-    }
-
-    .section-heading {
-        font-size: 24px;
     }
 }

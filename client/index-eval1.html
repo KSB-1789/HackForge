@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackForge - Developer Collaboration Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+    <header class="topbar">
+        <span class="brand">HackForge</span>
+        <nav class="nav-links">
+            <a href="pages/login.html">Login</a>
+            <a href="pages/register.html" class="nav-cta">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <h1>Build together.<br><span class="hero-muted">Ship together.</span></h1>
+                    <p class="hero-subtitle">
+                        One workspace for your team's projects, tasks and conversations.
+                        Kanban boards, chat and files stay in sync while you build.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="pages/register.html" class="btn btn-primary btn-lg">Start Free</a>
+                        <a href="pages/login.html" class="btn btn-ghost btn-lg">Sign In</a>
+                    </div>
+                </div>
+
+                <div class="hero-visual" aria-hidden="true">
+                    <div class="mini-board">
+                        <div class="mini-board-bar">
+                            <span class="mini-dot"></span>
+                            <span class="mini-dot"></span>
+                            <span class="mini-dot"></span>
+                            <span class="mini-board-name">auth-service</span>
+                        </div>
+                        <div class="mini-columns">
+                            <div class="mini-col">
+                                <p class="mini-col-title">To Do</p>
+                                <div class="mini-task">
+                                    <p>Build login page</p>
+                                    <div class="mini-chips"><span class="chip high">high</span></div>
+                                </div>
+                                <div class="mini-task">
+                                    <p>Write API docs</p>
+                                    <div class="mini-chips"><span class="chip low">low</span></div>
+                                </div>
+                            </div>
+                            <div class="mini-col">
+                                <p class="mini-col-title">In Progress</p>
+                                <div class="mini-task is-active">
+                                    <p>Session handling</p>
+                                    <div class="mini-chips"><span class="chip in-progress">in-progress</span><span class="chip medium">medium</span></div>
+                                </div>
+                            </div>
+                            <div class="mini-col">
+                                <p class="mini-col-title">Done</p>
+                                <div class="mini-task is-done">
+                                    <p>Password hashing</p>
+                                    <div class="mini-chips"><span class="chip done">done</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <header class="section-header">
+                    <h2>Everything your team needs<br>to ship</h2>
+                    <p class="section-subtitle">Six tools, one workspace. No context switching.</p>
+                </header>
+                <div class="bento-grid">
+                    <article class="feature-card cell-a">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h3>Teams & Projects</h3>
+                        <p>Create teams, invite members and spin up shared or private projects in seconds.</p>
+                    </article>
+                    <article class="feature-card cell-b">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 11l3 3L22 4"></path>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path>
+                            </svg>
+                        </div>
+                        <h3>Tasks & Kanban</h3>
+                        <p>Break work into tasks, assign owners and drag them across the board. Status syncs across every view.</p>
+                    </article>
+                    <article class="feature-card cell-c">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3>Real-time Chat</h3>
+                        <p>Discuss work where it happens. Conversations live next to your projects, not in another tab.</p>
+                    </article>
+                    <article class="feature-card cell-d">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </div>
+                        <h3>File Sharing</h3>
+                        <p>Attach specs, designs and assets so everything your team needs stays in one place.</p>
+                    </article>
+                    <article class="feature-card cell-e">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="16"></line>
+                            </svg>
+                        </div>
+                        <h3>Progress Tracking</h3>
+                        <p>Completion rates and progress bars show where every project stands at a glance.</p>
+                    </article>
+                    <article class="feature-card cell-f">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 6v6l4 2"></path>
+                            </svg>
+                        </div>
+                        <h3>Built for Hackathons</h3>
+                        <p>Set up a workspace in minutes, invite your team and start building. Zero setup friction.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-card">
+                    <h2 id="ctaHeading">Ready to build better together?</h2>
+                    <p id="ctaSub">Create your workspace in seconds. No credit card required.</p>
+                    <a href="pages/register.html" class="btn btn-light btn-lg" id="ctaBtn">Get Started Free</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-left">
+                <p class="footer-brand">HackForge</p>
+                <p class="footer-copy">Built for developers, by developers.</p>
+            </div>
+            <nav class="footer-links">
+                <a href="pages/login.html">Login</a>
+                <a href="pages/register.html">Register</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="js/landing.js"></script>
+</body>
+</html>

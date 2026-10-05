@@ -2,7 +2,7 @@
   "name": "hackforge-server",
   "version": "1.0.0",
   "private": true,
-  "description": "HackForge API — Express + MongoDB. Shared infrastructure owned by P2.",
+  "description": "HackForge API — Express, in-memory storage. Shared infrastructure owned by P2.",
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -12,8 +12,7 @@
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^18.0.4",
-    "express": "^5.2.1",
-    "mongoose": "^9.10.2"
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

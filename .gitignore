@@ -13,3 +13,6 @@ AGENTS.md
 HackForge_P1_Kritika_FINAL.md
 viva_prep.md
 presentation.md
+
+server/.env
+client/dist/

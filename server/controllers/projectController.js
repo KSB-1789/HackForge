@@ -7,14 +7,6 @@ function getProjects(req, res) {
 function createProject(req, res) {
   const { name, description } = req.body;
 
-  if (typeof name !== 'string' || name.trim().length < 3) {
-    return res.status(400).json({
-      success: false,
-      message: 'Validation failed',
-      errors: { name: 'Project name must be at least 3 characters' },
-    });
-  }
-
   const project = {
     id: nextId(),
     name: name.trim(),
@@ -54,13 +46,6 @@ function updateProject(req, res) {
   const { name, description } = req.body;
 
   if (name !== undefined) {
-    if (typeof name !== 'string' || name.trim().length < 3) {
-      return res.status(400).json({
-        success: false,
-        message: 'Validation failed',
-        errors: { name: 'Project name must be at least 3 characters' },
-      });
-    }
     project.name = name.trim();
   }
 

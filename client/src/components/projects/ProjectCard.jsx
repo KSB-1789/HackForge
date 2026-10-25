@@ -1,21 +1,17 @@
-export default function ProjectCard({project, onOpen, onDelete}){
-    return (
-        <article className="rounded-card bg-surface border border-line p-5 shadow-sm">
-            <button type="button" onClick={() => onOpen(project)}
-            className="text-lg font-semibold text-navy">
-                {project.name}
-            </button>
-            <p className="text-sm text-ink">
-                {project.description || "No description yet"}
-            </p>
-            <p className="text-xs text-ink">
-                {project.createdAt ? new Date(project.createdAt).toLocaleDateString() : "Date unavailable"}
-            </p>
-            <button type="button" onClick={()=>onDelete(project)} 
-            className="text-xs text-ink hover:text-danger"
-            aria-label={`Delete ${project.name}`}>
-                Delete
-            </button>
-        </article> 
-    );
+﻿export default function ProjectCard({ project, onOpen, onEdit, onDelete }) {
+  return (
+    <div className="project-card" style={{ cursor: "pointer" }} onClick={onOpen}>
+      <div className="project-card-header">
+        <h3 className="project-name">{project.name}</h3>
+        <div className="card-btns" style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
+          {onEdit && <button className="edit-proj-btn" onClick={(e) => { e.stopPropagation(); onEdit(project); }}>Edit</button>}
+          {onDelete && <button className="delete-proj-btn" onClick={(e) => { e.stopPropagation(); onDelete(project); }}>Delete</button>}
+        </div>
+      </div>
+      <p className="project-desc">{project.description || "No description"}</p>
+      <div className="project-meta">
+        <span className="project-pill">{project.createdAt ? new Date(project.createdAt).toLocaleDateString() : ""}</span>
+      </div>
+    </div>
+  )
 }

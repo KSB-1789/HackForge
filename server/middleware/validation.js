@@ -1,4 +1,4 @@
-import { projects } from '../data/store.js';
+import { projects, tasks } from '../data/store.js';
 
 const TASK_STATUSES = ['todo', 'in-progress', 'done'];
 const TASK_PRIORITIES = ['low', 'medium', 'high'];
@@ -31,7 +31,7 @@ function projectExists(projectId) {
   return projects.some((project) => project.id === Number(projectId));
 }
 
-function collectTaskErrors(body, isCreate) {
+function collectTaskErrors(body, isCreate, taskId) {
   const errors = {};
   const { title, projectId, status, priority } = body;
 
@@ -49,6 +49,27 @@ function collectTaskErrors(body, isCreate) {
     } else if (!projectExists(projectId)) {
       errors.projectId = 'Project does not exist';
     }
+  }
+
+  const existingTask = taskId === undefined
+    ? undefined
+    : tasks.find((task) => task.id === taskId);
+  const comparisonTitle = title === undefined ? existingTask?.title : title;
+  const targetProjectId = projectIdProvided
+    ? Number(projectId)
+    : existingTask?.projectId;
+  if (
+    (isCreate || existingTask) &&
+    typeof comparisonTitle === 'string' &&
+    comparisonTitle.trim().length >= 3 &&
+    targetProjectId !== undefined &&
+    tasks.some((task) =>
+      task.id !== taskId &&
+      task.projectId === targetProjectId &&
+      task.title.trim().toLowerCase() === comparisonTitle.trim().toLowerCase()
+    )
+  ) {
+    errors.title = 'A task with this name already exists in this project';
   }
 
   if (status !== undefined && !TASK_STATUSES.includes(status)) {
@@ -71,7 +92,7 @@ function validateTaskCreate(req, res, next) {
 }
 
 function validateTaskUpdate(req, res, next) {
-  const errors = collectTaskErrors(req.body, false);
+  const errors = collectTaskErrors(req.body, false, Number(req.params.id));
   if (Object.keys(errors).length > 0) {
     return fail(res, errors);
   }

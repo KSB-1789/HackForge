@@ -6,13 +6,17 @@ node_modules/
 .env.production.local
 .DS_Store
 
-HackForge_Karan_dev_prompt.md
-HackForge — P1 Kritika Development Prompt.md
-decisions.md
-AGENTS.md
-HackForge_P1_Kritika_FINAL.md
-viva_prep.md
-presentation.md
-
 server/.env
 client/dist/
+
+HackForge_Karan_dev_prompt.md
+HackForge — P1 Kritika Development Prompt.md
+HackForge_P1_Kritika_FINAL.md
+HackForge_CA2_P2_Karan.md
+HackForge_Eval2_P2_Karan.md
+decisions.md
+file_explanations.md
+presentation.md
+viva_prep.md
+.freebuff
+AGENTS.md

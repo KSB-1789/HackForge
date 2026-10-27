@@ -181,7 +181,7 @@ export default function ProjectDetails() {
         <section id="projectDetailsView">
           <div className="detail-actions">
             <button id="backBtn" onClick={() => navigate("/dashboard")}>Back to Projects</button>
-            <a id="collabBtn" href="#">Collaborate</a>
+            <Link id="collabBtn" to={`/projects/${projectId}/collaborate`}>Collaborate</Link>
           </div>
           <div className="details-card">
             <h2>{project?.name || "Project"}</h2>

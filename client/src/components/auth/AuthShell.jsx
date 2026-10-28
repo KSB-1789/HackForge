@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom";
+
 export default function AuthShell({ heading, introText, children }) {
   return (
     <div className="hf-auth-page">
       <section className="hf-auth-intro" aria-label="HackForge introduction">
-        <span className="hf-auth-brand">HackForge</span>
+        <Link to="/" className="hf-auth-brand">
+          HackForge
+        </Link>
 
         <div className="hf-auth-copy">
           <p className="hf-auth-eyebrow">DEVELOPER COLLABORATION PLATFORM</p>

@@ -2,6 +2,7 @@ import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import express from "express";
 import jwt from "jsonwebtoken";
+import { startTestDatabase, stopTestDatabase } from "./testDatabase.js";
 
 const TEST_SECRET = "p1-test-secret";
 
@@ -24,6 +25,8 @@ let server;
 let baseUrl;
 
 before(async () => {
+    await startTestDatabase();
+
     await new Promise((resolve) => {
         server = app.listen(0, "127.0.0.1", resolve);
     });
@@ -35,6 +38,7 @@ after(async () => {
     await new Promise((resolve, reject) => {
         server.close((error) => (error ? reject(error) : resolve()));
     });
+    await stopTestDatabase();
 });
 
 async function request(path, options = {}) {
@@ -121,8 +125,8 @@ test("P1 authentication, users, and teams API", async (t) => {
 
         alice = response.body.data.user;
 
-        const { users } = await import("../data/userteamstore.js");
-        const storedAlice = users.find((user) => user.id === alice.id);
+        const { default: User } = await import("../models/User.js");
+        const storedAlice = await User.findOne({ id: alice.id });
 
         assert.ok(storedAlice);
         assert.equal(typeof storedAlice.passwordHash, "string");
@@ -306,6 +310,7 @@ test("P1 authentication, users, and teams API", async (t) => {
         assert.equal(response.body.data.team.description, "First team");
         assert.equal(response.body.data.team.ownerId, alice.id);
         assert.deepEqual(response.body.data.team.members, []);
+        assert.equal(Object.hasOwn(response.body.data.team, "nameKey"), false);
         assert.equal(typeof response.body.data.team.createdAt, "string");
         assert.equal(typeof response.body.data.team.updatedAt, "string");
 

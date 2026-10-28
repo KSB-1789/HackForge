@@ -1,7 +1,7 @@
-import { users } from "../data/userteamstore.js";
+import User from "../models/User.js";
 import { verifyToken } from "../utils/token.js";
 
-export function requireAuth(req, res, next) {
+export async function requireAuth(req, res, next) {
     const authorization = req.headers.authorization || "";
     const [scheme, token] = authorization.trim().split(/\s+/);
 
@@ -12,21 +12,10 @@ export function requireAuth(req, res, next) {
         });
     }
 
+    let payload;
+
     try {
-        const payload = verifyToken(token);
-        const userId = Number(payload.sub);
-        const user = users.find((entry) => entry.id === userId);
-
-        if (!user) {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid or expired token."
-            });
-        }
-
-        req.user = user;
-        req.token = token;
-        return next();
+        payload = verifyToken(token);
     } catch (error) {
         if (error.status === 500) {
             return next(error);
@@ -37,4 +26,18 @@ export function requireAuth(req, res, next) {
             message: "Invalid or expired token."
         });
     }
+
+    const userId = Number(payload.sub);
+    const user = await User.findOne({ id: userId });
+
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            message: "Invalid or expired token."
+        });
+    }
+
+    req.user = user;
+    req.token = token;
+    return next();
 }

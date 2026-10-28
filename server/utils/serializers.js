@@ -1,3 +1,9 @@
+export function toApiRecord(record) {
+    const value = typeof record.toObject === "function" ? record.toObject() : record;
+    const { _id, __v, nameKey, titleKey, ...publicFields } = value;
+    return publicFields;
+}
+
 export function toPublicUser(user) {
     return {
         id: user.id,

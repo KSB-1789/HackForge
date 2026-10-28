@@ -1,0 +1,560 @@
+/* ============================================================
+   Collaboration — kanban, chat, files, progress
+   ============================================================ */
+
+.collaboration-page .hidden { display: none !important; }
+
+.collaboration-page .main {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 24px 24px 56px;
+}
+
+.collaboration-page .back-nav {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+}
+
+.collaboration-page #backBtn {
+    padding: 9px 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius-full);
+    color: var(--navy);
+    cursor: pointer;
+    font-size: var(--ui-size);
+    font-weight: 600;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+.collaboration-page #backBtn:hover {
+    background-color: var(--navy);
+    border-color: var(--navy);
+    color: var(--bg);
+    transform: translateY(-1px);
+}
+
+.collaboration-page #backBtn:active { transform: scale(0.97); }
+
+/* ---------- Section shells ---------- */
+
+.collaboration-page section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.collaboration-page section > h2 {
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+}
+
+/* ---------- Header: project name + progress ---------- */
+
+.collab-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.collab-header h2 {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+#progressSummary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 260px;
+    max-width: 380px;
+    flex: 1;
+}
+
+#progressSummary p {
+    font-size: 0.8125rem;
+    color: var(--ink);
+}
+
+#progressSummary span {
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+#progressBarFill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--ink) 100%);
+    border-radius: var(--radius-full);
+    transition: width 0.5s var(--spring);
+}
+
+/* ---------- Kanban board ---------- */
+
+.kanban-board {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.kanban-column {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    width: 100%;
+    min-height: 320px;
+    flex: 1;
+}
+
+.kanban-column h3 {
+    color: var(--ink);
+    text-align: left;
+    border-bottom: 2px solid var(--line-strong);
+    padding-bottom: 10px;
+    font-size: 0.75rem;
+    letter-spacing: 1.2px;
+    display: flex;
+    align-items: center;
+}
+
+.column-count {
+    margin-left: auto;
+    background-color: var(--navy);
+    color: var(--bg);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+}
+
+.kanban-column:nth-child(1) { border-top-color: var(--mist); }
+.kanban-column:nth-child(2) { border-top-color: var(--info); }
+.kanban-column:nth-child(3) { border-top-color: var(--success); }
+
+.kanban-column .task-card {
+    background-color: var(--surface);
+    color: var(--navy);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-top: 12px;
+    box-shadow: 0 1px 3px rgba(20, 39, 78, 0.07);
+    transition:
+        transform var(--duration-fast) var(--spring),
+        box-shadow var(--duration-fast) var(--spring);
+}
+
+.kanban-column .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.kanban-column .task-card h4 {
+    margin: 0 0 6px;
+    font-size: 0.9375rem;
+}
+
+.kanban-column .task-card p {
+    margin: 4px 0;
+    font-size: 0.875rem;
+    color: var(--ink);
+}
+
+.kanban-column .task-card button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    background-color: var(--navy);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+.kanban-column .task-card button:hover { background-color: var(--ink); }
+.kanban-column .task-card button:active { transform: scale(0.98); }
+
+.assignee-chip {
+    display: inline-block;
+    background-color: var(--bg);
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.empty-column {
+    color: var(--mist);
+    text-align: center;
+    font-size: 0.8125rem;
+    padding: 20px 0;
+}
+
+/* ---------- Chat + Files row ---------- */
+
+.chat-files-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.chat-files-row section {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+/* Chat bubbles */
+
+#chatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 340px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+    padding-right: 4px;
+}
+
+.chat-message {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    border-top-left-radius: 4px;
+    padding: 10px 14px;
+    animation: slideUp var(--duration-fast) ease-out both;
+}
+
+.chat-message-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.chat-message-head strong {
+    margin-right: auto;
+}
+
+.chat-message strong {
+    color: var(--navy);
+    font-size: 0.8125rem;
+}
+
+.chat-time {
+    font-size: 0.6875rem;
+    color: var(--mist);
+    white-space: nowrap;
+}
+
+.chat-message p {
+    color: var(--ink);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    margin-top: 3px;
+    overflow-wrap: anywhere;
+}
+
+.chat-message.mine {
+    background: linear-gradient(135deg, var(--navy) 0%, #1C3563 100%);
+    border-color: var(--navy);
+    border-radius: 14px;
+    border-top-right-radius: 4px;
+}
+
+.chat-message.mine strong { color: #ffffff; }
+.chat-message.mine .chat-time { color: rgba(241, 246, 249, 0.6); }
+.chat-message.mine p { color: rgba(241, 246, 249, 0.92); }
+
+.collaboration-page .empty-state {
+    color: var(--mist);
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 14px 12px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    font-size: 0.875rem;
+}
+
+.collab-status {
+    color: var(--ink);
+    padding: 14px 0;
+    font-size: var(--ui-size);
+}
+
+.collab-error {
+    margin: 12px 0;
+    padding: 10px 12px;
+    border: 1px solid var(--danger);
+    border-radius: var(--radius);
+    background: var(--danger-bg);
+    color: #8f2d24;
+    font-size: var(--ui-size);
+    line-height: var(--ui-line);
+    overflow-wrap: anywhere;
+}
+
+#chatForm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 10px;
+}
+
+#chatInput { flex: 1; min-width: 0; }
+.chat-form-error { flex-basis: 100%; margin: 0; }
+
+#fileForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: stretch;
+}
+
+#fileForm input[type="file"] { flex: 1; min-width: 0; }
+
+.collab-action {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--navy);
+    font-size: var(--ui-size);
+    font-weight: 650;
+    line-height: var(--ui-line);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        border-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+.collab-action:hover {
+    border-color: var(--navy);
+    background: #e7edf6;
+}
+
+.collab-action:focus-visible {
+    outline: 3px solid rgba(82, 116, 173, 0.35);
+    outline-offset: 2px;
+}
+
+.collab-action:active { transform: scale(0.98); }
+
+.collab-action:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    transform: none;
+}
+
+.collab-action-primary {
+    border-color: var(--navy);
+    background: var(--navy);
+    color: var(--bg);
+}
+
+.collab-action-primary:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+}
+
+.collab-action-danger {
+    border: 1px solid var(--danger);
+    color: var(--danger);
+}
+
+.collab-action-danger:hover {
+    background: var(--danger-bg);
+    border-color: var(--danger);
+}
+
+/* ---------- Files ---------- */
+
+#fileList { margin-top: 16px; }
+
+.file-item {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 6px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.file-item:last-child { border-bottom: none; }
+
+.file-ext {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 39, 78, 0.06);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--navy);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.file-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.file-info strong {
+    display: block;
+    color: var(--navy);
+    font-size: 0.9375rem;
+    overflow-wrap: anywhere;
+}
+
+.file-info p {
+    color: var(--mist);
+    font-size: 0.8125rem;
+    margin-top: 3px;
+}
+
+.file-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    grid-column: 3;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.file-delete-button {
+    color: var(--danger);
+}
+
+.file-delete-button:hover:not(:disabled) {
+    border-color: var(--danger);
+    background: var(--danger);
+    color: var(--surface);
+}
+
+.file-item-error {
+    grid-column: 2 / -1;
+    margin: 0;
+    color: #8f2d24;
+    font-size: var(--ui-size);
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Chat header row ---------- */
+.chat-head-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+#clearChatBtn {
+    background: none;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--spring), color var(--duration-fast) var(--spring), background var(--duration-fast) var(--spring);
+}
+
+#clearChatBtn:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+    background: var(--danger-bg);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+    .kanban-board {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .kanban-column { width: 100%; }
+
+    .chat-files-row { flex-direction: column; }
+}
+
+@media (max-width: 700px) {
+    .collaboration-page .main { padding: 20px 16px 44px; }
+
+    .collab-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    #progressSummary { max-width: none; }
+}
+
+@media (max-width: 500px) {
+    .collaboration-page section { padding: 18px; }
+
+    .file-item { grid-template-columns: 36px minmax(0, 1fr); }
+
+    .file-actions {
+        grid-column: 2;
+        justify-content: flex-start;
+    }
+
+    .file-item-error { grid-column: 2; }
+
+    #fileForm input[type="file"] {
+        flex-basis: 100%;
+    }
+
+    #chatForm .collab-action,
+    #fileForm .collab-action {
+        min-width: 86px;
+    }
+}

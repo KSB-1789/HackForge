@@ -1,8 +1,9 @@
-import { users } from "../data/userteamstore.js";
+import User from "../models/User.js";
 import { parseId } from "../middleware/validation.js";
 import { toPublicUser } from "../utils/serializers.js";
 
-export function listUsers(req, res) {
+export async function listUsers(req, res) {
+    const users = await User.find().sort({ id: 1 }).lean();
     return res.status(200).json({
         success: true,
         data: {
@@ -11,7 +12,7 @@ export function listUsers(req, res) {
     });
 }
 
-export function getUserById(req, res) {
+export async function getUserById(req, res) {
     const id = parseId(req.params.id);
 
     if (id === null) {
@@ -21,7 +22,7 @@ export function getUserById(req, res) {
         });
     }
 
-    const user = users.find((entry) => entry.id === id);
+    const user = await User.findOne({ id }).lean();
 
     if (!user) {
         return res.status(404).json({

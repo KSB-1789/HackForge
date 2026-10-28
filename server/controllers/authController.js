@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
-import { users, nextUserId } from "../data/userteamstore.js";
+import { nextId } from "../db/counters.js";
+import User from "../models/User.js";
 import {
     isNonEmptyString,
     isValidEmail,
@@ -48,7 +49,7 @@ export async function registerUser(req, res, next) {
             });
         }
 
-        const existingUser = users.find((user) => user.email === cleanEmail);
+        const existingUser = await User.exists({ email: cleanEmail });
 
         if (existingUser) {
             return res.status(409).json({
@@ -59,15 +60,12 @@ export async function registerUser(req, res, next) {
 
         const passwordHash = await bcrypt.hash(password, 10);
 
-        const newUser = {
-            id: nextUserId(),
+        const newUser = await User.create({
+            id: await nextId("user"),
             name: cleanName,
             email: cleanEmail,
             passwordHash,
-            createdAt: new Date().toISOString()
-        };
-
-        users.push(newUser);
+        });
 
         return res.status(201).json({
             success: true,
@@ -97,7 +95,7 @@ export async function loginUser(req, res, next) {
         }
 
         const cleanEmail = normalizeEmail(email);
-        const user = users.find((entry) => entry.email === cleanEmail);
+        const user = await User.findOne({ email: cleanEmail });
 
         if (!user) {
             return res.status(401).json({

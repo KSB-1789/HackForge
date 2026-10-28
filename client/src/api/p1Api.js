@@ -1,18 +1,24 @@
 import axios from 'axios';
 
+import { getAuthToken } from './token';
+
+// P1's client returns the raw axios response, so its pages read
+// `response.data.data.<resource>`. P2's client unwraps to `data` directly.
+// They stay separate; only the token is shared (see api/token.js).
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-export function setAuthToken(token) {
+api.interceptors.request.use((config) => {
+  const token = getAuthToken();
   if (token) {
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  } else {
-    delete api.defaults.headers.common['Authorization'];
+    config.headers.Authorization = `Bearer ${token}`;
   }
-}
+  return config;
+});
 
 export default api;

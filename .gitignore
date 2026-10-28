@@ -9,14 +9,7 @@ node_modules/
 server/.env
 client/dist/
 
-HackForge_Karan_dev_prompt.md
-HackForge — P1 Kritika Development Prompt.md
-HackForge_P1_Kritika_FINAL.md
-HackForge_CA2_P2_Karan.md
-HackForge_Eval2_P2_Karan.md
-decisions.md
-file_explanations.md
-presentation.md
-viva_prep.md
+# Ignore Markdown files except the root project README.
+**/*.md
+!/README.md
 .freebuff
-AGENTS.md

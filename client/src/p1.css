@@ -8,13 +8,13 @@
 
 :root {
     --p1-navy: #14274e;
-    --p1-ink: #394867;
-    --p1-mist: #9ba4b4;
-    --p1-bg: #f1f6f9;
-    --p1-surface: #ffffff;
-    --p1-grad-navy: linear-gradient(160deg, #14274e 0%, #1b3260 100%);
-    --p1-line: #dce3ec;
-    --p1-line-strong: #b9c2d0;
+    --p1-ink: #344765;
+    --p1-mist: #687b95;
+    --p1-bg: #edf2f7;
+    --p1-surface: #fbfcfe;
+    --p1-grad-navy: linear-gradient(155deg, #14274e 0%, #1d3a68 100%);
+    --p1-line: #d3dce8;
+    --p1-line-strong: #b5c2d4;
     --p1-success: #1e8449;
     --p1-success-bg: #d5f5e3;
     --p1-danger: #c0392b;
@@ -708,7 +708,7 @@ body p { margin: 0; }
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 .hf-team-toolbar .hf-section-heading {
@@ -718,7 +718,7 @@ body p { margin: 0; }
 .hf-team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 22px;
+    gap: 24px;
 }
 
 .hf-team-card {
@@ -887,7 +887,7 @@ body p { margin: 0; }
 .hf-user-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
+    gap: 24px;
 }
 
 .hf-user-card {

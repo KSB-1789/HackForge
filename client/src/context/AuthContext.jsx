@@ -1,10 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import api, { setAuthToken } from "../api/p1Api";
+import api from "../api/p1Api";
+import { TOKEN_KEY, USER_KEY, setAuthToken } from "../api/token";
 
 const AuthContext = createContext();
-
-const TOKEN_KEY = "hackforge_token";
-const USER_KEY = "hackforge_user";
 
 function getRequestErrorMessage(err, fallback) {
   const serverMessage = err.response?.data?.message;

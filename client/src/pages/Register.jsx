@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 
 export default function Register() {
   const { currentUser } = useAuth();
-  if (currentUser) return <Navigate to="/teams" replace />;
+  if (currentUser) return <Navigate to="/dashboard" replace />;
 
   return (
     <AuthShell

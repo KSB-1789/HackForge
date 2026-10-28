@@ -28,7 +28,7 @@ export default function LoginForm() {
     }
     const res = await login(email, password);
     if (res.success) {
-      navigate("/teams");
+      navigate("/dashboard");
     }
   };
 

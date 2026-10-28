@@ -1,14 +1,7 @@
 ﻿import axios from 'axios';
+import { TOKEN_KEY, USER_KEY, getAuthToken, setAuthToken } from './token';
 
-let authToken = null;
-
-export function setAuthToken(newToken){
-    authToken = newToken;
-}
-
-export function getAuthToken(){
-    return authToken;
-}
+export { setAuthToken };
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || '/api'
@@ -24,12 +17,19 @@ api.interceptors.request.use((config)=>{
 
 api.interceptors.response.use(
     (response)=>{
+        if(response.config.responseType === 'blob'){
+            return response.data;
+        }
         return response.data.data;
     }
     ,(errors)=>{
         if(errors.response?.status===401){
             setAuthToken(null);
-            window.location.href = '/login';
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem(USER_KEY);
+            if(window.location.pathname !== '/login'){
+                window.location.href = '/login';
+            }
         }
         throw errors;
     }

@@ -1,22 +1,22 @@
 /* ============================================================
    HackForge — global design system
-   Palette: #F1F6F9 bg · #14274E primary · #394867 secondary · #9BA4B4 muted
+   Palette: cool slate surfaces · #14274E primary · #344765 secondary
    ============================================================ */
 
 :root {
     /* Color palette */
     --navy: #14274E;
-    --ink: #394867;
-    --mist: #9BA4B4;
-    --bg: #F1F6F9;
-    --surface: #ffffff;
+    --ink: #344765;
+    --mist: #687b95;
+    --bg: #EDF2F7;
+    --surface: #FBFCFE;
 
     /* One gradient family for every bold surface (team cards, bento, auth, CTA) */
-    --grad-navy: linear-gradient(160deg, #14274E 0%, #1B3260 100%);
+    --grad-navy: linear-gradient(155deg, #14274E 0%, #1D3A68 100%);
 
     /* Hairlines */
-    --line: #DCE3EC;
-    --line-strong: #B9C2D0;
+    --line: #D3DCE8;
+    --line-strong: #B5C2D4;
 
     /* Semantic colors */
     --success: #1E8449;
@@ -25,8 +25,8 @@
     --warning-bg: #FCF3D9;
     --danger: #C0392B;
     --danger-bg: #FADBD8;
-    --info: #21618C;
-    --info-bg: #D6EAF8;
+    --info: #345789;
+    --info-bg: #E0E8F6;
 
     /* Floating-layer glass (topbar / over-dark surfaces only) */
     --glass: rgba(255, 255, 255, 0.08);
@@ -314,14 +314,46 @@ a { transition: color var(--duration-fast) var(--spring); }
     border-color: var(--bg);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
     .topbar {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
         padding: 12px 16px;
-        gap: 12px;
-        flex-wrap: wrap;
+        gap: 10px 12px;
     }
 
-    .user-info { order: 5; margin-left: 0; }
+    .brand {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .nav-links {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: space-between;
+        gap: 4px;
+        margin-left: 0;
+    }
+
+    .nav-links a {
+        padding: 7px 10px;
+    }
+
+    .user-info {
+        grid-column: 2;
+        grid-row: 1;
+        max-width: 100%;
+        margin-left: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    #logoutBtn {
+        grid-column: 3;
+        grid-row: 1;
+        padding: 7px 12px;
+    }
 }
 
 /* ---------- Utilities ---------- */

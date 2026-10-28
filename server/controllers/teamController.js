@@ -1,18 +1,21 @@
-import { teams, users, nextTeamId } from "../data/userteamstore.js";
+import { nextId } from "../db/counters.js";
+import Project from "../models/Project.js";
+import Team from "../models/Team.js";
+import User from "../models/User.js";
 import { isNonEmptyString, parseId, parseMemberIds } from "../middleware/validation.js";
 import { toPublicTeam } from "../utils/serializers.js";
 
-function hasDuplicateName(name, excludeTeamId = null) {
-    const normalized = name.trim().toLowerCase();
+async function hasDuplicateName(name, excludeTeamId = null) {
+    const filter = { nameKey: name.trim().toLowerCase() };
 
-    return teams.some(
-        (team) =>
-            team.id !== excludeTeamId &&
-            team.name.trim().toLowerCase() === normalized
-    );
+    if (excludeTeamId !== null) {
+        filter.id = { $ne: excludeTeamId };
+    }
+
+    return Boolean(await Team.exists(filter));
 }
 
-function validateMembers(rawMembers, ownerId) {
+async function validateMembers(rawMembers, ownerId) {
     const parsed = parseMemberIds(rawMembers);
 
     if (parsed.error) {
@@ -24,9 +27,7 @@ function validateMembers(rawMembers, ownerId) {
             return { error: "The owner is already part of the team." };
         }
 
-        const memberExists = users.some((user) => user.id === memberId);
-
-        if (!memberExists) {
+        if (!await User.exists({ id: memberId })) {
             return { error: `User ${memberId} does not exist.` };
         }
     }
@@ -34,7 +35,8 @@ function validateMembers(rawMembers, ownerId) {
     return { ids: parsed.ids };
 }
 
-export function listTeams(req, res) {
+export async function listTeams(req, res) {
+    const teams = await Team.find().sort({ id: 1 }).lean();
     return res.status(200).json({
         success: true,
         data: {
@@ -43,7 +45,7 @@ export function listTeams(req, res) {
     });
 }
 
-export function createTeam(req, res) {
+export async function createTeam(req, res) {
     const { name, description, members } = req.body || {};
 
     if (!isNonEmptyString(name)) {
@@ -62,7 +64,7 @@ export function createTeam(req, res) {
         });
     }
 
-    if (hasDuplicateName(cleanName)) {
+    if (await hasDuplicateName(cleanName)) {
         return res.status(409).json({
             success: false,
             message: "A team with this name already exists."
@@ -92,7 +94,7 @@ export function createTeam(req, res) {
     let memberIds = [];
 
     if (members !== undefined) {
-        const parsedMembers = validateMembers(members, req.user.id);
+        const parsedMembers = await validateMembers(members, req.user.id);
 
         if (parsedMembers.error) {
             return res.status(400).json({
@@ -104,18 +106,17 @@ export function createTeam(req, res) {
         memberIds = parsedMembers.ids;
     }
 
-    const now = new Date().toISOString();
-    const team = {
-        id: nextTeamId(),
+    const now = new Date();
+    const team = await Team.create({
+        id: await nextId("team"),
         name: cleanName,
+        nameKey: cleanName.toLowerCase(),
         description: cleanDescription,
         ownerId: req.user.id,
         members: memberIds,
         createdAt: now,
         updatedAt: now
-    };
-
-    teams.push(team);
+    });
 
     return res.status(201).json({
         success: true,
@@ -126,7 +127,7 @@ export function createTeam(req, res) {
     });
 }
 
-export function getTeamById(req, res) {
+export async function getTeamById(req, res) {
     const id = parseId(req.params.id);
 
     if (id === null) {
@@ -136,7 +137,7 @@ export function getTeamById(req, res) {
         });
     }
 
-    const team = teams.find((entry) => entry.id === id);
+    const team = await Team.findOne({ id }).lean();
 
     if (!team) {
         return res.status(404).json({
@@ -153,7 +154,7 @@ export function getTeamById(req, res) {
     });
 }
 
-export function updateTeam(req, res) {
+export async function updateTeam(req, res) {
     const id = parseId(req.params.id);
 
     if (id === null) {
@@ -163,7 +164,7 @@ export function updateTeam(req, res) {
         });
     }
 
-    const team = teams.find((entry) => entry.id === id);
+    const team = await Team.findOne({ id });
 
     if (!team) {
         return res.status(404).json({
@@ -192,8 +193,6 @@ export function updateTeam(req, res) {
         });
     }
 
-    let nextName = team.name;
-
     if (name !== undefined) {
         if (!isNonEmptyString(name)) {
             return res.status(400).json({
@@ -202,7 +201,7 @@ export function updateTeam(req, res) {
             });
         }
 
-        nextName = name.trim();
+        const nextName = name.trim();
 
         if (nextName.length > 80) {
             return res.status(400).json({
@@ -211,15 +210,16 @@ export function updateTeam(req, res) {
             });
         }
 
-        if (hasDuplicateName(nextName, team.id)) {
+        if (await hasDuplicateName(nextName, team.id)) {
             return res.status(409).json({
                 success: false,
                 message: "A team with this name already exists."
             });
         }
-    }
 
-    let nextDescription = team.description;
+        team.name = nextName;
+        team.nameKey = nextName.toLowerCase();
+    }
 
     if (description !== undefined) {
         if (typeof description !== "string") {
@@ -229,7 +229,7 @@ export function updateTeam(req, res) {
             });
         }
 
-        nextDescription = description.trim();
+        const nextDescription = description.trim();
 
         if (nextDescription.length > 500) {
             return res.status(400).json({
@@ -237,12 +237,12 @@ export function updateTeam(req, res) {
                 message: "Description must be 500 characters or fewer."
             });
         }
+
+        team.description = nextDescription;
     }
 
-    let nextMembers = team.members;
-
     if (members !== undefined) {
-        const parsedMembers = validateMembers(members, team.ownerId);
+        const parsedMembers = await validateMembers(members, team.ownerId);
 
         if (parsedMembers.error) {
             return res.status(400).json({
@@ -251,13 +251,11 @@ export function updateTeam(req, res) {
             });
         }
 
-        nextMembers = parsedMembers.ids;
+        team.members = parsedMembers.ids;
     }
 
-    team.name = nextName;
-    team.description = nextDescription;
-    team.members = nextMembers;
-    team.updatedAt = new Date().toISOString();
+    team.updatedAt = new Date();
+    await team.save();
 
     return res.status(200).json({
         success: true,
@@ -268,7 +266,7 @@ export function updateTeam(req, res) {
     });
 }
 
-export function deleteTeam(req, res) {
+export async function deleteTeam(req, res) {
     const id = parseId(req.params.id);
 
     if (id === null) {
@@ -278,16 +276,14 @@ export function deleteTeam(req, res) {
         });
     }
 
-    const teamIndex = teams.findIndex((entry) => entry.id === id);
+    const team = await Team.findOne({ id });
 
-    if (teamIndex === -1) {
+    if (!team) {
         return res.status(404).json({
             success: false,
             message: "Team not found."
         });
     }
-
-    const team = teams[teamIndex];
 
     if (team.ownerId !== req.user.id) {
         return res.status(403).json({
@@ -296,7 +292,16 @@ export function deleteTeam(req, res) {
         });
     }
 
-    teams.splice(teamIndex, 1);
+    const linkedProjects = await Project.countDocuments({ teamId: id });
+
+    if (linkedProjects > 0) {
+        return res.status(409).json({
+            success: false,
+            message: `This team still has ${linkedProjects} project(s). Delete or reassign them first.`
+        });
+    }
+
+    await team.deleteOne();
 
     return res.status(200).json({
         success: true,

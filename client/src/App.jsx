@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
+import Collaboration from "./pages/Collaboration";
 import "./p1.css";
 
 // P1's navigation bar. It is rendered only around P1-owned routes (/teams,
@@ -76,6 +77,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/:projectId" element={<ProjectDetails />} />
+        <Route path="/projects/:projectId/collaborate" element={<Collaboration />} />
 
         {/* P1: authentication, users, teams */}
         <Route path="/login" element={<Login />} />

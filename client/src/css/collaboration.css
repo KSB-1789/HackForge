@@ -1,0 +1,546 @@
+/* ============================================================
+   Collaboration — kanban, chat, files, progress
+   ============================================================ */
+
+.hidden { display: none !important; }
+
+.main {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 24px 24px 72px;
+}
+
+.back-nav {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 16px 24px 0;
+}
+
+#backBtn {
+    padding: 9px 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius-full);
+    color: var(--navy);
+    cursor: pointer;
+    font-size: var(--ui-size);
+    font-weight: 600;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+#backBtn:hover {
+    background-color: var(--navy);
+    border-color: var(--navy);
+    color: var(--bg);
+    transform: translateY(-1px);
+}
+
+#backBtn:active { transform: scale(0.97); }
+
+/* ---------- Section shells ---------- */
+
+section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 26px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+section > h2 {
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+}
+
+/* ---------- Header: project name + progress ---------- */
+
+.collab-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 22px 26px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.collab-header h2 {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+#progressSummary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 260px;
+    max-width: 380px;
+    flex: 1;
+}
+
+#progressSummary p {
+    font-size: 0.8125rem;
+    color: var(--ink);
+}
+
+#progressSummary span {
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+#progressBarFill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--ink) 100%);
+    border-radius: var(--radius-full);
+    transition: width 0.5s var(--spring);
+}
+
+/* ---------- Kanban board ---------- */
+
+.kanban-board {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.kanban-column {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    width: 100%;
+    min-height: 320px;
+    flex: 1;
+}
+
+.kanban-column h3 {
+    color: var(--ink);
+    text-align: left;
+    border-bottom: 2px solid var(--line-strong);
+    padding-bottom: 10px;
+    font-size: 0.75rem;
+    letter-spacing: 1.2px;
+    display: flex;
+    align-items: center;
+}
+
+.column-count {
+    margin-left: auto;
+    background-color: var(--navy);
+    color: var(--bg);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+}
+
+.kanban-column:nth-child(1) { border-top: 4px solid var(--mist); }
+.kanban-column:nth-child(2) { border-top: 4px solid var(--info); }
+.kanban-column:nth-child(3) { border-top: 4px solid var(--success); }
+
+.kanban-column .task-card {
+    background-color: var(--surface);
+    color: var(--navy);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-top: 12px;
+    box-shadow: 0 1px 3px rgba(20, 39, 78, 0.07);
+    transition:
+        transform var(--duration-fast) var(--spring),
+        box-shadow var(--duration-fast) var(--spring);
+}
+
+.kanban-column .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.kanban-column .task-card h4 {
+    margin: 0 0 6px;
+    font-size: 0.9375rem;
+}
+
+.kanban-column .task-card p {
+    margin: 4px 0;
+    font-size: 0.875rem;
+    color: var(--ink);
+}
+
+.kanban-column .task-card button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    background-color: var(--navy);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+.kanban-column .task-card button:hover { background-color: var(--ink); }
+.kanban-column .task-card button:active { transform: scale(0.98); }
+
+.assignee-chip {
+    display: inline-block;
+    background-color: var(--bg);
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.empty-column {
+    color: var(--mist);
+    text-align: center;
+    font-size: 0.8125rem;
+    padding: 20px 0;
+}
+
+/* ---------- Chat + Files row ---------- */
+
+.chat-files-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.chat-files-row section {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+/* Chat bubbles */
+
+#chatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 340px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+    padding-right: 4px;
+}
+
+.chat-message {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    border-top-left-radius: 4px;
+    padding: 10px 14px;
+    animation: slideUp var(--duration-fast) var(--spring) both;
+}
+
+.chat-message-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.msg-delete {
+    background: none;
+    border: none;
+    color: var(--mist);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 5px;
+    border-radius: var(--radius);
+    flex-shrink: 0;
+}
+
+.msg-delete:hover { color: var(--danger); background: var(--danger-bg); }
+
+.chat-message.mine .msg-delete { color: rgba(241, 246, 249, 0.55); }
+.chat-message.mine .msg-delete:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.chat-message strong {
+    color: var(--navy);
+    font-size: 0.8125rem;
+}
+
+.chat-time {
+    font-size: 0.6875rem;
+    color: var(--mist);
+    white-space: nowrap;
+}
+
+.chat-message p {
+    color: var(--ink);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    margin-top: 3px;
+    overflow-wrap: break-word;
+}
+
+.chat-message.mine {
+    background: linear-gradient(135deg, var(--navy) 0%, #1C3563 100%);
+    border-color: var(--navy);
+    border-radius: 14px;
+    border-top-right-radius: 4px;
+}
+
+.chat-message.mine strong { color: #ffffff; }
+.chat-message.mine .chat-time { color: rgba(241, 246, 249, 0.6); }
+.chat-message.mine p { color: rgba(241, 246, 249, 0.92); }
+
+.empty-state {
+    color: var(--mist);
+    text-align: center;
+    padding: 16px 0;
+    font-size: 0.875rem;
+}
+
+#chatForm {
+    display: flex;
+    gap: 10px;
+}
+
+#chatInput { flex: 1; min-width: 0; }
+
+#fileForm {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+}
+
+#fileForm input[type="file"] { flex: 1; min-width: 0; }
+
+#chatForm button {
+    padding: 12px 22px;
+    background: linear-gradient(135deg, var(--navy) 0%, #1C3563 100%);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+        filter var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+#chatForm button:hover { filter: brightness(1.15); }
+#chatForm button:active { transform: scale(0.97); }
+
+/* ---------- Files ---------- */
+
+#fileForm button {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--navy) 0%, #1C3563 100%);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+        filter var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+#fileForm button:hover { filter: brightness(1.15); }
+#fileForm button:active { transform: scale(0.97); }
+
+#fileError {
+    background-color: var(--danger-bg);
+    border: 1px solid var(--danger);
+    border-radius: var(--radius);
+    color: var(--danger);
+    font-size: var(--ui-size);
+    line-height: var(--ui-line);
+    margin-top: 12px;
+    padding: 10px 14px;
+    animation: slideUp var(--duration-fast) var(--spring) both;
+}
+
+#fileError:empty {
+    display: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#fileList { margin-top: 16px; }
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.file-item:last-child { border-bottom: none; }
+
+.file-ext {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 39, 78, 0.06);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--navy);
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.file-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.file-info strong {
+    display: block;
+    color: var(--navy);
+    font-size: 0.9375rem;
+    overflow-wrap: anywhere;
+}
+
+.file-info p {
+    color: var(--mist);
+    font-size: 0.8125rem;
+    margin-top: 3px;
+}
+
+.file-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.download-btn {
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 1.5px solid var(--navy);
+    border-radius: var(--radius-full);
+    color: var(--navy);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background-color var(--duration-fast) var(--spring),
+        color var(--duration-fast) var(--spring),
+        transform 50ms linear;
+}
+
+.download-btn:hover {
+    background-color: var(--navy);
+    color: var(--bg);
+}
+
+.download-btn:active { transform: scale(0.96); }
+
+.remove-file-btn {
+    background: none;
+    border: none;
+    color: var(--danger);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 6px;
+    flex-shrink: 0;
+    border-radius: var(--radius);
+}
+
+.remove-file-btn:hover {
+    background: var(--danger-bg);
+}
+
+/* ---------- Chat header row ---------- */
+
+.chat-head-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+#clearChatBtn {
+    background: none;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--spring), color var(--duration-fast) var(--spring), background var(--duration-fast) var(--spring);
+}
+
+#clearChatBtn:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+    background: var(--danger-bg);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+    .kanban-board {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .kanban-column { width: 100%; }
+
+    .chat-files-row { flex-direction: column; }
+
+    .chat-files-row section { margin-bottom: 24px; }
+}
+
+@media (max-width: 500px) {
+    .main { padding: 16px 16px 48px; }
+
+    section { padding: 18px; }
+
+    .collab-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #progressSummary { max-width: none; }
+
+    .file-actions { flex-direction: column; align-items: stretch; }
+}

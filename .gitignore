@@ -6,15 +6,10 @@ node_modules/
 .env.production.local
 .DS_Store
 
-HackForge_Karan_dev_prompt.md
-HackForge — P1 Kritika Development Prompt.md
-decisions.md
-HackForge_P1_Kritika_FINAL.md
-viva_prep.md
-HackForge_CA2_P2_Karan.md
-.freebuff
-AGENTS.md
+server/.env
+client/dist/
 
-HackForge_Eval2_P2_Karan.md
+# Ignore Markdown files except the root project README.
+**/*.md
+!/README.md
 .freebuff
-file_explanations.md

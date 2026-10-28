@@ -1,4 +1,5 @@
 import express from 'express';
+import { requireAuth } from '../middleware/auth.js';
 import {
   getProjects,
   createProject,
@@ -12,6 +13,10 @@ import {
 } from '../middleware/validation.js';
 
 const router = express.Router();
+
+// Projects belong to a signed-in user (createdBy), so the whole resource is
+// behind the same JWT middleware P1 uses for /api/users and /api/teams.
+router.use(requireAuth);
 
 router.get('/', getProjects);
 router.post('/', validateProjectCreate, createProject);

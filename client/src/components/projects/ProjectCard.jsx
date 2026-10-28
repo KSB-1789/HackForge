@@ -1,17 +1,52 @@
-﻿export default function ProjectCard({ project, onOpen, onEdit, onDelete }) {
+﻿import { Link } from "react-router-dom";
+
+export default function ProjectCard({
+  project,
+  teamName,
+  creatorName,
+  onEdit,
+  onDelete,
+  showMetadata = true,
+}) {
   return (
-    <div className="project-card" style={{ cursor: "pointer" }} onClick={onOpen}>
+    <article className="project-card">
       <div className="project-card-header">
         <h3 className="project-name">{project.name}</h3>
-        <div className="card-btns" style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
-          {onEdit && <button className="edit-proj-btn" onClick={(e) => { e.stopPropagation(); onEdit(project); }}>Edit</button>}
-          {onDelete && <button className="delete-proj-btn" onClick={(e) => { e.stopPropagation(); onDelete(project); }}>Delete</button>}
-        </div>
+        {(onEdit || onDelete) && (
+          <div className="card-btns" aria-label={`Manage ${project.name}`}>
+            {onEdit && <button type="button" className="edit-proj-btn" onClick={() => onEdit(project)}>Edit</button>}
+            {onDelete && <button type="button" className="delete-proj-btn" onClick={() => onDelete(project)}>Delete</button>}
+          </div>
+        )}
       </div>
       <p className="project-desc">{project.description || "No description"}</p>
-      <div className="project-meta">
-        <span className="project-pill">{project.createdAt ? new Date(project.createdAt).toLocaleDateString() : ""}</span>
+      {showMetadata && (
+        <div className="project-meta">
+          <span className="meta-item">
+            <span className="meta-label">Team</span>
+            <span className="meta-value">{teamName || "Personal"}</span>
+          </span>
+          {creatorName && (
+            <span className="meta-item">
+              <span className="meta-label">Created by</span>
+              <span className="meta-value">{creatorName}</span>
+            </span>
+          )}
+          <span className="meta-item">
+            <span className="meta-label">Created</span>
+            <span className="meta-value">{project.createdAt ? new Date(project.createdAt).toLocaleDateString() : "-"}</span>
+          </span>
+        </div>
+      )}
+      <div className="project-card-actions">
+        <Link
+          className="project-card-action project-card-action-primary"
+          to={`/projects/${project.id}`}
+          aria-label={`Open project: ${project.name}`}
+        >
+          Open project
+        </Link>
       </div>
-    </div>
+    </article>
   )
 }
